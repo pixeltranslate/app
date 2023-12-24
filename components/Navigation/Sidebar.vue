@@ -22,7 +22,12 @@ const sidebar: SidebarItem[] = [
 
 <template>
   <div>
-    <div class="flex flex-col gap-1 mt-5">
+    <div class="text-center h-[70px] flex items-center justify-center">
+      <h1 class="text-3xl" style="font-family: 'Pixelify Sans';">
+        Pixel<span class="text-secondary-light">Translate</span>
+      </h1>
+    </div>
+    <div class="flex flex-col gap-1">
       <NavigationSidebarItem
         v-for="item in sidebar"
         v-bind="item"

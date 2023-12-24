@@ -5,13 +5,18 @@ export default defineNuxtConfig({
     '@sidebase/nuxt-auth',
     'nuxt-icon',
     '@nuxt/ui',
-    '@nuxt/image',
-    '@vueuse/nuxt'
+    '@vueuse/nuxt',
+    '@nuxtjs/google-fonts'
   ],
   typescript: {
     shim: false
   },
   ui: {
     icons: ['pixelarticons']
+  },
+  googleFonts: {
+    families: {
+      'Pixelify Sans': true
+    }
   }
 })
