@@ -7,10 +7,11 @@ const { openTestDrawer } = useGlobalOpeners()
   <div>
     <UCard :ui="{ rounded: 'rounded' }">
       <template #header>
-        status: {{ status }}
+        <div class="flex items-center justify-between">
+          status: {{ status }}
+          <UButton v-if="data" label="Say Hi!" @click="openTestDrawer.open({ name: data.user?.name || 'User' })" />
+        </div>
       </template>
-
-      <UButton v-if="data" label="Open" @click="openTestDrawer.open({ name: data.user?.name || 'User' })" />
 
       <pre v-if="data" wrap class="bg-black p-2 text-white rounded mt-2 text-left">
           {{ JSON.stringify(data, null, 2) }}
