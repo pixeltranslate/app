@@ -2,8 +2,7 @@
 export default defineNuxtConfig({
   modules: [
     '@sidebase/nuxt-auth',
-    '@nuxtjs/tailwindcss',
-    '@bg-dev/nuxt-naiveui'
+    '@nuxtjs/tailwindcss'
   ],
   typescript: {
     shim: false
