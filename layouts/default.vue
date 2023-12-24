@@ -15,7 +15,7 @@ const isOpen = ref(false)
         </div>
       </div>
     </div>
-    <USlideover v-model="isOpen" :ui="{ width: 'w-screen max-w-3xl' }">
+    <USlideover v-model="isOpen" :ui="{ width: 'w-screen max-w-5xl', wrapper: 'py-2', background: 'rounded-l-lg' }">
       <UCard class="flex flex-col flex-1" :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template #header>
           <div class="flex items-center justify-between">
