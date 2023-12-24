@@ -5,7 +5,8 @@ export default defineNuxtConfig({
     '@sidebase/nuxt-auth',
     'nuxt-icon',
     '@nuxt/ui',
-    '@nuxt/image'
+    '@nuxt/image',
+    '@vueuse/nuxt'
   ],
   typescript: {
     shim: false
