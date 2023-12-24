@@ -16,7 +16,8 @@ export default defineNuxtConfig({
   },
   googleFonts: {
     families: {
-      'Pixelify Sans': true
+      'Pixelify Sans': true,
+      Inter: true
     }
   }
 })
