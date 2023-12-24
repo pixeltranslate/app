@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const {signIn, signOut, status, data} = useAuth()
+const { signIn, signOut, status, data } = useAuth()
 
 const isLoggedIn = computed(() => {
   return status.value === 'authenticated'
