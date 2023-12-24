@@ -1,11 +1,16 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  devtools: true,
   modules: [
     '@sidebase/nuxt-auth',
-    '@nuxtjs/tailwindcss',
-    'nuxt-icon'
+    'nuxt-icon',
+    '@nuxt/ui',
+    '@nuxt/image'
   ],
   typescript: {
     shim: false
+  },
+  ui: {
+    icons: ['pixelarticons']
   }
 })
