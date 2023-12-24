@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const { data, status, signIn, signOut } = useAuth()
 
+const workspace = ref('Averix')
+
 const items = [
   [{
     label: 'Profile',
@@ -13,20 +15,26 @@ const items = [
     click: signOut
   }]
 ]
+
+const workspaces = [
+  'Prismarin',
+  'Averix'
+]
 </script>
 
 <template>
-  <div class="flex shadow-lg bg-zinc-800 h-20 items-center justify-between px-4 border-b-2 border-zinc-700">
-    <div class="flex items-center">
-      <NuxtImg src="/branding/logo.png" height="80px" />
-      <h1 class="text-lg font-bold">
-        PixelTranslate
-      </h1>
+  <div class="flex h-20 items-center justify-between px-5 border-b-2 border-border">
+    <div class="flex items-center gap-2">
+      <USelectMenu v-model="workspace" :options="workspaces" size="lg" />
+      <p class="text-lg">
+        /
+      </p>
+      <USelectMenu v-model="workspace" :options="workspaces" size="lg" />
     </div>
     <UDropdown v-if="status === 'authenticated' && data" :items="items" :popper="{ placement: 'bottom-start' }">
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2 text-sm">
         {{ data?.user?.name || 'Unknown' }}
-        <UAvatar icon="i-heroicons-photo" size="md" src="https://github.com/zoey-kaiser.png" />
+        <UAvatar icon="i-heroicons-photo" size="sm" src="https://github.com/zoey-kaiser.png" />
       </div>
     </UDropdown>
     <UButton v-else variant="ghost" size="lg" color="gray" @click="signIn('keycloak')">

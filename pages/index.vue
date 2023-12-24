@@ -4,17 +4,14 @@ const { status, data } = useAuth()
 
 <template>
   <div>
-    <Navbar />
-    <UContainer class="mt-5">
-      <UCard :ui="{ rounded: 'rounded' }">
-        <template #header>
-          status: {{ status }}
-        </template>
+    <UCard :ui="{ rounded: 'rounded' }">
+      <template #header>
+        status: {{ status }}
+      </template>
 
-        <pre v-if="data" wrap class="bg-black p-2 text-white rounded mt-2 text-left">
+      <pre v-if="data" wrap class="bg-black p-2 text-white rounded mt-2 text-left">
           {{ JSON.stringify(data, null, 2) }}
         </pre>
-      </UCard>
-    </UContainer>
+    </UCard>
   </div>
 </template>
