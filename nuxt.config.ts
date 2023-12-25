@@ -29,5 +29,10 @@ export default defineNuxtConfig({
       'Pixelify Sans': true,
       Inter: true
     }
+  },
+  app: {
+    head: {
+      title: 'PixelTranslate'
+    }
   }
 })
