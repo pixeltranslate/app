@@ -3,16 +3,15 @@ import type { SidebarItem } from './SidebarItem.vue'
 
 const SIDEBAR: SidebarItem[] = [
   {
-    label: 'Projects',
-    icon: 'pixelarticons:folder',
+    label: 'Settings',
+    icon: 'pixelarticons:sliders',
     href: '/'
   },
   {
-    label: 'SubMenu',
+    label: 'Projects',
     icon: 'pixelarticons:folder',
     children: [{
-      label: 'I am a child.',
-      icon: 'pixelarticons:folder',
+      label: 'Backrooms: Survive the complex',
       href: '/'
     }]
   }
