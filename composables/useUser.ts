@@ -6,7 +6,10 @@ export default () => {
   const avatar = computed(() => {
     return {
       src: data.value?.user.image ?? false,
-      text: username.value[0].toLocaleUpperCase()
+      text: username.value[0].toLocaleUpperCase(),
+      ui: {
+        background: '!bg-primary-dark'
+      }
     }
   })
 
