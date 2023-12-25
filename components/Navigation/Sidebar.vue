@@ -1,53 +1,27 @@
 <script lang="ts" setup>
-import type { SidebarItem } from './SidebarItem.vue'
+const router = useRouter()
+const { isExpanded, getRouteToView, getHomeSidebar, getWorkspaceSidebar, getWorkSpaces } = useSidebar()
 
-const SIDEBAR: SidebarItem[] = [
-  {
-    label: 'Settings',
-    icon: 'pixelarticons:sliders',
-    href: '/'
-  },
-  {
-    label: 'Projects',
-    icon: 'pixelarticons:folder',
-    children: [{
-      label: 'Backrooms: Survive the complex',
-      href: '/'
-    }, {
-      label: 'Frostbite',
-      href: '/'
-    }, {
-      label: 'Inverted Souls',
-      href: '/'
-    }]
+const homeSidebar = getHomeSidebar()
+const workspaceSidebar = getWorkspaceSidebar('Prismarin')
+const currentView = ref(getRouteToView(router.currentRoute.value.path) || 'home')
+watch(router.currentRoute, () => {
+  currentView.value = getRouteToView(router.currentRoute.value.path)
+})
+
+const sidebar = computed(() => {
+  if (currentView.value === 'workspace') {
+    return workspaceSidebar
   }
-]
-
-const WORK_SPACES: SidebarItem[] = [
-  {
-    label: 'Prismarin',
-    href: '/',
-    avatar: {
-      text: 'P'
-    }
-  },
-  {
-    label: 'Averix',
-    href: '/',
-    avatar: {
-      text: 'A'
-    }
-  }
-]
-
-const { isExpanded } = useSidebar()
+  return homeSidebar
+})
 </script>
 
 <template>
   <div class="h-full md:py-3">
     <div class="fixed md:static z-10 flex flex-col justify-between h-full bg-blue-900 rounded-r-lg shadow py-2 w-full md:w-72" :class="isExpanded ? 'block': 'hidden'">
       <div>
-        <div class="flex hover:bg-primary-dark/40 rounded items-center py-1.5 mx-2 cursor-pointer gap-3">
+        <div v-if="sidebar.workspace.display" class="flex rounded items-center py-1.5 mx-2 gap-3">
           <UAvatar
             text="P"
             size="md"
@@ -55,7 +29,7 @@ const { isExpanded } = useSidebar()
           />
           <div>
             <p class="text-gray-200">
-              Prismarin
+              {{ sidebar.workspace.selectedWorkspace || 'Unknown' }}
             </p>
             <div class="flex items-center gap-1 text-xs text-gray-400">
               <p> Free </p>
@@ -70,15 +44,11 @@ const { isExpanded } = useSidebar()
           </div>
         </div>
 
-        <UDivider :ui="{ wrapper: { base: 'my-3 px-2' }, border: { base : '!border-primary-dark/40' } }" />
+        <UDivider v-if="sidebar.workspace.display" :ui="{ wrapper: { base: 'my-3 px-2' }, border: { base : '!border-primary-dark/40' } }" />
 
-        <div class="flex flex-col gap-1">
-          <NavigationSidebarItem
-            v-for="item in SIDEBAR"
-            v-bind="item"
-            :key="item.label"
-          />
-        </div>
+        <NavigationMenu
+          :items="sidebar.links"
+        />
 
         <div class="my-3 px-2 flex items-center gap-1">
           <p class="text-sm text-primary pl-2">
@@ -89,13 +59,9 @@ const { isExpanded } = useSidebar()
           />
         </div>
 
-        <div class="flex flex-col gap-1">
-          <NavigationSidebarItem
-            v-for="item in WORK_SPACES"
-            v-bind="item"
-            :key="item.label"
-          />
-        </div>
+        <NavigationMenu
+          :items="getWorkSpaces()"
+        />
       </div>
     </div>
   </div>
