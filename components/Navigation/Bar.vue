@@ -8,9 +8,13 @@ const items = [
     label: 'Profile',
     avatar: avatar.value
   }], [{
+    label: 'Settings',
+    icon: 'i-pixelarticons-sliders',
+    href: 'https://auth.averix.tech/auth/realms/pixeltranslate-dev/account/',
+    target: '_blank'
+  }, {
     label: 'Logout',
     icon: 'i-pixelarticons-logout',
-
     click: signOut
   }]
 ]
