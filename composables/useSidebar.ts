@@ -39,11 +39,7 @@ const getWorkSpaces = (): SidebarItem[] => {
 
 const getHomeSidebar = (): SidebarDisplayOptions => {
   return {
-    links: [{
-      label: 'Workspace',
-      icon: 'pixelarticons:sliders',
-      href: '/workspace/prismarin'
-    }],
+    links: [],
     workspace: { display: false }
   }
 }

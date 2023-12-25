@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { username, avatar } = useUser()
-const { signIn, signOut, status } = useAuth()
+const { signOut } = useAuth()
 const { toggle: toggleSidebar } = useSidebar()
 
 const items = [
@@ -8,6 +8,11 @@ const items = [
     label: 'Profile',
     avatar: avatar.value
   }], [{
+    label: 'Settings',
+    icon: 'i-pixelarticons-sliders',
+    href: 'https://auth.averix.tech/auth/realms/pixeltranslate-dev/account/',
+    target: '_blank'
+  }, {
     label: 'Logout',
     icon: 'i-pixelarticons-logout',
     click: signOut
@@ -33,15 +38,20 @@ const items = [
         </h1>
       </div>
     </div>
-    <UDropdown v-if="status === 'authenticated'" :items="items" :popper="{ placement: 'bottom-start' }">
-      <div class="flex items-center gap-2 text-sm">
-        <span class="capitalize">{{ username }}</span>
-        <UAvatar icon="i-heroicons-photo" size="sm" :text="avatar.text" :src="avatar.src" />
-      </div>
-    </UDropdown>
-    <UButton v-else variant="ghost" size="lg" color="gray" @click="signIn('keycloak')">
-      Sign In
-    </UButton>
+    <div class="flex items-center gap-3">
+      <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
+        <div class="flex items-center gap-2 text-sm">
+          <span>{{ username }}</span>
+          <UAvatar
+            icon="i-heroicons-photo"
+            size="sm"
+            :text="avatar.text"
+            :src="avatar.src"
+            :ui="{ background: '!bg-primary-dark' }"
+          />
+        </div>
+      </UDropdown>
+    </div>
   </div>
 </template>
 

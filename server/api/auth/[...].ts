@@ -4,7 +4,7 @@ import { NuxtAuthHandler } from '#auth'
 
 async function refreshAccessToken (token: JWT) {
   try {
-    const url = process.env.KEY_CLOAK_REFRESH_ISSUER ?? ''
+    const url = `${process.env.KEY_CLOAK_ISSUER}/protocol/openid-connect/token`
     const req = await fetch(url, {
       method: 'POST',
       headers: {
@@ -36,6 +36,9 @@ async function refreshAccessToken (token: JWT) {
 
 export default NuxtAuthHandler({
   secret: process.env.AUTH_SECRET,
+  pages: {
+    signIn: '/auth'
+  },
   providers: [
     // @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
     KeycloakProvider.default({
