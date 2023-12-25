@@ -3,11 +3,6 @@ import type { SidebarItem } from './SidebarItem.vue'
 
 const SIDEBAR: SidebarItem[] = [
   {
-    label: 'Alternative Design',
-    icon: 'pixelarticons:teach',
-    href: '/alt'
-  },
-  {
     label: 'Settings',
     icon: 'pixelarticons:sliders',
     href: '/'

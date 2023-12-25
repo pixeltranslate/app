@@ -2,7 +2,7 @@
   <div class="App">
     <NuxtLayout>
       <NuxtPage />
-      <GlobalOpeners />
+      <TheGlobalOpeners />
     </NuxtLayout>
   </div>
 </template>
