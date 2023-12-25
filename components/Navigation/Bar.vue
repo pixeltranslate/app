@@ -41,7 +41,7 @@ const items = [
     <div class="flex items-center gap-3">
       <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
         <div class="flex items-center gap-2 text-sm">
-          <span class="capitalize">{{ username }}</span>
+          <span>{{ username }}</span>
           <UAvatar
             icon="i-heroicons-photo"
             size="sm"
