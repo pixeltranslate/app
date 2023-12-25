@@ -23,7 +23,7 @@ const { isExpanded } = useSidebar()
 
 <template>
   <div class="h-full py-3">
-    <div class="flex flex-col justify-between h-full bg-primary-superdark rounded-r shadow py-2" :class="isExpanded ? 'w-72': 'w-20'">
+    <div class="flex flex-col justify-between h-full bg-primary-superdark rounded-r shadow py-2 w-72" :class="isExpanded ? 'block': 'hidden'">
       <div>
         <div class="flex hover:bg-primary-dark/40 rounded items-center p-2 mx-2 cursor-pointer gap-3">
           <UAvatar
@@ -31,7 +31,7 @@ const { isExpanded } = useSidebar()
             size="md"
             :ui="{ background: '!bg-primary-dark' }"
           />
-          <div v-if="isExpanded">
+          <div>
             <p class="text-gray-200">
               Prismarin
             </p>
@@ -50,7 +50,7 @@ const { isExpanded } = useSidebar()
 
         <UDivider :ui="{ wrapper: { base: 'my-3 px-2' }, border: { base : '!border-primary-dark/40' } }" />
 
-        <div v-if="isExpanded" class="flex flex-col gap-1">
+        <div class="flex flex-col gap-1">
           <NavigationSidebarItem
             v-for="item in SIDEBAR"
             v-bind="item"
