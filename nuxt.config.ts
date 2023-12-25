@@ -9,7 +9,8 @@ export default defineNuxtConfig({
     'nuxt-icon',
     '@nuxt/ui',
     '@vueuse/nuxt',
-    '@nuxtjs/google-fonts'
+    '@nuxtjs/google-fonts',
+    '@formkit/auto-animate/nuxt'
   ],
   typescript: {
     shim: false

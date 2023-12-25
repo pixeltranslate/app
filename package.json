@@ -25,6 +25,7 @@
     "vue-tsc": "^1.0.24"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^0.8.1",
     "@iconify-json/pixelarticons": "^1.1.10",
     "@nuxt/ui": "^2.11.1",
     "@vuelidate/core": "^2.0.3",

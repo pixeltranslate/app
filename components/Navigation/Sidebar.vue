@@ -46,9 +46,12 @@ const sidebar = computed(() => {
 
         <UDivider v-if="sidebar.workspace.display" :ui="{ wrapper: { base: 'my-3 px-2' }, border: { base : '!border-primary-dark/40' } }" />
 
-        <NavigationMenu
-          :items="sidebar.links"
-        />
+        <div class="overflow-hidden">
+          <NavigationMenu
+            v-auto-animate
+            :items="sidebar.links"
+          />
+        </div>
 
         <div class="my-3 px-2 flex items-center gap-1">
           <p class="text-sm text-primary pl-2">
