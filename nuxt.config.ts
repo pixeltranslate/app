@@ -22,6 +22,10 @@ export default defineNuxtConfig({
     session: {
       enableRefreshOnWindowFocus: true,
       enableRefreshPeriodically: 10000
+    },
+    globalAppMiddleware: {
+      isEnabled: true,
+      allow404WithoutAuth: false
     }
   },
   googleFonts: {
