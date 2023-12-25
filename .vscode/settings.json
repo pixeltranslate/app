@@ -25,6 +25,9 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
   // Auto-complete `.value` attribute when volar is installed
   "volar.autoCompleteRefs": true,
 }
