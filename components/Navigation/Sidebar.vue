@@ -24,7 +24,7 @@ const { isExpanded } = useSidebar()
   <div class="h-full md:py-3">
     <div class="fixed md:static z-10 flex flex-col justify-between h-full bg-primary-superdark rounded-r shadow py-2 w-full md:w-72" :class="isExpanded ? 'block': 'hidden'">
       <div>
-        <div class="flex hover:bg-primary-dark/40 rounded items-center p-2 mx-2 cursor-pointer gap-3">
+        <div class="flex hover:bg-primary-dark/40 rounded items-center py-1.5 mx-2 cursor-pointer gap-3">
           <UAvatar
             text="P"
             size="md"

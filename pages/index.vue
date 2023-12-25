@@ -3,21 +3,19 @@ const { openTestDrawer } = useGlobalOpeners()
 </script>
 
 <template>
-  <div>
-    <div class="flex items-center justify-between">
-      <h1 class="text-xl font-semibold mb-4">
-        My Workspaces
-      </h1>
+  <TheLayout title="My Workspaces:">
+    <template #actions>
       <UButton
         icon="i-heroicons-plus"
         label="New workspace"
-        size="lg"
+        size="md"
         color="white"
         square
         variant="solid"
         @click="openTestDrawer.open({ name: 'Create new workspace' })"
       />
-    </div>
+    </template>
+
     <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
       <li class="col-span-1 divide-y divide-border rounded-lg bg-foreground shadow">
         <div class="flex w-full items-center justify-between space-x-6 p-6">
@@ -77,5 +75,5 @@ const { openTestDrawer } = useGlobalOpeners()
         </div>
       </li>
     </ul>
-  </div>
+  </TheLayout>
 </template>
