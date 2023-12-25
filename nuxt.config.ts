@@ -18,6 +18,12 @@ export default defineNuxtConfig({
   ui: {
     icons: ['pixelarticons']
   },
+  auth: {
+    session: {
+      enableRefreshOnWindowFocus: true,
+      enableRefreshPeriodically: 10000
+    }
+  },
   googleFonts: {
     families: {
       'Pixelify Sans': true,

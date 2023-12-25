@@ -9,24 +9,27 @@ interface SidebarDisplayOptions {
   },
 }
 type SidebarViews = 'home' | 'workspace'
-const routeToView: Record<string, SidebarViews> = {
-  '/': 'home',
-  '/workspace': 'workspace'
+const getRouteToView = (route: string): SidebarViews => {
+  const splitRoute = route.split('/').splice(1)
+  if (splitRoute[0] === '') {
+    return 'home'
+  }
+  return 'workspace'
 }
-const getRouteToView = (route: string): SidebarViews => routeToView[route] || 'home'
 
 const getWorkSpaces = (): SidebarItem[] => {
+  // Retrieve workspaces from User
   return [
     {
       label: 'Prismarin',
-      href: '/workspace',
+      href: '/workspace/prismarin',
       avatar: {
         text: 'P'
       }
     },
     {
       label: 'Averix',
-      href: '/workspace',
+      href: '/workspace/averix',
       avatar: {
         text: 'A'
       }
@@ -39,14 +42,15 @@ const getHomeSidebar = (): SidebarDisplayOptions => {
     links: [{
       label: 'Workspace',
       icon: 'pixelarticons:sliders',
-      href: '/workspace'
+      href: '/workspace/prismarin'
     }],
     workspace: { display: false }
   }
 }
 
-const getWorkspaceSidebar = (selectedWorkspace: string): SidebarDisplayOptions => {
-  // TODO Get projects to display for workspace
+const getWorkspaceSidebar = (): SidebarDisplayOptions => {
+  const page = usePage()
+
   const projects = {
     label: 'Projects',
     icon: 'pixelarticons:folder',
@@ -73,7 +77,7 @@ const getWorkspaceSidebar = (selectedWorkspace: string): SidebarDisplayOptions =
     },
     projects
     ],
-    workspace: { display: true, selectedWorkspace }
+    workspace: { display: true, selectedWorkspace: page.workspace }
   }
 }
 

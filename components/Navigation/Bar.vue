@@ -6,7 +6,8 @@ const items = [
   [{
     label: 'Profile',
     avatar: {
-      src: 'https://github.com/zoey-kaiser.png'
+      src: data.value?.user?.image ?? false,
+      text: data.value?.user?.name ? data.value?.user?.name[0] : '?'
     }
   }], [{
     label: 'Logout',
@@ -36,8 +37,8 @@ const items = [
     </div>
     <UDropdown v-if="status === 'authenticated' && data" :items="items" :popper="{ placement: 'bottom-start' }">
       <div class="flex items-center gap-2 text-sm">
-        {{ data?.user?.name || 'Unknown' }}
-        <UAvatar icon="i-heroicons-photo" size="sm" src="https://github.com/zoey-kaiser.png" />
+        {{ data?.user?.preferred_username || 'Unknown' }}
+        <UAvatar icon="i-heroicons-photo" size="sm" :text="data.user?.name ? data.user?.name[0] : '?'" :src="data.user?.image ?? false" />
       </div>
     </UDropdown>
     <UButton v-else variant="ghost" size="lg" color="gray" @click="signIn('keycloak')">
