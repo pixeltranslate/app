@@ -5,9 +5,15 @@ export interface SidebarItem {
   href?: string
   children?: Omit<SidebarItem, 'children'>[]
 }
-defineProps<SidebarItem>()
+const props = defineProps<SidebarItem>()
 
 const isExpanded = ref(false)
+
+const toggle = () => {
+  if (props.children) {
+    isExpanded.value = !isExpanded.value
+  }
+}
 </script>
 
 <template>
@@ -15,7 +21,7 @@ const isExpanded = ref(false)
     <div
       class="flex items-center justify-between hover:bg-primary-dark/40 p-2 mx-2 rounded cursor-pointer"
       :class="isExpanded && 'bg-primary-dark/20'"
-      @click="isExpanded = !isExpanded"
+      @click="toggle"
     >
       <div class="flex items-center gap-2 truncate">
         <Icon v-if="icon" :name="icon" size="22" />
