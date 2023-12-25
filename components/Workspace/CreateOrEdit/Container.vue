@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-const { openWorkspaceCreditOrPageDrawer } = useGlobalOpeners()
+const { workspaceCreateOrEdit } = useGlobalOpeners()
 
 const toast = useToast()
 
-const mode = computed(() => openWorkspaceCreditOrPageDrawer.data.value?.mode)
-const data = computed(() => openWorkspaceCreditOrPageDrawer.data.value?.data)
+const mode = computed(() => workspaceCreateOrEdit.data.value?.mode)
+const data = computed(() => workspaceCreateOrEdit.data.value?.data)
 
 const title = computed(() => {
   if (mode.value === 'create') {
@@ -14,7 +14,7 @@ const title = computed(() => {
 })
 
 const submit = (data: { name: string }) => {
-  openWorkspaceCreditOrPageDrawer.close()
+  workspaceCreateOrEdit.close()
   toast.add({
     title: `Created new workspace "${data.name}""`
   })
@@ -25,10 +25,10 @@ const submit = (data: { name: string }) => {
   <div>
     <TheSlideover
       :title="title"
-      :is-open="!!openWorkspaceCreditOrPageDrawer.data.value"
-      @close="openWorkspaceCreditOrPageDrawer.close"
+      :is-open="!!workspaceCreateOrEdit.data.value"
+      @close="workspaceCreateOrEdit.close"
     >
-      <WorkspaceCreateOrEditForm v-if="openWorkspaceCreditOrPageDrawer.data" @submit="submit" />
+      <WorkspaceCreateOrEditForm v-if="workspaceCreateOrEdit.data" @submit="submit" />
       <TheLoader v-else />
     </TheSlideover>
   </div>
