@@ -13,6 +13,12 @@ const SIDEBAR: SidebarItem[] = [
     children: [{
       label: 'Backrooms: Survive the complex',
       href: '/'
+    }, {
+      label: 'Frostbite',
+      href: '/'
+    }, {
+      label: 'Inverted Souls',
+      href: '/'
     }]
   }
 ]
