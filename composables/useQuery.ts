@@ -1,11 +1,13 @@
 import { useQuery } from '@tanstack/vue-query'
 
 export default () => {
+  const { $trpc } = useNuxtApp()
+
   return {
-    workspaces: {
-      getAll: () => useQuery({
-        queryFn: () => 'Test',
-        queryKey: ['workspaces']
+    profile: {
+      me: () => useQuery({
+        queryFn: () => $trpc.profileRouter.me.query(),
+        queryKey: ['profiles', 'me']
       })
     }
   }

@@ -4,6 +4,9 @@ export default defineNuxtConfig({
   colorMode: {
     preference: 'dark'
   },
+  build: {
+    transpile: ['trpc-nuxt']
+  },
   modules: [
     '@sidebase/nuxt-auth',
     'nuxt-icon',
