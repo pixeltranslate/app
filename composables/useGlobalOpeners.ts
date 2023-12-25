@@ -1,32 +1,20 @@
 const makeGlobalOpener = <T>() => {
-  const isOpen = ref(false)
   const data = ref<T>()
 
-  const open = (payload: T) => {
-    data.value = payload
-    isOpen.value = true
-  }
-  const close = () => {
-    data.value = undefined
-    isOpen.value = false
-  }
-
-  watch(isOpen, (newValue) => {
-    if (newValue === false) {
-      data.value = undefined
-    }
-  })
-
   return {
-    open,
-    close,
-    data,
-    isOpen
+    open: (payload: T) => { data.value = payload },
+    close: () => { data.value = undefined },
+    data
   }
 }
 
+interface CreateOrEditInterface<T> {
+  mode: 'create' | 'edit'
+  data?: T
+}
+
 const openers = {
-  openTestDrawer: makeGlobalOpener<{ name: string }>()
+  openWorkspaceCreditOrPageDrawer: makeGlobalOpener<CreateOrEditInterface<{ name: string }>>()
 }
 
 export default () => {

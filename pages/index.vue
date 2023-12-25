@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { openTestDrawer } = useGlobalOpeners()
+const { openWorkspaceCreditOrPageDrawer } = useGlobalOpeners()
 </script>
 
 <template>
@@ -11,7 +11,7 @@ const { openTestDrawer } = useGlobalOpeners()
         size="md"
         color="white"
         variant="solid"
-        @click="openTestDrawer.open({ name: 'Create new workspace' })"
+        @click="openWorkspaceCreditOrPageDrawer.open({ mode: 'create' })"
       />
     </template>
     <TheContentPlaceholder
@@ -23,7 +23,7 @@ const { openTestDrawer } = useGlobalOpeners()
         size="md"
         color="primary"
         variant="solid"
-        @click="openTestDrawer.open({ name: 'Create new workspace' })"
+        @click="openWorkspaceCreditOrPageDrawer.open({ mode: 'create' })"
       />
       <UButton
         label="Learn more"
