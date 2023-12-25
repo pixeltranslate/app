@@ -10,6 +10,9 @@ export default defineAppConfig({
         secondary: {
           solid: 'text-white bg-secondary'
         }
+      },
+      default: {
+        color: 'white'
       }
     },
     card: {

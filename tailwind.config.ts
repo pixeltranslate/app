@@ -8,7 +8,6 @@ export default <Partial<Config>> {
         'primary-content': '#061522',
         'primary-dark': '#247ed0',
         'primary-light': '#73b0e7',
-        'primary-superdark': '#6017df',
         secondary: '#df9048',
         'secondary-content': '#221306',
         'secondary-dark': '#d07624',
@@ -25,6 +24,9 @@ export default <Partial<Config>> {
         'success-content': '#062206',
         'warning-content': '#222206',
         'error-content': '#ffffff'
+      },
+      animation: {
+        'spin-slow': 'spin 2s linear infinite'
       }
     }
   }

@@ -13,11 +13,14 @@ const title = computed(() => {
 </script>
 
 <template>
-  <TheSlideover
-    :title="title"
-    :is-open="!!openWorkspaceCreditOrPageDrawer.data.value"
-    @close="openWorkspaceCreditOrPageDrawer.close"
-  >
-    test
-  </TheSlideover>
+  <div>
+    <TheSlideover
+      :title="title"
+      :is-open="!!openWorkspaceCreditOrPageDrawer.data.value"
+      @close="openWorkspaceCreditOrPageDrawer.close"
+    >
+      <WorkspaceCreateOrEditForm v-if="data?.name" />
+      <TheLoader v-else />
+    </TheSlideover>
+  </div>
 </template>
