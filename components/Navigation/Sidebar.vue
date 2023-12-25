@@ -3,6 +3,11 @@ import type { SidebarItem } from './SidebarItem.vue'
 
 const SIDEBAR: SidebarItem[] = [
   {
+    label: 'Alternative Design',
+    icon: 'pixelarticons:teach',
+    href: '/alt'
+  },
+  {
     label: 'Settings',
     icon: 'pixelarticons:sliders',
     href: '/'
@@ -23,12 +28,29 @@ const SIDEBAR: SidebarItem[] = [
   }
 ]
 
+const WORK_SPACES: SidebarItem[] = [
+  {
+    label: 'Prismarin',
+    href: '/alt',
+    avatar: {
+      text: 'P'
+    }
+  },
+  {
+    label: 'Averix',
+    href: '/',
+    avatar: {
+      text: 'A'
+    }
+  }
+]
+
 const { isExpanded } = useSidebar()
 </script>
 
 <template>
   <div class="h-full md:py-3">
-    <div class="fixed md:static z-10 flex flex-col justify-between h-full bg-primary-superdark rounded-r shadow py-2 w-full md:w-72" :class="isExpanded ? 'block': 'hidden'">
+    <div class="fixed md:static z-10 flex flex-col justify-between h-full bg-primary-superdark rounded-r-lg shadow py-2 w-full md:w-72" :class="isExpanded ? 'block': 'hidden'">
       <div>
         <div class="flex hover:bg-primary-dark/40 rounded items-center py-1.5 mx-2 cursor-pointer gap-3">
           <UAvatar
@@ -58,6 +80,23 @@ const { isExpanded } = useSidebar()
         <div class="flex flex-col gap-1">
           <NavigationSidebarItem
             v-for="item in SIDEBAR"
+            v-bind="item"
+            :key="item.label"
+          />
+        </div>
+
+        <div class="my-3 px-2 flex items-center gap-1">
+          <p class="text-sm text-primary pl-2">
+            Workspaces
+          </p>
+          <UDivider
+            :ui="{ wrapper: { base: 'my-3 px-2' }, border: { base : '!border-primary-dark/40' } }"
+          />
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <NavigationSidebarItem
+            v-for="item in WORK_SPACES"
             v-bind="item"
             :key="item.label"
           />
