@@ -1,14 +1,12 @@
 <script setup lang="ts">
-const { data, status, signIn, signOut } = useAuth()
+const { username, avatar } = useUser()
+const { signIn, signOut, status } = useAuth()
 const { toggle: toggleSidebar } = useSidebar()
 
 const items = [
   [{
     label: 'Profile',
-    avatar: {
-      src: data.value?.user?.image ?? false,
-      text: data.value?.user?.name ? data.value?.user?.name[0] : '?'
-    }
+    avatar: avatar.value
   }], [{
     label: 'Logout',
     icon: 'i-pixelarticons-logout',
@@ -35,10 +33,10 @@ const items = [
         </h1>
       </div>
     </div>
-    <UDropdown v-if="status === 'authenticated' && data" :items="items" :popper="{ placement: 'bottom-start' }">
+    <UDropdown v-if="status === 'authenticated'" :items="items" :popper="{ placement: 'bottom-start' }">
       <div class="flex items-center gap-2 text-sm">
-        {{ data?.user?.preferred_username || 'Unknown' }}
-        <UAvatar icon="i-heroicons-photo" size="sm" :text="data.user?.name ? data.user?.name[0] : '?'" :src="data.user?.image ?? false" />
+        <span class="capitalize">{{ username }}</span>
+        <UAvatar icon="i-heroicons-photo" size="sm" :text="avatar.text" :src="avatar.src" />
       </div>
     </UDropdown>
     <UButton v-else variant="ghost" size="lg" color="gray" @click="signIn('keycloak')">
