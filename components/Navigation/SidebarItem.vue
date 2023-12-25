@@ -12,7 +12,7 @@ const isExpanded = ref(false)
 
 <template>
   <NuxtLink :event="href ? 'click' : ''" :to="href">
-    <div class="flex items-center justify-between hover:bg-primary p-2 mx-2 rounded cursor-pointer" @click="isExpanded = !isExpanded">
+    <div class="flex items-center justify-between hover:bg-primary-dark/40 p-2 mx-2 rounded cursor-pointer" @click="isExpanded = !isExpanded">
       <div class="flex items-center gap-2">
         <Icon v-if="icon" :name="icon" size="22" />
         {{ label }}

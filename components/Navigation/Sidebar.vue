@@ -18,39 +18,43 @@ const SIDEBAR: SidebarItem[] = [
   }
 ]
 
-const isExpanded = ref(false)
-
+const { isExpanded } = useSidebar()
 </script>
 
 <template>
-  <div class="h-screen py-3">
-    <div class="flex flex-col justify-between h-full bg-primary-dark rounded-r shadow" :class="isExpanded ? 'w-72': 'w-20'">
+  <div class="h-full py-3">
+    <div class="flex flex-col justify-between h-full bg-primary-superdark rounded-r shadow py-2" :class="isExpanded ? 'w-72': 'w-20'">
       <div>
-        <div class="text-center h-[70px] flex items-center justify-center">
-          <h1 v-if="isExpanded" class="text-3xl" style="font-family: 'Pixelify Sans';">
-            Pixel<span class="text-secondary-light">Translate</span>
-          </h1>
-          <h1 v-else class="bg-secondary w-12 h-12 rounded flex items-center justify-center">
-            <h1 class="text-4xl" style="font-family: 'Pixelify Sans';">
-              P
-            </h1>
-          </h1>
+        <div class="flex hover:bg-primary-dark/40 rounded items-center p-2 mx-2 cursor-pointer gap-3">
+          <UAvatar
+            text="P"
+            size="md"
+            :ui="{ background: '!bg-primary-dark' }"
+          />
+          <div v-if="isExpanded">
+            <p class="text-gray-200">
+              Prismarin
+            </p>
+            <div class="flex items-center gap-1 text-xs text-gray-400">
+              <p> Free </p>
+              <p class="mx-1">
+                -
+              </p>
+              <div>
+                5
+                <Icon name="pixelarticons:users" />
+              </div>
+            </div>
+          </div>
         </div>
+
+        <UDivider :ui="{ wrapper: { base: 'my-3 px-2' }, border: { base : '!border-primary-dark/40' } }" />
+
         <div v-if="isExpanded" class="flex flex-col gap-1">
           <NavigationSidebarItem
             v-for="item in SIDEBAR"
             v-bind="item"
             :key="item.label"
-          />
-        </div>
-      </div>
-      <div class="flex mb-5" :class="isExpanded ? 'justify-start ml-5' : 'justify-center'">
-        <div class="bg-primary w-10 h-10 flex items-center justify-center rounded cursor-pointer hover:bg-primary-light" @click="isExpanded = !isExpanded">
-          <Icon
-            name="pixelarticons:chevron-right"
-            size="30px"
-            class="transition"
-            :class="isExpanded ? 'rotate-180' : 'rotate-0'"
           />
         </div>
       </div>
