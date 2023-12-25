@@ -20,6 +20,14 @@ export default defineAppConfig({
     },
     dropdown: {
       rounded: 'rounded-sm'
+    },
+    notifications: {
+      position: 'bottom-0 top-auto'
+    },
+    input: {
+      default: {
+        size: 'lg'
+      }
     }
   }
 })
