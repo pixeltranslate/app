@@ -9,6 +9,16 @@ export default () => {
         queryFn: () => $trpc.profileRouter.me.query(),
         queryKey: ['profiles', 'me']
       })
+    },
+    workspaces: {
+      me: () => useQuery({
+        queryFn: () => $trpc.workspaceRouter.all.query(),
+        queryKey: ['profiles', 'me']
+      }),
+      byId: () => useQuery({
+        queryFn: () => $trpc.workspaceRouter.all.query(),
+        queryKey: ['profiles', 'me']
+      })
     }
   }
 }

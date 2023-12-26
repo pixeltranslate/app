@@ -1,18 +1,15 @@
 import type { inferAsyncReturnType } from '@trpc/server'
 import type { H3Event } from 'h3'
 import fetch from 'node-fetch'
-import type { z } from 'zod'
 import { getServerSession } from '#auth'
 
 const API_BASE = process.env.API_BASE || 'http://localhost:8080'
-const _fetch = async <T>(url: string, schema: z.ZodTypeAny, headers: HeadersInit): Promise<T> => {
+const _fetch = async <T>(url: string, headers: HeadersInit): Promise<T> => {
   const response = await fetch(`${API_BASE}${url}`, { headers })
   if (!response.ok) {
     throw new Error('Fetch Bad...')
   }
-  const data = await response.json()
-
-  return schema.parse(data)
+  return response.json() as T
 }
 
 /**
@@ -25,7 +22,7 @@ export async function createContext (_event: H3Event) {
 
   return {
     session,
-    fetch: <T>(url: string, schema: z.ZodTypeAny) => _fetch<T>(url, schema, HEADERS)
+    fetch: <T>(url: string) => _fetch<T>(url, HEADERS)
   }
 }
 

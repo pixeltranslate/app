@@ -5,6 +5,9 @@ import { z } from 'zod'
   export type Example = z.infer<typeof example>
 */
 
+export const idSchema = z.string().min(36)
+export const workspaceRolesSchema = z.enum(['admin'])
+
 export const profileSchema = z.object({
   id: z.string(),
   workspaces: z.array(z.string()),
@@ -14,6 +17,15 @@ export const profileSchema = z.object({
     name: z.string(),
     picture: z.string().nullish(),
     preferred_username: z.string()
-
   })
+})
+
+export const workspaceMember = z.object({
+  role: z.enum(['admin', 'members'])
+})
+
+export const workspaceSchema = z.object({
+  id: idSchema,
+  name: z.string().min(1).max(64),
+  members: z.string()
 })
