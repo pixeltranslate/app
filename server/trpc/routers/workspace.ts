@@ -19,7 +19,7 @@ export const router = createRouter({
     }
     return ctx.fetch<APIWorkspaceResponse>(`/workspaces/${input}`)
   }),
-  create: publicProcedure.input(z.object({ name: z.string() })).mutation(({ input, ctx }) => {
+  create: publicProcedure.input(z.object({ name: z.string(), description: z.string() })).mutation(({ input, ctx }) => {
     return ctx.fetch<void>('/workspaces', 'POST', input)
   }),
   delete: publicProcedure.input(idSchema).mutation(({ input, ctx }) => {

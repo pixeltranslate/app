@@ -4,11 +4,13 @@ defineProps<{ isLoading?: boolean }>()
 defineEmits(['submit'])
 
 const state = reactive({
-  name: undefined
+  name: undefined,
+  description: undefined
 })
 
 const rules = {
-  name: makeRule(['required'], 'name')
+  name: makeRule(['required'], 'name'),
+  description: makeRule(['required'], 'description')
 }
 </script>
 
@@ -20,7 +22,7 @@ const rules = {
           <UInput v-model="state.name" color="gray" placeholder="My amazing workspace" />
         </UFormGroup>
         <UFormGroup label="Description:" name="description">
-          <UTextarea placeholder="What do you plan to do with your workspace?" />
+          <UTextarea v-model="state.description" placeholder="What do you plan to do with your workspace?" />
         </UFormGroup>
 
         <div class="flex items-center gap-2 justify-end">

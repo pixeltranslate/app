@@ -38,7 +38,7 @@ const create = useMutation({
   }
 })
 
-const submit = (data: { name: string }) => {
+const submit = (data: { name: string, description: string }) => {
   isSubmitting.value = true
   if (mode.value === 'create') {
     create.mutate(data)

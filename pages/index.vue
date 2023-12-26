@@ -43,7 +43,7 @@ const _delete = useMutation({
                 </h3>
               </div>
               <p class="truncate text-sm text-gray-500">
-                {{ workspace.id }}
+                {{ workspace.description }}
               </p>
             </div>
             <UAvatar size="md" :text="workspace.name[0].toLocaleUpperCase()" :ui="{ background: '!bg-secondary' }" />
