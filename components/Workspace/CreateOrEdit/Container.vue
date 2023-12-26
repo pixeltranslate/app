@@ -40,7 +40,12 @@ const create = useMutation({
 
 const submit = (data: { name: string }) => {
   isSubmitting.value = true
-  create.mutate(data)
+  if (mode.value === 'create') {
+    create.mutate(data)
+  } else {
+    isSubmitting.value = false
+    toast.add({ title: 'This does not work yet.' })
+  }
 }
 </script>
 

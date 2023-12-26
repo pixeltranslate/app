@@ -17,10 +17,10 @@ const rules = {
     <TheForm :state="state" :model="state" :rules="rules" @submit="$emit('submit', state)">
       <div class="flex flex-col gap-5">
         <UFormGroup label="Workspace name:" name="name">
-          <UInput v-model="state.name" color="gray" variant="outline" placeholder="My amazing workspace" />
+          <UInput v-model="state.name" color="gray" placeholder="My amazing workspace" />
         </UFormGroup>
         <UFormGroup label="Description:" name="description">
-          <UTextarea color="gray" variant="outline" placeholder="What do you plan to do with your workspace?" />
+          <UTextarea placeholder="What do you plan to do with your workspace?" />
         </UFormGroup>
 
         <div class="flex items-center gap-2 justify-end">
