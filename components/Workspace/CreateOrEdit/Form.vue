@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const { makeRule } = useFormErrorMessages()
+defineProps<{ isLoading?: boolean }>()
 defineEmits(['submit'])
 
-const isLoading = ref(false)
 const state = reactive({
   name: undefined
 })
@@ -22,15 +22,15 @@ const rules = {
         <UFormGroup label="Description:" name="description">
           <UTextarea color="gray" variant="outline" placeholder="What do you plan to do with your workspace?" />
         </UFormGroup>
-      </div>
 
-      <div class="flex items-center gap-2 justify-end">
-        <UButton type="submit" color="primary" class="mt-3" size="md" :loading="isLoading">
-          Create workspace
-        </UButton>
-        <UButton type="submit" class="mt-3" size="md" :loading="isLoading">
-          Cancel
-        </UButton>
+        <div class="flex items-center gap-2 justify-end">
+          <UButton type="submit" color="primary" class="mt-3" size="md" :loading="isLoading">
+            Create workspace
+          </UButton>
+          <UButton type="submit" class="mt-3" size="md" :disabled="isLoading">
+            Cancel
+          </UButton>
+        </div>
       </div>
     </TheForm>
   </div>

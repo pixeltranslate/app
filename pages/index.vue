@@ -26,14 +26,30 @@ const { data: workspaces, isLoading: areWorkspacesLoading, error: workspaceError
                   {{ workspace.name }}
                 </h3>
               </div>
-              <p class="mt-1 truncate text-sm text-gray-500">
+              <p class="truncate text-sm text-gray-500">
                 {{ workspace.id }}
               </p>
             </div>
-            <UAvatar :text="workspace.name[0]" />
+            <UAvatar size="md" :text="workspace.name[0].toLocaleUpperCase()" :ui="{ background: '!bg-secondary' }" />
           </div>
           <div>
-            <div class="-mt-px flex divide-x divide-gray-200" />
+            <div class="-mt-px grid grid-cols-2 border-t border-background">
+              <UButton
+                label="View"
+                color="primary"
+                variant="soft"
+                size="md"
+                block
+                :ui="{ rounded: 'rounded-none rounded-bl-lg' }"
+              />
+              <UButton
+                label="Delete"
+                variant="ghost"
+                size="md"
+                block
+                :ui="{ rounded: 'rounded-none rounded-br-lg' }"
+              />
+            </div>
           </div>
         </li>
       </ul>

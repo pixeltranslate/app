@@ -17,17 +17,29 @@ const title = computed(() => {
   return `Editing ${data.value?.name}`
 })
 
+const isSubmitting = ref(false)
+
+const closePage = () => {
+  queryClient.invalidateQueries({ queryKey: ['workspaces'] })
+  isSubmitting.value = false
+  workspaceCreateOrEdit.close()
+}
+
 const create = useMutation({
   mutationFn: $trpc.workspaceRouter.create.mutate,
-  onError: () => toast.add({ title: 'Error happened :sad face:' }),
+  onError: () => toast.add({ title: 'Error happened :sad face:' }) && closePage,
   onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['workspaces'] })
-    workspaceCreateOrEdit.close()
     toast.add({
       title: 'Created new workspace'
     })
+    closePage()
   }
 })
+
+const submit = (data: { name: string }) => {
+  isSubmitting.value = true
+  create.mutate(data)
+}
 </script>
 
 <template>
@@ -38,7 +50,7 @@ const create = useMutation({
       :is-open="!!workspaceCreateOrEdit.data.value"
       @close="workspaceCreateOrEdit.close"
     >
-      <WorkspaceCreateOrEditForm v-if="workspaceCreateOrEdit.data" @submit="create.mutate" />
+      <WorkspaceCreateOrEditForm v-if="workspaceCreateOrEdit.data" :is-loading="isSubmitting" @submit="submit" />
       <TheLoader v-else />
     </TheSlideover>
   </div>
