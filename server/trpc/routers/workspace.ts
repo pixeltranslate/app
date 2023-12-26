@@ -18,5 +18,8 @@ export const router = createRouter({
   }),
   create: publicProcedure.input(z.object({ name: z.string() })).mutation(({ input, ctx }) => {
     return ctx.fetch<void>('/workspaces', 'POST', input)
+  }),
+  delete: publicProcedure.input(idSchema).mutation(({ input, ctx }) => {
+    return ctx.fetch<void>(`/workspaces/${input}`, 'DELETE')
   })
 })

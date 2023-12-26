@@ -3,7 +3,7 @@ import type { H3Event } from 'h3'
 import { getServerSession } from '#auth'
 
 const API_BASE = process.env.API_BASE || 'http://localhost:8080'
-const _fetch = async <T>(url: string, method: 'GET' | 'POST', headers: HeadersInit, body?: any): Promise<T> => {
+const _fetch = async <T>(url: string, method: 'GET' | 'POST' | 'DELETE', headers: HeadersInit, body?: any): Promise<T> => {
   return await $fetch(`${API_BASE}${url}`, { method, headers, body }) as T
 }
 
@@ -17,7 +17,7 @@ export async function createContext (_event: H3Event) {
 
   return {
     session,
-    fetch: <T>(url: string, method: 'GET' | 'POST' = 'GET', body?: any) => _fetch<T>(url, method, HEADERS, body)
+    fetch: <T>(url: string, method: 'GET' | 'POST' | 'DELETE' = 'GET', body?: any) => _fetch<T>(url, method, HEADERS, body)
   }
 }
 
