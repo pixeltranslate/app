@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
+const { $trpc } = useNuxtApp()
+const queryClient = useQueryClient()
+
 const { workspaceCreateOrEdit } = useGlobalOpeners()
 
 const toast = useToast()
@@ -13,12 +17,17 @@ const title = computed(() => {
   return `Editing ${data.value?.name}`
 })
 
-const submit = (data: { name: string }) => {
-  workspaceCreateOrEdit.close()
-  toast.add({
-    title: `Created new workspace "${data.name}""`
-  })
-}
+const create = useMutation({
+  mutationFn: $trpc.workspaceRouter.create.mutate,
+  onError: () => toast.add({ title: 'Error happened :sad face:' }),
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['workspaces'] })
+    workspaceCreateOrEdit.close()
+    toast.add({
+      title: 'Created new workspace'
+    })
+  }
+})
 </script>
 
 <template>
@@ -29,7 +38,7 @@ const submit = (data: { name: string }) => {
       :is-open="!!workspaceCreateOrEdit.data.value"
       @close="workspaceCreateOrEdit.close"
     >
-      <WorkspaceCreateOrEditForm v-if="workspaceCreateOrEdit.data" @submit="submit" />
+      <WorkspaceCreateOrEditForm v-if="workspaceCreateOrEdit.data" @submit="create.mutate" />
       <TheLoader v-else />
     </TheSlideover>
   </div>

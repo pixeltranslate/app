@@ -33,9 +33,7 @@ const { data: workspaces, isLoading: areWorkspacesLoading, error: workspaceError
             <UAvatar :text="workspace.name[0]" />
           </div>
           <div>
-            <div class="-mt-px flex divide-x divide-gray-200">
-              Actions
-            </div>
+            <div class="-mt-px flex divide-x divide-gray-200" />
           </div>
         </li>
       </ul>

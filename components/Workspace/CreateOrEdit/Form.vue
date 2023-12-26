@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { makeRule } = useFormErrorMessages()
-const emit = defineEmits(['submit'])
+defineEmits(['submit'])
 
 const isLoading = ref(false)
 const state = reactive({
@@ -10,19 +10,11 @@ const state = reactive({
 const rules = {
   name: makeRule(['required'], 'name')
 }
-
-const submit = () => {
-  isLoading.value = true
-  setTimeout(() => {
-    isLoading.value = false
-    emit('submit', state)
-  }, 2000)
-}
 </script>
 
 <template>
   <div>
-    <TheForm :state="state" :model="state" :rules="rules" @submit="submit">
+    <TheForm :state="state" :model="state" :rules="rules" @submit="$emit('submit', state)">
       <div class="flex flex-col gap-5">
         <UFormGroup label="Workspace name:" name="name">
           <UInput v-model="state.name" color="gray" variant="outline" placeholder="My amazing workspace" />

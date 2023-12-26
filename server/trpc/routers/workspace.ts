@@ -15,5 +15,8 @@ export const router = createRouter({
   }),
   byId: publicProcedure.input(z.object({ id: idSchema })).query(({ input, ctx }) => {
     return ctx.fetch<APIWorkspaceResponse>(`/workspaces/${input.id}`)
+  }),
+  create: publicProcedure.input(z.object({ name: z.string() })).mutation(({ input, ctx }) => {
+    return ctx.fetch<void>('/workspaces', 'POST', input)
   })
 })

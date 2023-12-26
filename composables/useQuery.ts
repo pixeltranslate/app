@@ -13,7 +13,7 @@ export default () => {
     workspaces: {
       all: () => useQuery({
         queryFn: () => $trpc.workspaceRouter.all.query(),
-        queryKey: ['workspace']
+        queryKey: ['workspaces']
       }),
       byId: () => useQuery({
         queryFn: () => $trpc.workspaceRouter.all.query(),
