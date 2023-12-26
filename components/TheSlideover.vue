@@ -2,6 +2,8 @@
 defineProps<{
   isOpen: boolean | Ref<boolean>,
   title?: string
+  description?: string
+  width?: string
 }>()
 defineEmits(['close'])
 
@@ -10,19 +12,32 @@ defineEmits(['close'])
 <template>
   <USlideover
     :model-value="unref(isOpen)"
-    :ui="{ width: 'w-screen max-w-5xl', wrapper: 'py-2', background: 'rounded-l shadow border-l-2 border-primary-dark' }"
+    :ui="{ width: 'w-screen max-w-2xl overflow-hidden', wrapper: 'py-2', background: 'rounded-l shadow' }"
     @update:model-value="() => $emit('close')"
   >
-    <UCard class="flex flex-col flex-1" :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-border' }">
-      <template #header>
-        <div class="flex items-center justify-between">
-          <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
+    <div>
+      <div class="flex items-center bg-primary-dark px-4 py-6 sm:px-6 justify-between">
+        <div class="flex flex-col">
+          <h1 class="text-base font-semibold leading-6 text-white">
             {{ title }}
-          </h3>
-          <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="() => $emit('close')" />
+          </h1>
+          <div v-if="description" class="mt-1">
+            <p class="text-sm text-primary-light">
+              {{ description }}
+            </p>
+          </div>
         </div>
-      </template>
+        <UButton
+          color="white"
+          variant="outline"
+          icon="i-heroicons-x-mark-20-solid"
+          class="-my-1"
+          @click="() => $emit('close')"
+        />
+      </div>
+    </div>
+    <div class="px-5 py-8">
       <slot />
-    </UCard>
+    </div>
   </USlideover>
 </template>

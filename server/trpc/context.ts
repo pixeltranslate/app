@@ -1,15 +1,10 @@
 import type { inferAsyncReturnType } from '@trpc/server'
 import type { H3Event } from 'h3'
-import fetch from 'node-fetch'
 import { getServerSession } from '#auth'
 
 const API_BASE = process.env.API_BASE || 'http://localhost:8080'
 const _fetch = async <T>(url: string, headers: HeadersInit): Promise<T> => {
-  const response = await fetch(`${API_BASE}${url}`, { headers })
-  if (!response.ok) {
-    throw new Error('Fetch Bad...')
-  }
-  return response.json() as T
+  return await $fetch(`${API_BASE}${url}`, { headers }) as T
 }
 
 /**

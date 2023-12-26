@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 const { workspaceCreateOrEdit } = useGlobalOpeners()
+const { profile } = useQuery()
+const { data } = profile.me()
 </script>
 
 <template>
@@ -14,6 +16,9 @@ const { workspaceCreateOrEdit } = useGlobalOpeners()
         @click="workspaceCreateOrEdit.open({ mode: 'create' })"
       />
     </template>
+    <pre>
+      {{ data }}
+    </pre>
     <TheContentPlaceholder
       label="You do not have any workspaces yet!"
       description="Create your first one now, or join another workspace!"

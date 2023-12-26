@@ -25,6 +25,7 @@ const submit = (data: { name: string }) => {
   <div>
     <TheSlideover
       :title="title"
+      description="Get started by filling in the information below to create your new workspace."
       :is-open="!!workspaceCreateOrEdit.data.value"
       @close="workspaceCreateOrEdit.close"
     >

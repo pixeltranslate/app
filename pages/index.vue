@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const { workspaceCreateOrEdit } = useGlobalOpeners()
 const { workspaces: workspacesQuery } = useQuery()
-const { data: workspaces, isLoading: areWorkspacesLoading, error: workspaceError } = workspacesQuery.me()
+const { data: workspaces, isLoading: areWorkspacesLoading, error: workspaceError } = workspacesQuery.all()
 </script>
 
 <template>
