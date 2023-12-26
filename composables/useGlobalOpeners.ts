@@ -14,7 +14,7 @@ interface CreateOrEditInterface<T> {
 }
 
 const openers = {
-  workspaceCreateOrEdit: makeGlobalOpener<CreateOrEditInterface<{ name: string }>>()
+  workspaceCreateOrEdit: makeGlobalOpener<CreateOrEditInterface<{ id: string }>>()
 }
 
 export default () => {

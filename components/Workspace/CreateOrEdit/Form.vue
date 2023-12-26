@@ -27,7 +27,7 @@ const rules = {
           <UButton type="submit" color="primary" class="mt-3" size="md" :loading="isLoading">
             Create workspace
           </UButton>
-          <UButton type="submit" class="mt-3" size="md" :disabled="isLoading">
+          <UButton class="mt-3" size="md" :disabled="isLoading">
             Cancel
           </UButton>
         </div>

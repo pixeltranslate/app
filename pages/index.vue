@@ -57,6 +57,7 @@ const _delete = useMutation({
                 size="md"
                 block
                 :ui="{ rounded: 'rounded-none rounded-bl-lg' }"
+                @click="workspaceCreateOrEdit.open({ mode: 'edit', data: { id: workspace.id } })"
               />
               <UButton
                 label="Delete"

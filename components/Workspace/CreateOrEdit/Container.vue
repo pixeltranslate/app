@@ -2,13 +2,15 @@
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 const { $trpc } = useNuxtApp()
 const queryClient = useQueryClient()
+const { workspaces: workspaceQuery } = useQuery()
 
 const { workspaceCreateOrEdit } = useGlobalOpeners()
 
 const toast = useToast()
 
 const mode = computed(() => workspaceCreateOrEdit.data.value?.mode)
-const data = computed(() => workspaceCreateOrEdit.data.value?.data)
+const id = computed(() => workspaceCreateOrEdit.data.value?.data?.id)
+const { data, isLoading } = workspaceQuery.byId(id)
 
 const title = computed(() => {
   if (mode.value === 'create') {
@@ -46,11 +48,11 @@ const submit = (data: { name: string }) => {
   <div>
     <TheSlideover
       :title="title"
-      description="Get started by filling in the information below to create your new workspace."
+      :description="mode === 'create' ? 'Get started by filling in the information below to create your new workspace.' : undefined"
       :is-open="!!workspaceCreateOrEdit.data.value"
       @close="workspaceCreateOrEdit.close"
     >
-      <WorkspaceCreateOrEditForm v-if="workspaceCreateOrEdit.data" :is-loading="isSubmitting" @submit="submit" />
+      <WorkspaceCreateOrEditForm v-if="!isLoading" :is-loading="isSubmitting" @submit="submit" />
       <TheLoader v-else />
     </TheSlideover>
   </div>
