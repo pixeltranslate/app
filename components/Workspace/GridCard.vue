@@ -20,9 +20,15 @@ const link = computed(() => {
   <li class="overflow-hidden rounded-lg border border-gray-200 dark:border-border">
     <div class="flex items-center gap-x-4 border-b border-gray-900/5 dark:border-border bg-gray-50 dark:bg-foreground p-6">
       <UAvatar size="md" :text="getInitialsFromString(workspace.name)" :ui="{ background: '!bg-secondary' }" />
-      <div class="text-sm font-medium leading-6 flex-1 truncate overflow-hidden">
-        {{ workspace.name }}
-      </div>
+      <UTooltip
+        :text="workspace.name"
+        :ui="{ wrapper: 'text-sm font-medium leading-6 flex-1 truncate' }"
+        :popper="{ arrow: true, placement: 'bottom-start', offsetDistance: 5 }"
+      >
+        <p class="overflow-hidden truncate">
+          {{ workspace.name }}
+        </p>
+      </UTooltip>
       <div class="flex items-center gap-1">
         <UButtonGroup size="sm" orientation="horizontal">
           <NuxtLink :href="`/workspace/${workspace.id}`">

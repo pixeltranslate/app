@@ -21,7 +21,7 @@ export const profileSchema = z.object({
 })
 
 export const createWorkspaceSchema = z.object({
-  name: z.string().min(1, 'The name should be at least 1 letters long.').max(64, 'The name cannot be longer than 15 letters.'),
+  name: z.string().min(1, 'The name should be at least 1 letters long.').max(36, 'The name cannot be longer than 36 letters.'),
   description: z.string().max(256, 'The description is too long.').optional()
 })
 
