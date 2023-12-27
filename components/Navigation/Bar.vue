@@ -48,7 +48,7 @@ const items = [
         </h1>
       </div>
     </div>
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-4">
       <ClientOnly>
         <UButton
           :icon="isDark ? 'i-pixelarticons-moon-star' : 'i-pixelarticons-sun-alt'"
