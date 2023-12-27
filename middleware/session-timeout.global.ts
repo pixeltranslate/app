@@ -1,13 +1,11 @@
-
 export default defineNuxtRouteMiddleware(() => {
-    if(process.client) {
-        const {data, signOut} = useAuth()
-        const date = new Date(data.value?.expires as string)
-        if(new Date() >= date) {
-            console.log("Expired")
-            signOut()
-        } else {
-            console.log("Not expired")
-        }
-     }
+  const { data, signOut } = useAuth()
+
+  if (data.value?.expires) {
+  // See when the session is supposed to expire and if that point has passed, force logout the user
+    const date = new Date(data.value?.expires)
+    if (new Date() >= date) {
+      signOut()
+    }
+  }
 })

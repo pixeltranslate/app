@@ -1,11 +1,5 @@
-<script setup>
-const {data} = useAuth()
-</script>
 <template>
   <div class="App">
-    <pre>
-      {{ data }}
-    </pre>
     <NuxtLayout>
       <NuxtPage />
       <TheGlobalOpeners />
