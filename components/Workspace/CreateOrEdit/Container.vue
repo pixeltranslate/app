@@ -5,40 +5,59 @@ import type { CreateOrUpdateWorkspace } from '~/types'
 const { $trpc } = useNuxtApp()
 const queryClient = useQueryClient()
 const { workspaces: workspaceQuery } = useQuery()
-
-const { workspaceCreateOrEdit } = useGlobalOpeners()
+const { workspaceCreateOrEdit: { data: popupData, close: closePopup } } = useGlobalOpeners()
 
 const toast = useToast()
-
 const isSubmitting = ref(false)
-const mode = computed(() => workspaceCreateOrEdit.data.value?.mode)
-const id = computed(() => workspaceCreateOrEdit.data.value?.data?.id)
+const mode = computed(() => popupData?.value?.mode)
+const id = computed(() => {
+  if (!popupData.value) {
+    return
+  }
+  if (popupData.value.mode === 'update') {
+    return popupData.value.data.id
+  }
+})
 const { data, isLoading } = workspaceQuery.byId(id)
 
 const title = computed(() => {
-  if (mode.value === 'create') {
-    return 'Creating new workspace'
+  if (popupData.value?.mode === 'update') {
+    return `Editing: ${popupData.value.data.name}`
   }
-  return `Editing: ${data.value?.name}`
+  return 'Creating new workspace'
 })
 
-const defaultData = computed(() => {
-  if (mode.value === 'edit' && data.value) {
+const payload = computed((): CreateOrUpdateWorkspace | undefined => {
+  if (!popupData.value) {
+    return undefined
+  }
+
+  if (popupData.value.mode === 'create') {
     return {
-      name: data.value?.name,
-      description: data.value?.description
+      mode: 'create',
+      data: {
+        name: '',
+        description: ''
+      }
     }
   }
-  return {
-    name: '',
-    description: ''
+
+  if (data.value) {
+    return {
+      mode: 'update',
+      data: {
+        id: data.value?.id,
+        name: data.value?.name,
+        description: data.value?.description
+      }
+    }
   }
 })
 
 const closePage = () => {
   queryClient.invalidateQueries({ queryKey: ['workspaces'] })
   isSubmitting.value = false
-  workspaceCreateOrEdit.close()
+  closePopup()
 }
 
 const create = useMutation({
@@ -52,13 +71,24 @@ const create = useMutation({
   }
 })
 
-const submit = (value: CreateOrUpdateWorkspace) => {
+const update = useMutation({
+  mutationFn: $trpc.workspaceRouter.update.mutate,
+  onError: () => toast.add({ title: 'Error happened :sad face:' }) && closePage,
+  onSuccess: (workspace) => {
+    toast.add({
+      title: `Updated workspace: ${workspace.name}`
+    })
+    queryClient.invalidateQueries({ queryKey: ['workspaces', workspace.id] })
+    closePage()
+  }
+})
+
+const submit = (payload: CreateOrUpdateWorkspace) => {
   isSubmitting.value = true
-  if (mode.value === 'create') {
-    create.mutate(value)
+  if (payload.mode === 'create') {
+    create.mutate(payload.data)
   } else {
-    isSubmitting.value = false
-    toast.add({ title: 'This does not work yet.' })
+    update.mutate(payload.data)
   }
 }
 </script>
@@ -68,16 +98,15 @@ const submit = (value: CreateOrUpdateWorkspace) => {
     <TheSlideover
       :title="title"
       :description="mode === 'create' ? 'Get started by filling in the information below to create your new workspace.' : undefined"
-      :is-open="!!workspaceCreateOrEdit.data.value"
-      :is-loading="!mode || (mode === 'edit' && isLoading)"
-      @close="workspaceCreateOrEdit.close"
+      :is-open="!!popupData"
+      :is-loading="!mode || (mode === 'update' && isLoading)"
+      @close="closePopup"
     >
-      <TheLoader v-if="!mode || (mode === 'edit' && isLoading)" />
+      <TheLoader v-if="!payload || (mode === 'update' && isLoading)" />
       <WorkspaceCreateOrEditForm
         v-else
-        :mode="mode"
         :is-loading="isSubmitting"
-        :default-data="defaultData"
+        :payload="payload"
         @submit="submit"
       />
     </TheSlideover>

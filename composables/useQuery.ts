@@ -19,7 +19,7 @@ export default () => {
       }),
       byId: (id: MaybeComputedRef<string | undefined>) => useQuery({
         queryFn: () => $trpc.workspaceRouter.byId.query(unref(id)),
-        queryKey: ['workspace', id]
+        queryKey: ['workspaces', id]
       })
     }
   }
