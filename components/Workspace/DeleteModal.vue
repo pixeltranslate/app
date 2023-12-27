@@ -67,14 +67,11 @@ const resetAndClose = () => {
         <p class="text-sm text-gray-400 bg-zinc-500/20 p-2 rounded">
           This can be reverted in the next 24 hours. Afterwards the workspace will be irreversibly deleted.
         </p>
-
         <UDivider />
-
         <UForm :schema="deleteFormSchema" :state="deleteFormData" class="space-y-4" @submit="submit">
           <UFormGroup label="To confirm please enter the workspace name below:" name="name">
-            <UInput v-model="deleteFormData.name" :placeholder="name" class="pt-1" />
+            <UInput v-model="deleteFormData.name" :placeholder="name" class="pt-1" autocomplete="off" />
           </UFormGroup>
-
           <UButton
             color="red"
             variant="outline"
