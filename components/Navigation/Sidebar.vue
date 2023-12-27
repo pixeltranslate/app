@@ -1,11 +1,15 @@
 <script lang="ts" setup>
 import type { SidebarItem } from './SidebarItem.vue'
+import getInitialsFromString from '~/helpers/getInitialsFromString'
+
+const { workspaceId } = usePage()
 const { isExpanded, data } = useSidebar()
 const { username, avatar } = useUser()
 const { workspaceCreateOrEdit } = useGlobalOpeners()
 
 const { workspaces: workspaceQuery } = useQuery()
 const { data: myWorkspaces, isLoading: areMyWorkspacesLoading } = workspaceQuery.all()
+const { data: selectedWorkspace, isLoading: isSelectedWorkspaceLoading } = workspaceQuery.byId(workspaceId)
 
 const myWorkspacesSidebar = computed(() => {
   return myWorkspaces.value?.map<SidebarItem>((w) => {
@@ -42,15 +46,15 @@ const myWorkspacesSidebar = computed(() => {
         </div>
 
         <div v-if="data.sections.includes('workspaceInfo')">
-          <div class="flex rounded items-center py-1.5 mx-2 gap-3">
+          <div v-if="selectedWorkspace && !isSelectedWorkspaceLoading" class="flex rounded items-center py-1.5 mx-2 gap-3">
             <UAvatar
-              text="A"
+              :text="getInitialsFromString(selectedWorkspace.name)"
               size="md"
               :ui="{ background: '!bg-primary-dark' }"
             />
             <div>
               <p class="text-gray-200 capitalize">
-                Averix
+                {{ selectedWorkspace.name }}
               </p>
               <div class="flex items-center gap-1 text-xs text-gray-400">
                 <p> Free </p>
@@ -58,10 +62,17 @@ const myWorkspacesSidebar = computed(() => {
                   -
                 </p>
                 <div>
-                  5
+                  {{ Object.keys(selectedWorkspace.members).length }}
                   <Icon name="pixelarticons:users" />
                 </div>
               </div>
+            </div>
+          </div>
+          <div v-else class="flex rounded bg-primary-light/10 items-center p-2 mx-2 gap-3">
+            <USkeleton class="h-10 w-10" :ui="{ rounded: 'rounded-full', background: '!bg-primary-light' }" />
+            <div>
+              <USkeleton class="h-4 w-[75px]" :ui="{ background: '!bg-primary-light' }" />
+              <USkeleton class="h-3 w-[125px] mt-1" :ui="{ background: '!bg-primary-light' }" />
             </div>
           </div>
           <UDivider :ui="{ wrapper: { base: 'mt-3 px-2' }, border: { base : '!border-primary-dark/40' } }" />

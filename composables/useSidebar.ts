@@ -1,13 +1,9 @@
 import { z } from 'zod'
+import { routeSchema, type RouteSchema } from './usePage'
 import type { SidebarItem } from '~/components/Navigation/SidebarItem.vue'
 
 const sidebarSectionsSchema = z.enum(['userInfo', 'workspaceInfo', 'workspaces', 'projects'])
-const routeSchema = z.object({
-  workspace: z.string().nullish(),
-  project: z.string().nullish()
-})
 type SidebarSections = z.infer<typeof sidebarSectionsSchema>
-type RouteSchema = z.infer<typeof routeSchema>
 
 const generateBackLink = (params: RouteSchema) => {
   if (params.workspace) {

@@ -3,5 +3,5 @@ export interface APIWorkspaceResponse {
   name: string,
   description: string,
   createdAt: number,
-  memebers: Record<string, string>
+  members: Record<string, string>
 }
