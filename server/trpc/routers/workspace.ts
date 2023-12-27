@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { createRouter, publicProcedure } from '../trpc'
-import { createWorkspaceSchema, idSchema, workspaceSchema } from '~/server/schemas'
+import { createWorkspaceSchema, idSchema, updateWorkspaceSchema, workspaceSchema } from '~/server/schemas'
 import type { ApiWorkspaceGetAll } from '~/types'
 
 export const router = createRouter({
@@ -16,6 +16,10 @@ export const router = createRouter({
   }),
   create: publicProcedure.input(createWorkspaceSchema).mutation(({ input, ctx }) => {
     return ctx.fetch<void>({ url: '/workspaces', method: 'POST', body: input })
+  }),
+  update: publicProcedure.input(updateWorkspaceSchema).mutation(({ input, ctx }) => {
+    const { id } = input
+    return ctx.fetch<ApiWorkspaceGetAll>({ url: `/workspaces/${id}`, method: 'PATCH', body: { name: input.name, description: input.description } })
   }),
   delete: publicProcedure.input(idSchema).mutation(({ input, ctx }) => {
     return ctx.fetch<void>({ url: `/workspaces/${input}`, method: 'DELETE' })

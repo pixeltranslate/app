@@ -6,6 +6,7 @@ import { z } from 'zod'
 */
 
 export const idSchema = z.string().min(36)
+export const idObjectSchema = z.object({ id: idSchema })
 export const workspaceRolesSchema = z.enum(['admin'])
 
 export const profileSchema = z.object({
@@ -24,6 +25,11 @@ export const createWorkspaceSchema = z.object({
   name: z.string().min(1, 'The name should be at least 1 letters long.').max(36, 'The name cannot be longer than 36 letters.'),
   description: z.string().max(256, 'The description is too long.').optional()
 })
+export const updateWorkspaceSchema = createWorkspaceSchema.merge(idObjectSchema)
+export const createOrUpdateWorkspaceSchema = z.discriminatedUnion('mode', [
+  z.object({ mode: z.literal('create'), data: createWorkspaceSchema }),
+  z.object({ mode: z.literal('update'), data: updateWorkspaceSchema })
+])
 
 export const workspaceSchema = z.object({
   id: idSchema,

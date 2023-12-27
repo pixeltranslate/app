@@ -9,7 +9,7 @@ const props = defineProps<{ workspace: ApiWorkspaceGetAll}>()
 const link = computed(() => {
   return [
     [
-      { label: 'Edit', click: () => workspaceCreateOrEdit.open({ mode: 'edit', data: { id: props.workspace.id } }) }
+      { label: 'Edit', click: () => workspaceCreateOrEdit.open({ mode: 'update', data: { id: props.workspace.id, name: props.workspace.name } }) }
     ],
     [{ label: 'Delete', click: () => workspaceDelete.open({ id: props.workspace.id, name: props.workspace.name }) }]
   ] as DropdownItem[][]
