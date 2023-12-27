@@ -1,40 +1,49 @@
 <script lang="ts" setup>
+import type { SidebarItem } from './SidebarItem.vue'
+
 const router = useRouter()
-const { isExpanded, getRouteToView, getHomeSidebar, getWorkspaceSidebar, getWorkSpaces } = useSidebar()
-const { getWorkspaceFromRoute } = usePage()
+const { isExpanded, getRouteToView, getHomeSidebar } = useSidebar()
+
+const { workspaces: workspaceQuery } = useQuery()
+const { data: myWorkspaces, isLoading: areMyWorkspacesLoading } = workspaceQuery.all()
+
+const myWorkspacesSidebar = computed<SidebarItem[]>(() => {
+  if (!myWorkspaces.value) {
+    return []
+  }
+  return myWorkspaces.value?.map((w) => {
+    return {
+      label: w.name,
+      avatar: {
+        text: w.name[0].toLocaleUpperCase()
+      }
+    }
+  })
+})
 
 const homeSidebar = getHomeSidebar()
-const workspaceSidebar = getWorkspaceSidebar()
 
-const workspace = ref(getWorkspaceFromRoute(router.currentRoute.value.path))
 const currentView = ref(getRouteToView(router.currentRoute.value.path) || 'home')
 
 watch(router.currentRoute, () => {
   currentView.value = getRouteToView(router.currentRoute.value.path)
-  workspace.value = getWorkspaceFromRoute(router.currentRoute.value.path)
 })
 
-const sidebar = computed(() => {
-  if (currentView.value === 'workspace') {
-    return workspaceSidebar
-  }
-  return homeSidebar
-})
 </script>
 
 <template>
   <div class="h-full md:py-3">
     <div class="fixed md:static z-10 flex flex-col justify-between h-full bg-blue-900 rounded-r-lg shadow py-2 w-full md:w-72" :class="isExpanded ? 'block': 'hidden'">
       <div>
-        <div v-if="workspace" class="flex rounded items-center py-1.5 mx-2 gap-3">
+        <div class="flex rounded items-center py-1.5 mx-2 gap-3">
           <UAvatar
-            :text="workspace[0].toUpperCase() || '?'"
+            text="A"
             size="md"
             :ui="{ background: '!bg-primary-dark' }"
           />
           <div>
             <p class="text-gray-200 capitalize">
-              {{ workspace || 'Unknown' }}
+              Averix
             </p>
             <div class="flex items-center gap-1 text-xs text-gray-400">
               <p> Free </p>
@@ -49,12 +58,12 @@ const sidebar = computed(() => {
           </div>
         </div>
 
-        <UDivider v-if="sidebar.workspace.display" :ui="{ wrapper: { base: 'my-3 px-2' }, border: { base : '!border-primary-dark/40' } }" />
+        <UDivider :ui="{ wrapper: { base: 'my-3 px-2' }, border: { base : '!border-primary-dark/40' } }" />
 
         <div class="overflow-hidden">
           <NavigationMenu
             v-auto-animate
-            :items="sidebar.links"
+            :items="homeSidebar.links"
           />
         </div>
 
@@ -63,13 +72,32 @@ const sidebar = computed(() => {
             Workspaces
           </p>
           <UDivider
-            :ui="{ wrapper: { base: 'my-3 px-2' }, border: { base : '!border-primary-dark/40' } }"
+            :ui="{ wrapper: { base: 'my-2 px-2' }, border: { base : '!border-primary-dark/40' } }"
           />
         </div>
 
         <NavigationMenu
-          :items="getWorkSpaces()"
+          v-if="!areMyWorkspacesLoading"
+          :items="myWorkspacesSidebar"
         />
+        <div v-else class="flex flex-col gap-2">
+          <div class="flex items-center space-x-2 bg-primary-light/10 p-2 rounded mx-2 animate-pulse">
+            <div>
+              <USkeleton class="h-7 w-7 flex-1" :ui="{ rounded: 'rounded-full', background: '!bg-primary-light' }" />
+            </div>
+            <div class="space-y-2">
+              <USkeleton class="h-3 w-[100px]" :ui="{ background: '!bg-primary-light' }" />
+            </div>
+          </div>
+          <div class="flex items-center space-x-2 bg-primary-light/10 p-2 rounded mx-2 animate-pulse">
+            <div>
+              <USkeleton class="h-7 w-7 flex-1" :ui="{ rounded: 'rounded-full', background: '!bg-primary-light' }" />
+            </div>
+            <div class="space-y-2">
+              <USkeleton class="h-3 w-[100px]" :ui="{ background: '!bg-primary-light' }" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
