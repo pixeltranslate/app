@@ -2,12 +2,11 @@
 import { createWorkspaceSchema } from '~/server/schemas'
 import type { CreateOrUpdateWorkspace } from '~/types'
 
-defineProps<{ isLoading?: boolean }>()
+const props = defineProps<{ isLoading?: boolean, defaultData: CreateOrUpdateWorkspace }>()
 defineEmits<{(e: 'submit', payload: CreateOrUpdateWorkspace): void}>()
 
 const formData = reactive({
-  name: '',
-  description: ''
+  ...props.defaultData
 })
 </script>
 

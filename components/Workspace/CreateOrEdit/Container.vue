@@ -10,6 +10,7 @@ const { workspaceCreateOrEdit } = useGlobalOpeners()
 
 const toast = useToast()
 
+const isSubmitting = ref(false)
 const mode = computed(() => workspaceCreateOrEdit.data.value?.mode)
 const id = computed(() => workspaceCreateOrEdit.data.value?.data?.id)
 const { data, isLoading } = workspaceQuery.byId(id)
@@ -21,7 +22,18 @@ const title = computed(() => {
   return `Editing ${data.value?.name}`
 })
 
-const isSubmitting = ref(false)
+const defaultData = computed(() => {
+  if (mode.value === 'edit' && data.value) {
+    return {
+      name: data.value?.name,
+      description: data.value?.description
+    }
+  }
+  return {
+    name: '',
+    description: ''
+  }
+})
 
 const closePage = () => {
   queryClient.invalidateQueries({ queryKey: ['workspaces'] })
@@ -60,7 +72,12 @@ const submit = (value: CreateOrUpdateWorkspace) => {
       :is-loading="!mode || (mode === 'edit' && isLoading)"
       @close="workspaceCreateOrEdit.close"
     >
-      <WorkspaceCreateOrEditForm v-if="!mode || !isLoading" :is-loading="isSubmitting" @submit="submit" />
+      <WorkspaceCreateOrEditForm
+        v-if="!mode || !isLoading"
+        :is-loading="isSubmitting"
+        :default-data="defaultData"
+        @submit="submit"
+      />
       <TheLoader v-else />
     </TheSlideover>
   </div>
