@@ -104,7 +104,7 @@ const submit = (payload: CreateOrUpdateWorkspace) => {
     >
       <TheLoader v-if="!payload || (mode === 'update' && isLoading)" />
       <WorkspaceCreateOrEditForm
-        v-else
+        v-else-if="popupData"
         :is-loading="isSubmitting"
         :payload="payload"
         @submit="submit"
