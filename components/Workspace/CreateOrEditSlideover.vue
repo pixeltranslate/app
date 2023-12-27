@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import type { CreateOrUpdateWorkspace } from '~/types'
+import { createOrUpdateWorkspaceSchema } from '~/server/schemas'
 
 const { $trpc } = useNuxtApp()
 const queryClient = useQueryClient()
@@ -53,6 +54,7 @@ const payload = computed((): CreateOrUpdateWorkspace | undefined => {
     }
   }
 })
+const { cloned } = useMightyClone(payload)
 
 const closePage = () => {
   queryClient.invalidateQueries({ queryKey: ['workspaces'] })
@@ -83,7 +85,10 @@ const update = useMutation({
   }
 })
 
-const submit = (payload: CreateOrUpdateWorkspace) => {
+const submit = (payload?: CreateOrUpdateWorkspace) => {
+  if (!payload) {
+    return
+  }
   isSubmitting.value = true
   if (payload.mode === 'create') {
     create.mutate(payload.data)
@@ -102,13 +107,26 @@ const submit = (payload: CreateOrUpdateWorkspace) => {
       :is-loading="!mode || (mode === 'update' && isLoading)"
       @close="closePopup"
     >
-      <TheLoader v-if="!payload || (mode === 'update' && isLoading)" />
-      <WorkspaceCreateOrEditForm
-        v-else-if="popupData"
-        :is-loading="isSubmitting"
-        :payload="payload"
-        @submit="submit"
-      />
+      <TheLoader v-if="!cloned || (mode === 'update' && isLoading)" />
+      <UForm v-else :schema="createOrUpdateWorkspaceSchema" :state="cloned" @submit="() => submit(cloned)">
+        <div class="flex flex-col gap-5">
+          <UFormGroup label="Workspace name:" name="name">
+            <UInput v-model="cloned.data.name" color="gray" placeholder="My amazing workspace" />
+          </UFormGroup>
+          <UFormGroup label="Description:" name="description">
+            <UTextarea v-model="cloned.data.description" placeholder="What do you plan to do with your workspace?" />
+          </UFormGroup>
+
+          <div class="flex items-center gap-2 justify-end">
+            <UButton type="submit" color="primary" class="mt-3" size="md" :loading="isSubmitting">
+              {{ cloned.mode === 'create' ? 'Create' : 'Save' }} workspace
+            </UButton>
+            <UButton class="mt-3" size="md" :disabled="isSubmitting">
+              Cancel
+            </UButton>
+          </div>
+        </div>
+      </UForm>
     </TheSlideover>
   </div>
 </template>

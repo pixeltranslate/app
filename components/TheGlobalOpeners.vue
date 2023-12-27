@@ -1,6 +1,6 @@
 <template>
   <div>
-    <WorkspaceCreateOrEditContainer />
+    <WorkspaceCreateOrEditSlideover />
     <WorkspaceDeleteModal />
   </div>
 </template>
