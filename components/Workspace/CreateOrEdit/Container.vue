@@ -55,9 +55,10 @@ const submit = (data: { name: string, description: string }) => {
       :title="title"
       :description="mode === 'create' ? 'Get started by filling in the information below to create your new workspace.' : undefined"
       :is-open="!!workspaceCreateOrEdit.data.value"
+      :is-loading="!mode || (mode === 'edit' && isLoading)"
       @close="workspaceCreateOrEdit.close"
     >
-      <WorkspaceCreateOrEditForm v-if="!isLoading" :is-loading="isSubmitting" @submit="submit" />
+      <WorkspaceCreateOrEditForm v-if="!mode || !isLoading" :is-loading="isSubmitting" @submit="submit" />
       <TheLoader v-else />
     </TheSlideover>
   </div>

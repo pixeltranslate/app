@@ -78,7 +78,7 @@ watch(router.currentRoute, () => {
 
         <NavigationMenu
           v-if="!areMyWorkspacesLoading"
-          :items="myWorkspacesSidebar"
+          :items="[...myWorkspacesSidebar, { label: 'Create new workspace', icon: 'i-heroicons-plus' }]"
         />
         <div v-else class="flex flex-col gap-2">
           <div class="flex items-center space-x-2 bg-primary-light/10 p-2 rounded mx-2 animate-pulse">
