@@ -19,7 +19,7 @@ const title = computed(() => {
   if (mode.value === 'create') {
     return 'Creating new workspace'
   }
-  return `Editing ${data.value?.name}`
+  return `Editing: ${data.value?.name}`
 })
 
 const defaultData = computed(() => {
@@ -72,13 +72,14 @@ const submit = (value: CreateOrUpdateWorkspace) => {
       :is-loading="!mode || (mode === 'edit' && isLoading)"
       @close="workspaceCreateOrEdit.close"
     >
+      <TheLoader v-if="!mode || (mode === 'edit' && isLoading)" />
       <WorkspaceCreateOrEditForm
-        v-if="!mode || !isLoading"
+        v-else
+        :mode="mode"
         :is-loading="isSubmitting"
         :default-data="defaultData"
         @submit="submit"
       />
-      <TheLoader v-else />
     </TheSlideover>
   </div>
 </template>
