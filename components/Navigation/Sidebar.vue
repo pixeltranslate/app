@@ -29,7 +29,7 @@ const myWorkspacesSidebar = computed(() => {
     <div class="fixed md:static z-10 flex flex-col justify-between h-full bg-blue-500 dark:bg-blue-900 rounded-r-lg shadow py-2 w-full md:w-72" :class="isExpanded ? 'block': 'hidden'">
       <div>
         <div v-if="data.sections.includes('userInfo')">
-          <div class="flex rounded items-center py-1.5 mx-2 gap-3">
+          <div class="flex rounded items-center py-1.5 mx-3 gap-3">
             <UAvatar
               :src="avatar.src"
               :text="avatar.text"
@@ -46,7 +46,7 @@ const myWorkspacesSidebar = computed(() => {
         </div>
 
         <div v-if="data.sections.includes('workspaceInfo')">
-          <div v-if="selectedWorkspace && !isSelectedWorkspaceLoading" class="flex rounded items-center py-1.5 mx-2 gap-3">
+          <div v-if="selectedWorkspace && !isSelectedWorkspaceLoading" class="flex rounded items-center py-1.5 mx-3 gap-3">
             <UAvatar
               :text="getInitialsFromString(selectedWorkspace.name)"
               size="md"
