@@ -60,7 +60,7 @@ const resetAndClose = () => {
     <TheModal
       title="Are you sure you want to delete this?"
       :is-open="!!workspaceDelete.data.value"
-      bg="bg-red-800"
+      bg="bg-red-600 dark:bg-red-800"
       @close="resetAndClose"
     >
       <div class="flex flex-col gap-4">

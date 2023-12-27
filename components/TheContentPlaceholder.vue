@@ -18,7 +18,7 @@ withDefaults(defineProps<{
   <UCard>
     <div class="flex flex-col items-center justify-center" :class="minHeight">
       <Icon :name="icon" size="65" class="mb-4" :class="iconClass" />
-      <h1 class="font-bold text-zinc-100 text-lg">
+      <h1 class="font-bold text-zinc-500 dark:text-zinc-100 text-lg">
         {{ label }}
       </h1>
       <p class="text-sm text-zinc-400">
