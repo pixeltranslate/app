@@ -1,17 +1,16 @@
-const getWorkspaceFromRoute = (route: string) => {
-  const splitRoute = route.split('/').splice(1)
-  if (splitRoute[0] === 'workspace') {
-    return splitRoute[1]
-  }
-  return undefined
-}
+import { z } from 'zod'
+
+export const routeSchema = z.object({
+  workspace: z.string().nullish(),
+  project: z.string().nullish()
+})
+export type RouteSchema = z.infer<typeof routeSchema>
 
 export default () => {
-  const router = useRouter()
-  const workspace = ref(getWorkspaceFromRoute(router.currentRoute.value.fullPath))
+  const { params } = useRoute()
+  const routeParams = routeSchema.parse(params)
 
   return {
-    workspace: workspace.value,
-    getWorkspaceFromRoute
+    workspaceId: routeParams.workspace || undefined
   }
 }

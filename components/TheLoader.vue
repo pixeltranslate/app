@@ -272,7 +272,7 @@ const getRandomText = () => LOADING_MESSAGES[Math.floor(Math.random() * LOADING_
 const message = ref<string>(getRandomText())
 const interval = setInterval(() => {
   message.value = getRandomText()
-}, 5000)
+}, 4000)
 
 onUnmounted(() => {
   clearInterval(interval)
@@ -289,8 +289,10 @@ onUnmounted(() => {
     <h1 class="font-bold text-zinc-100 text-lg">
       Give us a second!
     </h1>
-    <p class="text-sm text-zinc-400">
-      {{ message }}
-    </p>
+    <ClientOnly>
+      <p class="text-sm text-zinc-400">
+        {{ message }}
+      </p>
+    </ClientOnly>
   </div>
 </template>

@@ -1,18 +1,18 @@
 <script lang="ts" setup>
+import type { Avatar } from '#ui/types'
+import getInitialsFromString from '~/helpers/getInitialsFromString'
+
 export interface SidebarItem {
   label: string
   icon?: string
   href?: string
-  avatar?: {
-    text: string,
-    image?: string,
-  }
+  click?: () => void,
+  avatar?: Avatar
   children?: Omit<SidebarItem, 'children'>[]
 }
 const props = defineProps<SidebarItem>()
 
 const isExpanded = ref(false)
-
 const toggle = () => {
   if (props.children) {
     isExpanded.value = !isExpanded.value
@@ -21,7 +21,7 @@ const toggle = () => {
 </script>
 
 <template>
-  <NuxtLink :event="href ? 'click' : ''" :to="href">
+  <NuxtLink :event="href ? 'click' : ''" :to="href" @click="click">
     <div
       class="flex items-center justify-between hover:bg-primary-dark/40 p-2 mx-2 rounded cursor-pointer"
       :class="isExpanded && 'bg-primary-dark/20'"
@@ -29,7 +29,7 @@ const toggle = () => {
     >
       <div class="flex items-center gap-2 truncate">
         <Icon v-if="icon" :name="icon" size="20" />
-        <UAvatar v-if="avatar" size="xs" :text="avatar.text" :src="avatar.image" :ui="{ background: '!bg-secondary' }" />
+        <UAvatar v-if="avatar" size="xs" :text="getInitialsFromString(avatar.text)" :src="avatar.src" :ui="{ background: '!bg-secondary' }" />
         <p class="truncate text-sm">
           {{ label }}
         </p>

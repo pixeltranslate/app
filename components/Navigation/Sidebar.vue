@@ -1,24 +1,26 @@
 <script lang="ts" setup>
-const router = useRouter()
-const { isExpanded, getRouteToView, getHomeSidebar, getWorkspaceSidebar, getWorkSpaces } = useSidebar()
-const { getWorkspaceFromRoute } = usePage()
+import type { SidebarItem } from './SidebarItem.vue'
+import getInitialsFromString from '~/helpers/getInitialsFromString'
 
-const homeSidebar = getHomeSidebar()
-const workspaceSidebar = getWorkspaceSidebar()
+const { workspaceId } = usePage()
+const { isExpanded, data } = useSidebar()
+const { username, avatar } = useUser()
+const { workspaceCreateOrEdit } = useGlobalOpeners()
 
-const workspace = ref(getWorkspaceFromRoute(router.currentRoute.value.path))
-const currentView = ref(getRouteToView(router.currentRoute.value.path) || 'home')
+const { workspaces: workspaceQuery } = useQuery()
+const { data: myWorkspaces, isLoading: areMyWorkspacesLoading } = workspaceQuery.all()
+const { data: selectedWorkspace, isLoading: isSelectedWorkspaceLoading } = workspaceQuery.byId(workspaceId)
 
-watch(router.currentRoute, () => {
-  currentView.value = getRouteToView(router.currentRoute.value.path)
-  workspace.value = getWorkspaceFromRoute(router.currentRoute.value.path)
-})
-
-const sidebar = computed(() => {
-  if (currentView.value === 'workspace') {
-    return workspaceSidebar
-  }
-  return homeSidebar
+const myWorkspacesSidebar = computed(() => {
+  return myWorkspaces.value?.map<SidebarItem>((w) => {
+    return {
+      label: w.name,
+      href: `/workspace/${w.id}`,
+      avatar: {
+        text: w.name
+      }
+    }
+  })
 })
 </script>
 
@@ -26,50 +28,126 @@ const sidebar = computed(() => {
   <div class="h-full md:py-3">
     <div class="fixed md:static z-10 flex flex-col justify-between h-full bg-blue-900 rounded-r-lg shadow py-2 w-full md:w-72" :class="isExpanded ? 'block': 'hidden'">
       <div>
-        <div v-if="workspace" class="flex rounded items-center py-1.5 mx-2 gap-3">
-          <UAvatar
-            :text="workspace[0].toUpperCase() || '?'"
-            size="md"
-            :ui="{ background: '!bg-primary-dark' }"
-          />
-          <div>
-            <p class="text-gray-200 capitalize">
-              {{ workspace || 'Unknown' }}
-            </p>
-            <div class="flex items-center gap-1 text-xs text-gray-400">
-              <p> Free </p>
-              <p class="mx-1">
-                -
+        <div v-if="data.sections.includes('userInfo')">
+          <div class="flex rounded items-center py-1.5 mx-2 gap-3">
+            <UAvatar
+              :src="avatar.src"
+              :text="avatar.text"
+              size="md"
+              :ui="{ background: '!bg-primary-dark' }"
+            />
+            <div>
+              <p class="text-gray-200 capitalize">
+                {{ username }}
               </p>
+            </div>
+          </div>
+          <UDivider :ui="{ wrapper: { base: 'mt-3 px-2' }, border: { base : '!border-primary-dark/40' } }" />
+        </div>
+
+        <div v-if="data.sections.includes('workspaceInfo')">
+          <div v-if="selectedWorkspace && !isSelectedWorkspaceLoading" class="flex rounded items-center py-1.5 mx-2 gap-3">
+            <UAvatar
+              :text="getInitialsFromString(selectedWorkspace.name)"
+              size="md"
+              :ui="{ background: '!bg-primary-dark' }"
+            />
+            <div>
+              <p class="text-gray-200 capitalize">
+                {{ selectedWorkspace.name }}
+              </p>
+              <div class="flex items-center gap-1 text-xs text-gray-400">
+                <p> Free </p>
+                <p class="mx-1">
+                  -
+                </p>
+                <div>
+                  {{ Object.keys(selectedWorkspace.members).length }}
+                  <Icon name="pixelarticons:users" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-else class="flex rounded bg-primary-light/10 items-center p-2 mx-2 gap-3">
+            <USkeleton class="h-10 w-10" :ui="{ rounded: 'rounded-full', background: '!bg-primary-light' }" />
+            <div>
+              <USkeleton class="h-4 w-[75px]" :ui="{ background: '!bg-primary-light' }" />
+              <USkeleton class="h-3 w-[125px] mt-1" :ui="{ background: '!bg-primary-light' }" />
+            </div>
+          </div>
+          <UDivider :ui="{ wrapper: { base: 'mt-3 px-2' }, border: { base : '!border-primary-dark/40' } }" />
+        </div>
+
+        <div class="mt-3">
+          <NavigationMenu
+            v-auto-animate
+            :items="data.links"
+          />
+        </div>
+
+        <div v-if="data.sections.includes('workspaces')">
+          <div class="my-3 px-2 flex items-center gap-1">
+            <p class="text-sm text-primary pl-2">
+              Workspaces
+            </p>
+            <UDivider
+              :ui="{ wrapper: { base: 'my-2 px-2' }, border: { base : '!border-primary-dark/40' } }"
+            />
+          </div>
+
+          <NavigationMenu
+            v-if="!areMyWorkspacesLoading"
+            :items="[...myWorkspacesSidebar, { label: 'Create new workspace', icon: 'i-heroicons-plus', click: () => workspaceCreateOrEdit.open({ mode: 'create' }) }]"
+          />
+          <div v-else class="flex flex-col gap-2">
+            <div class="flex items-center space-x-2 bg-primary-light/10 p-2 rounded mx-2 animate-pulse">
               <div>
-                5
-                <Icon name="pixelarticons:users" />
+                <USkeleton class="h-7 w-7 flex-1" :ui="{ rounded: 'rounded-full', background: '!bg-primary-light' }" />
+              </div>
+              <div class="space-y-2">
+                <USkeleton class="h-3 w-[100px]" :ui="{ background: '!bg-primary-light' }" />
+              </div>
+            </div>
+            <div class="flex items-center space-x-2 bg-primary-light/10 p-2 rounded mx-2 animate-pulse">
+              <div>
+                <USkeleton class="h-7 w-7 flex-1" :ui="{ rounded: 'rounded-full', background: '!bg-primary-light' }" />
+              </div>
+              <div class="space-y-2">
+                <USkeleton class="h-3 w-[100px]" :ui="{ background: '!bg-primary-light' }" />
               </div>
             </div>
           </div>
         </div>
 
-        <UDivider v-if="sidebar.workspace.display" :ui="{ wrapper: { base: 'my-3 px-2' }, border: { base : '!border-primary-dark/40' } }" />
+        <div v-if="data.sections.includes('projects')">
+          <div class="my-3 px-2 flex items-center gap-1">
+            <p class="text-sm text-primary pl-2">
+              Projects
+            </p>
+            <UDivider
+              :ui="{ wrapper: { base: 'my-2 px-2' }, border: { base : '!border-primary-dark/40' } }"
+            />
+          </div>
 
-        <div class="overflow-hidden">
-          <NavigationMenu
-            v-auto-animate
-            :items="sidebar.links"
-          />
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center space-x-2 bg-primary-light/10 p-2 rounded mx-2 animate-pulse">
+              <div>
+                <USkeleton class="h-7 w-7 flex-1" :ui="{ rounded: 'rounded-full', background: '!bg-primary-light' }" />
+              </div>
+              <div class="space-y-2">
+                <USkeleton class="h-3 w-[100px]" :ui="{ background: '!bg-primary-light' }" />
+              </div>
+            </div>
+            <div class="flex items-center space-x-2 bg-primary-light/10 p-2 rounded mx-2 animate-pulse">
+              <div>
+                <USkeleton class="h-7 w-7 flex-1" :ui="{ rounded: 'rounded-full', background: '!bg-primary-light' }" />
+              </div>
+              <div class="space-y-2">
+                <USkeleton class="h-3 w-[100px]" :ui="{ background: '!bg-primary-light' }" />
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div class="my-3 px-2 flex items-center gap-1">
-          <p class="text-sm text-primary pl-2">
-            Workspaces
-          </p>
-          <UDivider
-            :ui="{ wrapper: { base: 'my-3 px-2' }, border: { base : '!border-primary-dark/40' } }"
-          />
-        </div>
-
-        <NavigationMenu
-          :items="getWorkSpaces()"
-        />
       </div>
     </div>
   </div>
