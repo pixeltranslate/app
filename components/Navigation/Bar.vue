@@ -31,7 +31,7 @@ const items = [
 </script>
 
 <template>
-  <div class="flex h-20 items-center justify-between pl-2 pr-8 border-b dark:border-border">
+  <div class="flex h-20 items-center justify-between pl-2 pr-8 border-b dark:border-border bg-white dark:bg-transparent">
     <div class="flex items-center gap-2">
       <div class="flex">
         <UButton @click="toggleSidebar">
@@ -51,7 +51,7 @@ const items = [
     <div class="flex items-center gap-3">
       <ClientOnly>
         <UButton
-          :icon="isDark ? 'i-heroicons-moon-20-solid' : 'i-heroicons-sun-20-solid'"
+          :icon="isDark ? 'i-pixelarticons-moon-star' : 'i-pixelarticons-sun-alt'"
           color="white"
           size="xs"
           variant="ghost"

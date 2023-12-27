@@ -286,7 +286,7 @@ onUnmounted(() => {
       size="65"
       class="mb-4 text-zinc-500 animate-spin-slow"
     />
-    <h1 class="font-bold text-zinc-100 text-lg">
+    <h1 class="font-bold text-zinc-500 dark:text-zinc-100 text-lg">
       Give us a second!
     </h1>
     <ClientOnly>
