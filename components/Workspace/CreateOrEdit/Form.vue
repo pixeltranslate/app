@@ -1,33 +1,29 @@
 <script setup lang="ts">
-const { makeRule } = useFormErrorMessages()
-defineProps<{ isLoading?: boolean }>()
-defineEmits(['submit'])
+import { createWorkspaceSchema } from '~/server/schemas'
+import type { CreateOrUpdateWorkspace } from '~/types'
 
-const state = reactive({
-  name: undefined,
-  description: undefined
+const props = defineProps<{ isLoading?: boolean, defaultData: CreateOrUpdateWorkspace, mode: 'create' | 'edit' }>()
+defineEmits<{(e: 'submit', payload: CreateOrUpdateWorkspace): void}>()
+
+const formData = reactive({
+  ...props.defaultData
 })
-
-const rules = {
-  name: makeRule(['required'], 'name'),
-  description: makeRule(['required'], 'description')
-}
 </script>
 
 <template>
   <div>
-    <TheForm :state="state" :model="state" :rules="rules" @submit="$emit('submit', state)">
+    <TheForm :schema="createWorkspaceSchema" :state="formData" @submit="$emit('submit', formData)">
       <div class="flex flex-col gap-5">
         <UFormGroup label="Workspace name:" name="name">
-          <UInput v-model="state.name" color="gray" placeholder="My amazing workspace" />
+          <UInput v-model="formData.name" color="gray" placeholder="My amazing workspace" />
         </UFormGroup>
         <UFormGroup label="Description:" name="description">
-          <UTextarea v-model="state.description" placeholder="What do you plan to do with your workspace?" />
+          <UTextarea v-model="formData.description" placeholder="What do you plan to do with your workspace?" />
         </UFormGroup>
 
         <div class="flex items-center gap-2 justify-end">
           <UButton type="submit" color="primary" class="mt-3" size="md" :loading="isLoading">
-            Create workspace
+            {{ mode === 'create' ? 'Create' : 'Save' }} workspace
           </UButton>
           <UButton class="mt-3" size="md" :disabled="isLoading">
             Cancel
