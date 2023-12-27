@@ -1,12 +1,11 @@
 <script setup lang=ts>
 import type { DropdownItem } from '#ui/types'
-import type { APIWorkspaceResponse } from '~/server/api-types'
 import getInitialsFromString from '~/helpers/getInitialsFromString'
+import type { ApiWorkspaceGetAll } from '~/types'
 
 const { workspaceCreateOrEdit, workspaceDelete } = useGlobalOpeners()
 
-const props = defineProps<{ workspace: APIWorkspaceResponse}>()
-
+const props = defineProps<{ workspace: ApiWorkspaceGetAll}>()
 const link = computed(() => {
   return [
     [
@@ -41,7 +40,7 @@ const link = computed(() => {
           Created
         </dt>
         <dd class="text-gray-700 dark:text-gray-400">
-          {{ workspace.createdAt }}
+          {{ workspace.createdAt.toDateString() }}
         </dd>
       </div>
       <div class="flex justify-between gap-x-4 pt-1.5">

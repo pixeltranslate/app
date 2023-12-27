@@ -29,5 +29,6 @@ export const workspaceSchema = z.object({
   id: idSchema,
   name: z.string().min(1).max(64),
   description: z.string().max(360),
-  members: z.string()
+  createdAt: z.coerce.date(),
+  members: z.record(z.string(), z.any())
 })
