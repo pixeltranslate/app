@@ -8,7 +8,7 @@ defineProps<{ title: string, isLoading?: boolean, error?: Error | null }>()
     <div class="w-full overflow-auto">
       <div class="p-8 overflow-y-auto">
         <header class="flex items-center gap-2 justify-between">
-          <h1 class="text-xl font-semibold text-zinc-200">
+          <h1 class="text-xl font-semibold dark:text-zinc-200">
             {{ title }}
           </h1>
           <slot v-if="!isLoading && !error" name="actions" />

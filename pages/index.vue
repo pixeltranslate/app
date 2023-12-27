@@ -18,7 +18,7 @@ const { data: workspaces, isLoading: areWorkspacesLoading, error: workspaceError
     </template>
     <div v-if="workspaces && workspaces.length !== 0">
       <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <li v-for="workspace in workspaces" :key="workspace.id" class="col-span-1 rounded-lg bg-foreground shadow">
+        <li v-for="workspace in workspaces" :key="workspace.id" class="col-span-1 rounded-lg bg-white dark:bg-foreground shadow">
           <div class="flex w-full items-center justify-between space-x-6 p-6">
             <div class="flex-1 truncate">
               <div class="flex items-center space-x-3">
@@ -33,7 +33,7 @@ const { data: workspaces, isLoading: areWorkspacesLoading, error: workspaceError
             <UAvatar size="md" :text="workspace.name[0].toLocaleUpperCase()" :ui="{ background: '!bg-secondary' }" />
           </div>
           <div>
-            <div class="-mt-px grid grid-cols-2 border-t border-background">
+            <div class="-mt-px grid grid-cols-2 border-t dark:border-background">
               <UButton
                 label="View"
                 color="primary"

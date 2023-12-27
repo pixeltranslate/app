@@ -2,6 +2,16 @@
 const { username, avatar } = useUser()
 const { signOut } = useAuth()
 const { toggle: toggleSidebar } = useSidebar()
+const colorMode = useColorMode()
+
+const isDark = computed({
+  get () {
+    return colorMode.value === 'dark'
+  },
+  set () {
+    colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+  }
+})
 
 const items = [
   [{
@@ -21,24 +31,34 @@ const items = [
 </script>
 
 <template>
-  <div class="flex h-20 items-center justify-between pl-2 pr-8 border-b border-border">
+  <div class="flex h-20 items-center justify-between pl-2 pr-8 border-b dark:border-border">
     <div class="flex items-center gap-2">
       <div class="flex">
-        <div class="flex w-9 h-9 flex items-center justify-center rounded cursor-pointer hover:bg-foreground" @click="toggleSidebar">
+        <UButton @click="toggleSidebar">
           <Icon
             name="pixelarticons:menu"
             size="25px"
             class="transition"
           />
-        </div>
+        </UButton>
       </div>
-      <div class="text-center flex items-center">
+      <div class="text-center flex items-center ml-1">
         <h1 class="text-3xl" style="font-family: 'Pixelify Sans';">
           Pixel<span class="text-secondary">Translate</span>
         </h1>
       </div>
     </div>
     <div class="flex items-center gap-3">
+      <ClientOnly>
+        <UButton
+          :icon="isDark ? 'i-heroicons-moon-20-solid' : 'i-heroicons-sun-20-solid'"
+          color="white"
+          size="xs"
+          variant="ghost"
+          aria-label="Theme"
+          @click="isDark = !isDark"
+        />
+      </ClientOnly>
       <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
         <div class="flex items-center gap-2 text-sm">
           <span>{{ username }}</span>
