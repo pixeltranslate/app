@@ -7,15 +7,12 @@ const { isExpanded, getRouteToView, getHomeSidebar } = useSidebar()
 const { workspaces: workspaceQuery } = useQuery()
 const { data: myWorkspaces, isLoading: areMyWorkspacesLoading } = workspaceQuery.all()
 
-const myWorkspacesSidebar = computed<SidebarItem[]>(() => {
-  if (!myWorkspaces.value) {
-    return []
-  }
-  return myWorkspaces.value?.map((w) => {
+const myWorkspacesSidebar = computed(() => {
+  return myWorkspaces.value?.map<SidebarItem>((w) => {
     return {
       label: w.name,
       avatar: {
-        text: w.name[0].toLocaleUpperCase()
+        text: w.name
       }
     }
   })

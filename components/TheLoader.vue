@@ -289,8 +289,10 @@ onUnmounted(() => {
     <h1 class="font-bold text-zinc-100 text-lg">
       Give us a second!
     </h1>
-    <p class="text-sm text-zinc-400">
-      {{ message }}
-    </p>
+    <ClientOnly>
+      <p class="text-sm text-zinc-400">
+        {{ message }}
+      </p>
+    </ClientOnly>
   </div>
 </template>

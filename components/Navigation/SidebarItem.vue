@@ -1,12 +1,12 @@
 <script lang="ts" setup>
+import type { Avatar } from '#ui/types'
+import getInitialsFromString from '~/helpers/getInitialsFromString'
+
 export interface SidebarItem {
   label: string
   icon?: string
   href?: string
-  avatar?: {
-    text: string,
-    image?: string,
-  }
+  avatar?: Avatar
   children?: Omit<SidebarItem, 'children'>[]
 }
 const props = defineProps<SidebarItem>()
@@ -29,7 +29,7 @@ const toggle = () => {
     >
       <div class="flex items-center gap-2 truncate">
         <Icon v-if="icon" :name="icon" size="20" />
-        <UAvatar v-if="avatar" size="xs" :text="avatar.text" :src="avatar.image" :ui="{ background: '!bg-secondary' }" />
+        <UAvatar v-if="avatar" size="xs" :text="getInitialsFromString(avatar.text)" :src="avatar.src" :ui="{ background: '!bg-secondary' }" />
         <p class="truncate text-sm">
           {{ label }}
         </p>
