@@ -64,8 +64,8 @@ const resetAndClose = () => {
       @close="resetAndClose"
     >
       <div class="flex flex-col gap-4">
-        <p class="text-sm text-gray-400 bg-zinc-500/20 p-2 rounded">
-          This can be reverted in the next 24 hours. Afterwards the workspace will be irreversibly deleted.
+        <p class="text-sm text-gray-400 bg-zinc-500/20 p-2.5 rounded">
+          This can be reverted in the next 24 hours. Afterwards the workspace, "{{ name }}" will be irreversibly deleted.
         </p>
         <UDivider />
         <UForm :schema="deleteFormSchema" :state="deleteFormData" class="space-y-4" @submit="submit">

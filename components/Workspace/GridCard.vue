@@ -11,7 +11,7 @@ const link = computed(() => {
     [
       { label: 'Edit', click: () => workspaceCreateOrEdit.open({ mode: 'edit', data: { id: props.workspace.id } }) }
     ],
-    [{ label: 'Delete', click: () => workspaceDelete.open({ id: props.workspace.id }) }]
+    [{ label: 'Delete', click: () => workspaceDelete.open({ id: props.workspace.id, name: props.workspace.name }) }]
   ] as DropdownItem[][]
 })
 </script>
