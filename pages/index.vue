@@ -17,7 +17,7 @@ const { data: workspaces, isLoading: areWorkspacesLoading, error: workspaceError
       />
     </template>
     <div v-if="workspaces && workspaces.length !== 0">
-      <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <ul role="list" class="grid grid-cols-1 gap-6 lg:grid-cols-2 2xl:grid-cols-3">
         <WorkspaceGridCard v-for="workspace in workspaces" :key="workspace.id" :workspace="workspace" />
       </ul>
     </div>
