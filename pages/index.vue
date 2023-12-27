@@ -1,23 +1,7 @@
 <script lang="ts" setup>
-import { useMutation, useQueryClient } from '@tanstack/vue-query'
-const { $trpc } = useNuxtApp()
-const toast = useToast()
-const queryClient = useQueryClient()
-
-const { workspaceCreateOrEdit } = useGlobalOpeners()
+const { workspaceCreateOrEdit, workspaceDelete } = useGlobalOpeners()
 const { workspaces: workspacesQuery } = useQuery()
 const { data: workspaces, isLoading: areWorkspacesLoading, error: workspaceError } = workspacesQuery.all()
-
-const _delete = useMutation({
-  mutationFn: $trpc.workspaceRouter.delete.mutate,
-  onError: () => toast.add({ title: 'We could not delete the workspace' }),
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['workspaces'] })
-    toast.add({
-      title: 'Deleted the workspace'
-    })
-  }
-})
 </script>
 
 <template>
@@ -33,7 +17,7 @@ const _delete = useMutation({
       />
     </template>
     <div v-if="workspaces && workspaces.length !== 0">
-      <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <li v-for="workspace in workspaces" :key="workspace.id" class="col-span-1 rounded-lg bg-foreground shadow">
           <div class="flex w-full items-center justify-between space-x-6 p-6">
             <div class="flex-1 truncate">
@@ -65,7 +49,7 @@ const _delete = useMutation({
                 size="md"
                 block
                 :ui="{ rounded: 'rounded-none rounded-br-lg' }"
-                @click="() => _delete.mutate(workspace.id)"
+                @click="() => workspaceDelete.open({ id: workspace.id, name: workspace.name })"
               />
             </div>
           </div>
