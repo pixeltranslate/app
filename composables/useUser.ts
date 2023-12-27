@@ -1,3 +1,5 @@
+import getInitialsFromString from '~/helpers/getInitialsFromString'
+
 export default () => {
   const { data } = useAuth()
 
@@ -6,7 +8,7 @@ export default () => {
   const avatar = computed(() => {
     return {
       src: data.value?.user.image ?? false,
-      text: username.value[0].toLocaleUpperCase(),
+      text: getInitialsFromString(username.value),
       ui: {
         background: '!bg-primary-dark'
       }

@@ -1,79 +1,58 @@
+import { z } from 'zod'
 import type { SidebarItem } from '~/components/Navigation/SidebarItem.vue'
 
-/* Display content */
-interface SidebarDisplayOptions {
-  links: SidebarItem[]
-  workspace: {
-    display: boolean,
-    selectedWorkspace?: string
-  },
-}
-type SidebarViews = 'home' | 'workspace'
-const getRouteToView = (route: string): SidebarViews => {
-  const splitRoute = route.split('/').splice(1)
-  if (splitRoute[0] === '') {
-    return 'home'
+const sidebarSectionsSchema = z.enum(['userInfo', 'workspaceInfo', 'workspaces', 'projects'])
+const routeSchema = z.object({
+  workspace: z.string().nullish(),
+  project: z.string().nullish()
+})
+type SidebarSections = z.infer<typeof sidebarSectionsSchema>
+type RouteSchema = z.infer<typeof routeSchema>
+
+const generateBackLink = (params: RouteSchema) => {
+  if (params.workspace) {
+    return `/workspace/${params.workspace}`
   }
-  return 'workspace'
+  return '/'
 }
 
-const getWorkSpaces = (): SidebarItem[] => {
-  // Retrieve workspaces from User
-  return [
-    {
-      label: 'Prismarin',
-      href: '/workspace/prismarin',
-      avatar: {
-        text: 'P'
-      }
-    },
-    {
-      label: 'Averix',
-      href: '/workspace/averix',
-      avatar: {
-        text: 'A'
-      }
-    }
+const homeLinks: SidebarItem[] = [
+  { label: 'Dashboard', icon: 'i-pixelarticons-dashbaord', href: '/' },
+  { label: 'Workspaces', icon: 'i-pixelarticons-group', href: '/' },
+  { label: 'Documentation', icon: 'i-pixelarticons-book', href: '/' }
+
+]
+const dynamicRouteLinks: Record<keyof RouteSchema, ((params: RouteSchema) => SidebarItem[])> = {
+  workspace: params => [
+    { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: '/' },
+    { label: 'Project', icon: 'i-pixelarticons-folder', href: `/workspace/${params.workspace || 'Averix'}/project/test` }
+  ],
+  project: params => [
+    { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: generateBackLink(params) }
   ]
 }
 
-const getHomeSidebar = (): SidebarDisplayOptions => {
-  return {
-    links: [],
-    workspace: { display: false }
-  }
+const homeSections: SidebarSections[] = ['userInfo', 'workspaces']
+const dynamicSections: Record<keyof RouteSchema, SidebarSections[]> = {
+  workspace: ['workspaceInfo', 'projects', 'workspaces'],
+  project: ['projects']
 }
 
-const getWorkspaceSidebar = (): SidebarDisplayOptions => {
-  const page = usePage()
-
-  const projects = {
-    label: 'Projects',
-    icon: 'pixelarticons:folder',
-    children: [{
-      label: 'Backrooms: Survive the complex',
-      href: '/'
-    }, {
-      label: 'Frostbite',
-      href: '/'
-    }, {
-      label: 'Inverted Souls',
-      href: '/'
-    }]
+const getSidebarInfo = (routeParams: RouteSchema) => {
+  if (routeParams.project) {
+    return {
+      sections: dynamicSections.project,
+      links: dynamicRouteLinks.project(routeParams)
+    }
+  } else if (routeParams.workspace) {
+    return {
+      sections: dynamicSections.workspace,
+      links: dynamicRouteLinks.workspace(routeParams)
+    }
   }
   return {
-    links: [{
-      label: 'Back',
-      icon: 'pixelarticons:chevron-left',
-      href: '/'
-    }, {
-      label: 'Settings',
-      icon: 'pixelarticons:sliders',
-      href: '/'
-    },
-    projects
-    ],
-    workspace: { display: true, selectedWorkspace: page.workspace }
+    sections: homeSections,
+    links: homeLinks
   }
 }
 
@@ -84,12 +63,13 @@ const toggle = () => {
 }
 
 export default () => {
+  const { params } = useRoute()
+  const routeParams = routeSchema.parse(params)
+  const data = computed(() => getSidebarInfo(routeParams))
+
   return {
     isExpanded,
     toggle,
-    getRouteToView,
-    getWorkSpaces,
-    getWorkspaceSidebar,
-    getHomeSidebar
+    data
   }
 }

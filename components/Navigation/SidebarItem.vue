@@ -6,13 +6,13 @@ export interface SidebarItem {
   label: string
   icon?: string
   href?: string
+  click?: () => void,
   avatar?: Avatar
   children?: Omit<SidebarItem, 'children'>[]
 }
 const props = defineProps<SidebarItem>()
 
 const isExpanded = ref(false)
-
 const toggle = () => {
   if (props.children) {
     isExpanded.value = !isExpanded.value
@@ -21,7 +21,7 @@ const toggle = () => {
 </script>
 
 <template>
-  <NuxtLink :event="href ? 'click' : ''" :to="href">
+  <NuxtLink :event="href ? 'click' : ''" :to="href" @click="click">
     <div
       class="flex items-center justify-between hover:bg-primary-dark/40 p-2 mx-2 rounded cursor-pointer"
       :class="isExpanded && 'bg-primary-dark/20'"
