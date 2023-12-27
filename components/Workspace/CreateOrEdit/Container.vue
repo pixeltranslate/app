@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
+import type { CreateOrUpdateWorkspace } from '~/types'
+
 const { $trpc } = useNuxtApp()
 const queryClient = useQueryClient()
 const { workspaces: workspaceQuery } = useQuery()
@@ -38,10 +40,10 @@ const create = useMutation({
   }
 })
 
-const submit = (data: { name: string, description: string }) => {
+const submit = (value: CreateOrUpdateWorkspace) => {
   isSubmitting.value = true
   if (mode.value === 'create') {
-    create.mutate(data)
+    create.mutate(value)
   } else {
     isSubmitting.value = false
     toast.add({ title: 'This does not work yet.' })

@@ -20,12 +20,14 @@ export const profileSchema = z.object({
   })
 })
 
-export const workspaceMember = z.object({
-  role: z.enum(['admin', 'members'])
+export const createWorkspaceSchema = z.object({
+  name: z.string().min(1, 'The name should be at least 1 letters long.').max(64, 'The name cannot be longer than 15 letters.'),
+  description: z.string().max(256, 'The description is too long.').optional()
 })
 
 export const workspaceSchema = z.object({
   id: idSchema,
   name: z.string().min(1).max(64),
+  description: z.string().max(360),
   members: z.string()
 })
