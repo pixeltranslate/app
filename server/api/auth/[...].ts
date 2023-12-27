@@ -2,6 +2,7 @@ import KeycloakProvider from 'next-auth/providers/keycloak'
 import type { JWT } from 'next-auth/jwt'
 import { NuxtAuthHandler } from '#auth'
 
+
 async function refreshAccessToken (token: JWT) {
   try {
     const url = `${process.env.KEY_CLOAK_ISSUER}/protocol/openid-connect/token`
@@ -47,27 +48,31 @@ export default NuxtAuthHandler({
       issuer: process.env.KEY_CLOAK_ISSUER
     })
   ],
+
   callbacks: {
     jwt ({ token, account, profile }) {
       if (account) {
         token.accessToken = account.access_token
-        token.accessTokenExpires = (account.expires_at ?? 0) * 1000
+        token.accessTokenExpires = account.expires_at
         token.refreshToken = account.refresh_token
+        token.refreshTokenExpires = Date.now() + (account.refresh_expires_in as number) * 1000
       }
       if (profile) {
         token.preferred_username = (profile as any).preferred_username
       }
 
       const accessTokenExpires = token.accessTokenExpires as number
-      if (typeof accessTokenExpires === 'number' && Date.now() < accessTokenExpires) {
+      if (Date.now() < accessTokenExpires) {
         return token
       }
       return refreshAccessToken(token)
     },
     session ({ session, token }) {
+      console.log((token.refreshTokenExpires as number - Date.now())/1000)
       return {
         ...session,
-        accessToken: token.accessToken,
+        expires: new Date(token.refreshTokenExpires as number).toISOString(),
+        idToken: token.id_token,
         user: {
           ...session.user,
           image: token.picture || undefined,
