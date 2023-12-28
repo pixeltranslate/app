@@ -1,7 +1,7 @@
 import type { inferAsyncReturnType } from '@trpc/server'
 import type { H3Event } from 'h3'
 import { z } from 'zod'
-import { getServerSession } from '#auth'
+import { getServerSession, getToken } from '#auth'
 
 interface FetchOptions {
   url: string
@@ -29,8 +29,9 @@ const _fetch = async <T>(request: FetchOptions, headers: HeadersInit): Promise<T
  * @link https://trpc.io/docs/context
  */
 export async function createContext (_event: H3Event) {
+  const token = await getToken({ event: _event })
   const session = await getServerSession(_event)
-  const HEADERS = { Authorization: `Bearer ${session?.accessToken}` }
+  const HEADERS = { Authorization: `Bearer ${token?.accessToken}` }
 
   return {
     session,
