@@ -49,31 +49,29 @@ export default NuxtAuthHandler({
   ],
 
   callbacks: {
-    jwt ({ token, account, profile }) {
+    jwt ({ token, account }) {
       if (account) {
         token.accessToken = account.access_token
         token.accessTokenExpires = account.expires_at
         token.refreshToken = account.refresh_token
         token.refreshTokenExpires = Date.now() + (account.refresh_expires_in as number) * 1000
       }
-      if (profile) {
-        token.preferred_username = (profile as any).preferred_username
-      }
 
+      // If the access token has not expired we return it
       if (Date.now() < (token.accessTokenExpires as number)) {
         return token
       }
+
+      // refresh to access token if it has expired
       return refreshAccessToken(token)
     },
     session ({ session, token }) {
       return {
         ...session,
-        expires: new Date(token.refreshTokenExpires as number).toISOString(),
-        idToken: token.id_token,
+        expires: new Date(token.refreshTokenExpires as number).toISOString(), // Overwrite default expires to a custom one, to signout the user when the session is no longer active
         user: {
           ...session.user,
-          image: token.picture || undefined,
-          preferred_username: token.preferred_username || undefined
+          image: token.picture || undefined
         }
       }
     }
