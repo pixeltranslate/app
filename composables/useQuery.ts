@@ -21,6 +21,16 @@ export default () => {
         queryFn: () => $trpc.workspaceRouter.byId.query(unref(id)),
         queryKey: ['workspaces', id]
       })
+    },
+    projects: {
+      all: (workspaceId: MaybeComputedRef<string | undefined>) => useQuery({
+        queryFn: () => $trpc.projectRouter.all.query(unref(workspaceId)),
+        queryKey: ['workspaces', workspaceId, 'projects']
+      }),
+      byId: (input: MaybeComputedRef<{ workspaceId: string, projectId: string}>) => useQuery({
+        queryFn: () => $trpc.projectRouter.byId.query(unref(input)),
+        queryKey: ['workspaces', 'projects', input]
+      })
     }
   }
 }

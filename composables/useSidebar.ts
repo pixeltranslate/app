@@ -19,9 +19,8 @@ const homeLinks: SidebarItem[] = [
 
 ]
 const dynamicRouteLinks: Record<keyof RouteSchema, ((params: RouteSchema) => SidebarItem[])> = {
-  workspace: params => [
-    { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: '/' },
-    { label: 'Project', icon: 'i-pixelarticons-folder', href: `/workspace/${params.workspace || 'Averix'}/project/test` }
+  workspace: () => [
+    { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: '/' }
   ],
   project: params => [
     { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: generateBackLink(params) }

@@ -11,6 +11,7 @@ export default () => {
   const routeParams = routeSchema.parse(params)
 
   return {
-    workspaceId: routeParams.workspace || undefined
+    workspaceId: routeParams.workspace || undefined,
+    projectId: routeParams.project || undefined
   }
 }
