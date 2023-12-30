@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { routeSchema, type RouteSchema } from './usePage'
 import type { SidebarItem } from '~/components/Navigation/SidebarItem.vue'
+import type { GlobalOpeners } from '~/composables/useGlobalOpeners'
 
 const sidebarSectionsSchema = z.enum(['userInfo', 'workspaceInfo', 'workspaces', 'projects'])
 type SidebarSections = z.infer<typeof sidebarSectionsSchema>
@@ -18,9 +19,13 @@ const homeLinks: SidebarItem[] = [
   { label: 'Documentation', icon: 'i-pixelarticons-book', href: '/' }
 
 ]
-const dynamicRouteLinks: Record<keyof RouteSchema, ((params: RouteSchema) => SidebarItem[])> = {
+const dynamicRouteLinks: Record<keyof RouteSchema, ((params: RouteSchema, openers: GlobalOpeners) => SidebarItem[])> = {
   workspace: () => [
-    { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: '/' }
+    {
+      label: 'Edit',
+      icon: 'i-pixelarticons-edit'
+    },
+    { label: 'Members', icon: 'i-pixelarticons-users' }
   ],
   project: params => [
     { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: generateBackLink(params) }
@@ -33,16 +38,16 @@ const dynamicSections: Record<keyof RouteSchema, SidebarSections[]> = {
   project: ['projects']
 }
 
-const getSidebarInfo = (routeParams: RouteSchema) => {
+const getSidebarInfo = (routeParams: RouteSchema, openers: GlobalOpeners) => {
   if (routeParams.project) {
     return {
       sections: dynamicSections.project,
-      links: dynamicRouteLinks.project(routeParams)
+      links: dynamicRouteLinks.project(routeParams, openers)
     }
   } else if (routeParams.workspace) {
     return {
       sections: dynamicSections.workspace,
-      links: dynamicRouteLinks.workspace(routeParams)
+      links: dynamicRouteLinks.workspace(routeParams, openers)
     }
   }
   return {
@@ -59,8 +64,9 @@ const toggle = () => {
 
 export default () => {
   const { params } = useRoute()
+  const openers = useGlobalOpeners()
   const routeParams = routeSchema.parse(params)
-  const data = computed(() => getSidebarInfo(routeParams))
+  const data = computed(() => getSidebarInfo(routeParams, openers))
 
   return {
     isExpanded,

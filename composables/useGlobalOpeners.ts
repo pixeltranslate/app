@@ -31,6 +31,7 @@ const openers = {
   projectDelete: makeGlobalOpener<{ id: string, workspaceId: string, name: string }>()
 }
 
+export type GlobalOpeners = typeof openers
 export default () => {
   return openers
 }
