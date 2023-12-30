@@ -15,8 +15,7 @@ const links = computed(() => {
             mode: 'update',
             data: {
               workspaceId: props.workspaceId,
-              id: props.project.id,
-              name: props.project.name
+              ...props.project
             }
           })
       }
