@@ -5,11 +5,11 @@ import type { SidebarItem } from '~/components/Navigation/SidebarItem.vue'
 import type { GlobalOpeners } from '~/composables/useGlobalOpeners'
 
 type UsePage = ReturnType<typeof usePage>
-const sidebarSectionsSchema = z.enum(['userInfo', 'workspaceInfo', 'workspaces', 'projects'])
+const sidebarSectionsSchema = z.enum(['userInfo', 'workspaceInfo', 'workspaces', 'projects', 'projectInfo'])
 type SidebarSections = z.infer<typeof sidebarSectionsSchema>
 
 const generateBackLink = (page: UsePage) => {
-  if (page.workspaceId) {
+  if (page.projectId) {
     return `/workspace/${page.workspaceId}`
   }
   return '/'
@@ -22,6 +22,7 @@ const homeLinks: SidebarItem[] = [
 ]
 const dynamicRouteLinks: Record<keyof RouteSchema, ((page: UsePage, openers: GlobalOpeners) => SidebarItem[])> = {
   workspace: (page, openers) => [
+    { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: generateBackLink(page) },
     {
       label: 'Edit',
       icon: 'i-pixelarticons-edit',
@@ -38,14 +39,17 @@ const dynamicRouteLinks: Record<keyof RouteSchema, ((page: UsePage, openers: Glo
     { label: 'Members', icon: 'i-pixelarticons-users' }
   ],
   project: page => [
-    { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: generateBackLink(page) }
+    { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: generateBackLink(page) },
+    { label: 'Dashboard', icon: 'i-pixelarticons-dashbaord' },
+    { label: 'Languages', icon: 'i-pixelarticons-flag' },
+    { label: 'Collections', icon: 'i-pixelarticons-group' }
   ]
 }
 
 const homeSections: SidebarSections[] = ['userInfo', 'workspaces']
 const dynamicSections: Record<keyof RouteSchema, SidebarSections[]> = {
   workspace: ['workspaceInfo', 'projects', 'workspaces'],
-  project: ['projects']
+  project: ['projectInfo', 'projects']
 }
 
 const getSidebarInfo = (page: UsePage, openers: GlobalOpeners) => {

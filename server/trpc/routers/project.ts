@@ -4,8 +4,8 @@ import { createProjectSchema, updateProjectSchema, idSchema, projectSchema } fro
 import type { ApiProjectGetAll } from '~/types'
 
 const inputWorkspaceProjectIdSchema = z.object({
-  workspaceId: idSchema,
-  projectId: idSchema
+  workspaceId: idSchema.nullish(),
+  projectId: idSchema.nullish()
 })
 
 export const router = createRouter({
@@ -16,7 +16,7 @@ export const router = createRouter({
     return ctx.fetch<ApiProjectGetAll[]>({ url: `/workspaces/${input}/projects`, schema: z.array(projectSchema) })
   }),
   byId: publicProcedure.input(inputWorkspaceProjectIdSchema.nullish()).query(({ input, ctx }) => {
-    if (!input) {
+    if (!input || !input.projectId || !input.workspaceId) {
       return null
     }
     return ctx.fetch<ApiProjectGetAll>({ url: `/workspaces/${input.workspaceId}/projects/${input.projectId}`, schema: projectSchema })
