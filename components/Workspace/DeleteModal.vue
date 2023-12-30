@@ -55,6 +55,7 @@ const resetAndClose = () => {
     <TheModal
       title="Are you sure you want to delete this?"
       :is-open="!!popupData"
+      :is-loading="!popupData"
       bg="bg-red-600 dark:bg-red-800"
       @close="resetAndClose"
     >
