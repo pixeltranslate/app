@@ -46,7 +46,7 @@ const links = computed(() => {
       </div>
       <div class="flex flex-none items-center gap-x-4">
         <UButtonGroup size="sm" orientation="horizontal">
-          <NuxtLink :href="`/workspace/${workspaceId}/projects/${project.id}`">
+          <NuxtLink :href="`/workspace/${workspaceId}/project/${project.id}`">
             <UButton label="View" />
           </NuxtLink>
           <UDropdown :items="links" :popper="{ placement: 'bottom-end' }">

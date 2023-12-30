@@ -21,10 +21,19 @@ const homeLinks: SidebarItem[] = [
   { label: 'Documentation', icon: 'i-pixelarticons-book', href: '/' }
 ]
 const dynamicRouteLinks: Record<keyof RouteSchema, ((page: UsePage, openers: GlobalOpeners) => SidebarItem[])> = {
-  workspace: () => [
+  workspace: (page, openers) => [
     {
       label: 'Edit',
-      icon: 'i-pixelarticons-edit'
+      icon: 'i-pixelarticons-edit',
+      click: () => {
+        if (!page.workspace.value) {
+          return
+        }
+        openers.workspaceCreateOrEdit.open({
+          mode: 'update',
+          data: page.workspace.value
+        })
+      }
     },
     { label: 'Members', icon: 'i-pixelarticons-users' }
   ],
