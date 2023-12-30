@@ -19,16 +19,20 @@ export const router = createRouter({
     if (!input) {
       return null
     }
-    return ctx.fetch<ApiProjectGetAll>({ url: `/workspaces/${input.workspaceId}/${input.projectId}`, schema: projectSchema })
+    return ctx.fetch<ApiProjectGetAll>({ url: `/workspaces/${input.workspaceId}/projects/${input.projectId}`, schema: projectSchema })
   }),
   create: publicProcedure.input(createProjectSchema).mutation(({ input, ctx }) => {
-    return ctx.fetch<void>({ url: `/workspaces/${input.workspaceId}/projects`, method: 'POST', body: input })
+    return ctx.fetch<ApiProjectGetAll>({ url: `/workspaces/${input.workspaceId}/projects`, method: 'POST', body: input })
   }),
   update: publicProcedure.input(updateProjectSchema).mutation(({ input, ctx }) => {
     const { workspaceId, id } = input
-    return ctx.fetch<ApiProjectGetAll>({ url: `/workspaces/${workspaceId}/project/${id}`, method: 'PATCH', body: { name: input.name, description: input.description } })
+    return ctx.fetch<ApiProjectGetAll>({
+      url: `/workspaces/${workspaceId}/projects/${id}`,
+      method: 'PATCH',
+      body: input
+    })
   }),
   delete: publicProcedure.input(inputWorkspaceProjectIdSchema).mutation(({ input, ctx }) => {
-    return ctx.fetch<void>({ url: `/workspaces/${input.workspaceId}/${input.projectId}`, method: 'DELETE' })
+    return ctx.fetch<ApiWorkspaceGetAll>({ url: `/workspaces/${input.workspaceId}/projects/${input.projectId}`, method: 'DELETE' })
   })
 })

@@ -5,23 +5,13 @@ import { createOrUpdateWorkspaceSchema } from '~/server/schemas'
 
 const { $trpc } = useNuxtApp()
 const queryClient = useQueryClient()
-const { workspaces: workspaceQuery } = useQuery()
 const { workspaceCreateOrEdit: { data: popupData, close: closePopup } } = useGlobalOpeners()
 
 const toast = useToast()
 const isSubmitting = ref(false)
 const mode = computed(() => popupData?.value?.mode)
-const id = computed(() => {
-  if (!popupData.value) {
-    return
-  }
-  if (popupData.value.mode === 'update') {
-    return popupData.value.data.id
-  }
-})
-const { data, isLoading } = workspaceQuery.byId(id)
 
-const title = computed(() => {
+const slideOverTitle = computed(() => {
   if (popupData.value?.mode === 'update') {
     return `Editing: ${popupData.value.data.name}`
   }
@@ -32,56 +22,53 @@ const payload = computed((): CreateOrUpdateWorkspace | undefined => {
   if (!popupData.value) {
     return undefined
   }
-
-  if (popupData.value.mode === 'create') {
-    return {
-      mode: 'create',
-      data: {
-        name: '',
-        description: ''
-      }
-    }
+  if (popupData.value.mode === 'update') {
+    return popupData.value
   }
-
-  if (data.value) {
-    return {
-      mode: 'update',
-      data: {
-        id: data.value?.id,
-        name: data.value?.name,
-        description: data.value?.description
-      }
+  return {
+    mode: 'create',
+    data: {
+      name: '',
+      description: ''
     }
   }
 })
 const { cloned } = useMightyClone(payload)
 
-const closePage = () => {
-  queryClient.invalidateQueries({ queryKey: ['workspaces'] })
-  isSubmitting.value = false
-  closePopup()
-}
-
 const create = useMutation({
   mutationFn: $trpc.workspaceRouter.create.mutate,
-  onError: () => toast.add({ title: 'Error happened :sad face:' }) && closePage,
-  onSuccess: () => {
+  onError: () => {
+    isSubmitting.value = false
     toast.add({
-      title: 'Created new workspace'
+      title: 'The workspace could not be created'
     })
-    closePage()
+  },
+  onSuccess: (workspace) => {
+    isSubmitting.value = false
+    toast.add({
+      title: `Created new workspace: ${workspace.name}`
+    })
+    queryClient.invalidateQueries({ queryKey: ['workspaces'] })
+    closePopup()
   }
 })
 
 const update = useMutation({
   mutationFn: $trpc.workspaceRouter.update.mutate,
-  onError: () => toast.add({ title: 'Error happened :sad face:' }) && closePage,
+  onError: () => {
+    isSubmitting.value = false
+    toast.add({
+      title: 'The workspace could not be updated'
+    })
+  },
   onSuccess: (workspace) => {
+    isSubmitting.value = false
     toast.add({
       title: `Updated workspace: ${workspace.name}`
     })
+    queryClient.invalidateQueries({ queryKey: ['workspaces'] })
     queryClient.invalidateQueries({ queryKey: ['workspaces', workspace.id] })
-    closePage()
+    closePopup()
   }
 })
 
@@ -101,14 +88,13 @@ const submit = (payload?: CreateOrUpdateWorkspace) => {
 <template>
   <div>
     <TheSlideover
-      :title="title"
+      :title="slideOverTitle"
       :description="mode === 'create' ? 'Get started by filling in the information below to create your new workspace.' : undefined"
       :is-open="!!popupData"
-      :is-loading="!mode || (mode === 'update' && isLoading)"
+      :is-loading="!mode || !cloned"
       @close="closePopup"
     >
-      <TheLoader v-if="!cloned || (mode === 'update' && isLoading)" />
-      <UForm v-else :schema="createOrUpdateWorkspaceSchema" :state="cloned" @submit="() => submit(cloned)">
+      <UForm v-if="cloned" :schema="createOrUpdateWorkspaceSchema" :state="cloned" @submit="() => submit(cloned)">
         <div class="flex flex-col gap-5">
           <UFormGroup label="Workspace name:" name="name">
             <UInput v-model="cloned.data.name" color="gray" placeholder="My amazing workspace" />

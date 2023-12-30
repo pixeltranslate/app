@@ -5,34 +5,11 @@ import { createOrUpdateProjectSchema } from '~/server/schemas'
 
 const { $trpc } = useNuxtApp()
 const queryClient = useQueryClient()
-const { projects: projectQuery } = useQuery()
 const { projectCreateOrEdit: { data: popupData, close: closePopup } } = useGlobalOpeners()
 
 const toast = useToast()
 const isSubmitting = ref(false)
 const mode = computed(() => popupData?.value?.mode)
-const workspaceId = computed(() => {
-  if (!popupData?.value?.data) {
-    return
-  }
-  return popupData.value.data.workspaceId
-})
-const id = computed(() => {
-  if (popupData.value?.mode === 'update') {
-    return popupData.value?.data.id
-  }
-})
-
-const query = computed(() => {
-  if (!id.value || !workspaceId.value) {
-    return undefined
-  }
-  return {
-    projectId: id.value,
-    workspaceId: workspaceId.value
-  }
-})
-const { data, isLoading } = projectQuery.byId(query)
 
 const title = computed(() => {
   if (popupData.value?.mode === 'update') {
@@ -42,61 +19,59 @@ const title = computed(() => {
 })
 
 const payload = computed((): CreateOrUpdateProject | undefined => {
-  if (!popupData.value?.data) {
+  if (!popupData.value) {
     return undefined
   }
 
-  if (popupData.value.mode === 'create') {
-    return {
-      mode: 'create',
-      data: {
-        workspaceId: popupData.value.data?.workspaceId,
-        name: '',
-        description: ''
-      }
-    }
+  if (popupData.value.mode === 'update') {
+    return popupData.value
   }
 
-  if (data.value) {
-    return {
-      mode: 'update',
-      data: {
-        id: data.value?.id,
-        name: data.value?.name,
-        description: data.value?.description,
-        workspaceId: popupData.value.data?.workspaceId
-      }
+  return {
+    mode: 'create',
+    data: {
+      workspaceId: popupData.value.data.workspaceId,
+      name: '',
+      description: ''
     }
   }
 })
 const { cloned } = useMightyClone(payload)
 
-const closePage = () => {
-  queryClient.invalidateQueries({ queryKey: ['projects', workspaceId] })
-  isSubmitting.value = false
-  closePopup()
-}
-
 const create = useMutation({
   mutationFn: $trpc.projectRouter.create.mutate,
-  onError: () => toast.add({ title: 'Error happened :sad face:' }) && closePage,
-  onSuccess: () => {
+  onError: () => {
+    isSubmitting.value = false
     toast.add({
-      title: 'Created new project'
+      title: 'The project could not be created'
     })
-    closePage()
+  },
+  onSuccess: (project) => {
+    queryClient.invalidateQueries({ queryKey: ['projects', popupData.value?.data.workspaceId] })
+    isSubmitting.value = false
+    toast.add({
+      title: `Created new project: ${project.name}`
+    })
+    closePopup()
   }
 })
 
 const update = useMutation({
   mutationFn: $trpc.projectRouter.update.mutate,
-  onError: () => toast.add({ title: 'Error happened :sad face:' }) && closePage,
-  onSuccess: (workspace) => {
+  onError: () => {
+    isSubmitting.value = false
     toast.add({
-      title: `Updated project: ${workspace.name}`
+      title: 'The project could not be updated'
     })
-    queryClient.invalidateQueries({ queryKey: ['projects', query] })
-    closePage()
+  },
+  onSuccess: (project) => {
+    queryClient.invalidateQueries({ queryKey: ['projects', popupData.value?.data.workspaceId] })
+    queryClient.invalidateQueries({ queryKey: ['projects', popupData.value?.data.workspaceId, project.id] })
+    isSubmitting.value = false
+    toast.add({
+      title: `Updated project: ${project.name}`
+    })
+    closePopup()
   }
 })
 
@@ -142,12 +117,11 @@ const selected = ref(platforms[0])
       :title="title"
       :description="mode === 'create' ? 'Get started by filling in the information below to create your new project.' : undefined"
       :is-open="!!popupData"
-      :is-loading="!mode || (mode === 'update' && isLoading)"
-      bg="bg-secondary"
+      :is-loading="!mode || !cloned"
+      bg="bg-secondary-dark"
       @close="closePopup"
     >
-      <TheLoader v-if="!cloned || (mode === 'update' && isLoading)" />
-      <UForm v-else :schema="createOrUpdateProjectSchema" :state="cloned" @submit="() => submit(cloned)">
+      <UForm v-if="cloned" :schema="createOrUpdateProjectSchema" :state="cloned" @submit="() => submit(cloned)">
         <div class="flex flex-col gap-5">
           <UFormGroup label="Project name:" name="name" required>
             <UInput v-model="cloned.data.name" color="gray" placeholder="My fabulous project" />
