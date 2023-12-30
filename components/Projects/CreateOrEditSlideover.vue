@@ -111,6 +111,29 @@ const submit = (payload?: CreateOrUpdateProject) => {
     update.mutate(payload.data)
   }
 }
+
+const platforms = [{
+  id: 'unity',
+  label: 'Unity',
+  avatar: { src: '/platforms/unity.png' }
+}, {
+  id: 'unreal',
+  label: 'Unreal Engine 4',
+  avatar: { src: '/platforms/unreal.png' }
+}, {
+  id: 'java',
+  label: 'Java SDK',
+  avatar: { src: '/platforms/java.png' }
+}, {
+  id: 'node',
+  label: 'NodeJS',
+  avatar: { src: '/platforms/node.png' }
+}, {
+  id: 'multi',
+  label: 'Multi-platform',
+  icon: 'i-pixelarticons-command'
+}]
+const selected = ref(platforms[0])
 </script>
 
 <template>
@@ -126,11 +149,29 @@ const submit = (payload?: CreateOrUpdateProject) => {
       <TheLoader v-if="!cloned || (mode === 'update' && isLoading)" />
       <UForm v-else :schema="createOrUpdateProjectSchema" :state="cloned" @submit="() => submit(cloned)">
         <div class="flex flex-col gap-5">
-          <UFormGroup label="Project name:" name="name">
+          <UFormGroup label="Project name:" name="name" required>
             <UInput v-model="cloned.data.name" color="gray" placeholder="My fabulous project" />
           </UFormGroup>
           <UFormGroup label="Description:" name="description">
             <UTextarea v-model="cloned.data.description" placeholder="What do you plan to do with your workspace?" />
+          </UFormGroup>
+
+          <UFormGroup
+            label="Platform"
+            name="type"
+          >
+            <USelectMenu
+              v-model="selected"
+              searchable
+              size="md"
+              searchable-placeholder="Search for a platform..."
+              :options="platforms"
+            >
+              <template #leading>
+                <UIcon v-if="selected.icon" :name="selected.icon" class="w-4 h-4 mx-0.5" />
+                <UAvatar v-else-if="selected.avatar" v-bind="selected.avatar" size="3xs" class="mx-0.5" />
+              </template>
+            </USelectMenu>
           </UFormGroup>
 
           <div class="flex items-center gap-2 justify-end">
