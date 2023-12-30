@@ -15,6 +15,16 @@ const generateBackLink = (page: UsePage) => {
   return '/'
 }
 
+const generateDynamicLink = (page: UsePage, url: string) => {
+  if (!page.workspaceId) {
+    return url
+  }
+  if (page.projectId) {
+    return `/workspace/${page.workspaceId}/project/${page.projectId}${url}`
+  }
+  return `/workspace/${page.workspaceId}${url}`
+}
+
 const homeLinks: SidebarItem[] = [
   { label: 'Dashboard', icon: 'i-pixelarticons-dashbaord', href: '/' },
   { label: 'Workspaces', icon: 'i-pixelarticons-group', href: '/' },
@@ -27,12 +37,12 @@ const dynamicRouteLinks: Record<keyof RouteSchema, ((page: UsePage, openers: Glo
       label: 'Edit',
       icon: 'i-pixelarticons-edit',
       click: () => {
-        if (!page.workspace.value) {
+        if (!page.workspace.data.value) {
           return
         }
         openers.workspaceCreateOrEdit.open({
           mode: 'update',
-          data: page.workspace.value
+          data: page.workspace.data.value
         })
       }
     },
@@ -40,8 +50,8 @@ const dynamicRouteLinks: Record<keyof RouteSchema, ((page: UsePage, openers: Glo
   ],
   project: page => [
     { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: generateBackLink(page) },
-    { label: 'Dashboard', icon: 'i-pixelarticons-dashbaord' },
-    { label: 'Languages', icon: 'i-pixelarticons-flag' },
+    { label: 'Dashboard', icon: 'i-pixelarticons-dashbaord', href: generateDynamicLink(page, '/') },
+    { label: 'Languages', icon: 'i-pixelarticons-flag', href: generateDynamicLink(page, '/languages') },
     { label: 'Collections', icon: 'i-pixelarticons-group' }
   ]
 }

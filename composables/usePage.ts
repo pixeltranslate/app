@@ -20,7 +20,7 @@ export default () => {
   return {
     workspaceId: routeParams.workspace || undefined,
     workspace: {
-      data: workspace || undefined,
+      data: workspace,
       isLoading: isWorkspaceLoading
     },
     projectId: routeParams.project || undefined,
