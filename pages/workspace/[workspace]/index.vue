@@ -1,26 +1,40 @@
 <script lang="ts" setup>
-const { workspaces: workspaceQuery } = useQuery()
+const { projects: projectQuery } = useQuery()
+const { projectCreateOrEdit } = useGlobalOpeners()
 
 const { workspaceId } = usePage()
-const { data: workspace, isLoading: isWorkspaceLoading } = workspaceQuery.byId(workspaceId)
+const { data: projects, isLoading: areProjectsLoading } = projectQuery.all(workspaceId)
 </script>
 
 <template>
-  <TheLayout title="Projects:">
+  <TheLayout title="Projects:" :is-loading="areProjectsLoading">
     <template #actions>
       <UButton
         icon="i-heroicons-plus"
-        label="New workspace"
+        label="New project"
         size="md"
         color="white"
         variant="solid"
+        @click="projectCreateOrEdit.open({ mode: 'create', data: { workspaceId: workspaceId || '' } })"
       />
     </template>
-    {{ workspaceId }}
+    <div v-if="projects && projects.length !== 0">
+      <ul role="list" class="grid grid-cols-1 gap-6 lg:grid-cols-2 2xl:grid-cols-3">
+        <WorkspaceGridCard v-for="project in projects" :key="project.id" :workspace="project" />
+      </ul>
+    </div>
     <TheContentPlaceholder
+      v-else
       label="You do not have any projects yet!"
-      description="Create your first one now"
+      description="Projects are amazing, just like Maga!"
     >
+      <UButton
+        label="Create your first project"
+        size="md"
+        color="secondary"
+        variant="solid"
+        @click="projectCreateOrEdit.open({ mode: 'create', data: { workspaceId: workspaceId || '' } })"
+      />
       <UButton
         label="Learn more"
         size="md"

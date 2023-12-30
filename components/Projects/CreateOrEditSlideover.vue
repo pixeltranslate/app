@@ -127,7 +127,7 @@ const submit = (payload?: CreateOrUpdateProject) => {
       <UForm v-else :schema="createOrUpdateProjectSchema" :state="cloned" @submit="() => submit(cloned)">
         <div class="flex flex-col gap-5">
           <UFormGroup label="Project name:" name="name">
-            <UInput v-model="cloned.data.name" color="gray" placeholder="My amazing workspace" />
+            <UInput v-model="cloned.data.name" color="gray" placeholder="My fabulous project" />
           </UFormGroup>
           <UFormGroup label="Description:" name="description">
             <UTextarea v-model="cloned.data.description" placeholder="What do you plan to do with your workspace?" />
