@@ -33,6 +33,6 @@ export const router = createRouter({
     })
   }),
   delete: publicProcedure.input(inputWorkspaceProjectIdSchema).mutation(({ input, ctx }) => {
-    return ctx.fetch<ApiWorkspaceGetAll>({ url: `/workspaces/${input.workspaceId}/projects/${input.projectId}`, method: 'DELETE' })
+    return ctx.fetch<ApiProjectGetAll>({ url: `/workspaces/${input.workspaceId}/projects/${input.projectId}`, method: 'DELETE' })
   })
 })
