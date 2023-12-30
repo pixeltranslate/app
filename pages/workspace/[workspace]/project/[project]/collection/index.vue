@@ -17,7 +17,6 @@ const collections: CollectionInfo[] = [
 ]
 
 const q = useRouteQuery<string>('q', undefined)
-
 const filteredRows = computed<CollectionInfo[]>(() => {
   if (!q.value) {
     return collections
@@ -32,17 +31,11 @@ const filteredRows = computed<CollectionInfo[]>(() => {
 
 const items = (row: CollectionInfo) => [
   [{
-    label: 'Edit',
+    label: `Edit ${row.name}`,
     icon: 'i-heroicons-pencil-square-20-solid'
   }, {
-    label: 'Duplicate',
-    icon: 'i-heroicons-document-duplicate-20-solid'
-  }], [{
-    label: 'Archive',
-    icon: 'i-heroicons-archive-box-20-solid'
-  }, {
-    label: 'Move',
-    icon: 'i-heroicons-arrow-right-circle-20-solid'
+    label: 'Adjust permissions',
+    icon: 'i-heroicons-users-20-solid'
   }], [{
     label: 'Delete',
     icon: 'i-heroicons-trash-20-solid'

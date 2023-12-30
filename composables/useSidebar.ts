@@ -52,7 +52,7 @@ const dynamicRouteLinks: Record<keyof RouteSchema, ((page: UsePage, openers: Glo
     { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: generateBackLink(page) },
     { label: 'Dashboard', icon: 'i-pixelarticons-dashbaord', href: generateDynamicLink(page, '/') },
     { label: 'Languages', icon: 'i-pixelarticons-flag', href: generateDynamicLink(page, '/languages') },
-    { label: 'Collections', icon: 'i-pixelarticons-group', href: generateDynamicLink(page, '/collections') }
+    { label: 'Collections', icon: 'i-pixelarticons-group', href: generateDynamicLink(page, '/collection') }
   ]
 }
 
