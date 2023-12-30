@@ -1,6 +1,6 @@
 import NextAuth, { DefaultSession } from "next-auth"
 import { z } from 'zod'
-import { profileSchema, createWorkspaceSchema, workspaceSchema, updateWorkspaceSchema, createOrUpdateWorkspaceSchema, projectSchema } from "~/server/schemas"
+import { profileSchema, createWorkspaceSchema, workspaceSchema, updateWorkspaceSchema, createOrUpdateWorkspaceSchema, createOrUpdateProjectSchema, projectSchema } from "~/server/schemas"
 
 // Extend the NuxtAuth Session type with more information we pass in /server/api/auth/[...].ts
 declare module "next-auth" {
@@ -21,3 +21,4 @@ export type ApiWorkspaceGetAll = z.infer<typeof workspaceSchema>
 export type ApiProjectGetAll = z.infer<typeof projectSchema>
 
 export type CreateOrUpdateWorkspace = z.infer<typeof createOrUpdateWorkspaceSchema>
+export type CreateOrUpdateProject = z.infer<typeof createOrUpdateProjectSchema>

@@ -5,7 +5,7 @@ import getInitialsFromString from '~/helpers/getInitialsFromString'
 const { workspaceId } = usePage()
 const { isExpanded, data } = useSidebar()
 const { username, avatar } = useUser()
-const { workspaceCreateOrEdit } = useGlobalOpeners()
+const { workspaceCreateOrEdit, projectCreateOrEdit } = useGlobalOpeners()
 
 const { workspaces: workspaceQuery, projects: projectQuery } = useQuery()
 const { data: myWorkspaces, isLoading: areMyWorkspacesLoading } = workspaceQuery.all()
@@ -110,7 +110,7 @@ const myWorkspacesSidebar = computed(() => {
 
           <NavigationMenu
             v-if="!areProjectsLoading"
-            :items="[...myProjectsSidebar, { label: 'Create new project', icon: 'i-heroicons-plus', click: () => workspaceCreateOrEdit.open({ mode: 'create' }) }]"
+            :items="[...myProjectsSidebar, { label: 'Create new project', icon: 'i-heroicons-plus', click: () => projectCreateOrEdit.open({ mode: 'create', data: { workspaceId: selectedWorkspace?.id || '' } }) }]"
           />
           <div v-else class="flex flex-col gap-2">
             <div class="flex items-center space-x-2 bg-primary-light/50 dark:bg-primary-light/10 p-2 rounded mx-2 animate-pulse">

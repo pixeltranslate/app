@@ -15,14 +15,14 @@ export const router = createRouter({
     }
     return ctx.fetch<ApiProjectGetAll[]>({ url: `/workspaces/${input}/projects`, schema: z.array(projectSchema) })
   }),
-  byId: publicProcedure.input(inputWorkspaceProjectIdSchema).query(({ input, ctx }) => {
+  byId: publicProcedure.input(inputWorkspaceProjectIdSchema.nullish()).query(({ input, ctx }) => {
     if (!input) {
       return null
     }
     return ctx.fetch<ApiProjectGetAll>({ url: `/workspaces/${input.workspaceId}/${input.projectId}`, schema: projectSchema })
   }),
   create: publicProcedure.input(createProjectSchema).mutation(({ input, ctx }) => {
-    return ctx.fetch<void>({ url: '/workspaces', method: 'POST', body: input })
+    return ctx.fetch<void>({ url: `/workspaces/${input.workspaceId}/projects`, method: 'POST', body: input })
   }),
   update: publicProcedure.input(updateProjectSchema).mutation(({ input, ctx }) => {
     const { workspaceId, id } = input
