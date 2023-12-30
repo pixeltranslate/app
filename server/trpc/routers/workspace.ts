@@ -15,13 +15,13 @@ export const router = createRouter({
     return ctx.fetch<ApiWorkspaceGetAll>({ url: `/workspaces/${input}`, schema: workspaceSchema })
   }),
   create: publicProcedure.input(createWorkspaceSchema).mutation(({ input, ctx }) => {
-    return ctx.fetch<void>({ url: '/workspaces', method: 'POST', body: input })
+    return ctx.fetch<ApiWorkspaceGetAll>({ url: '/workspaces', method: 'POST', body: input })
   }),
   update: publicProcedure.input(updateWorkspaceSchema).mutation(({ input, ctx }) => {
     const { id } = input
     return ctx.fetch<ApiWorkspaceGetAll>({ url: `/workspaces/${id}`, method: 'PATCH', body: { name: input.name, description: input.description } })
   }),
   delete: publicProcedure.input(idSchema).mutation(({ input, ctx }) => {
-    return ctx.fetch<void>({ url: `/workspaces/${input}`, method: 'DELETE' })
+    return ctx.fetch<ApiWorkspaceGetAll>({ url: `/workspaces/${input}`, method: 'DELETE' })
   })
 })

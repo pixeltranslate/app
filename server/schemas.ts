@@ -21,6 +21,14 @@ export const profileSchema = z.object({
   })
 })
 
+export const workspaceSchema = z.object({
+  id: idSchema,
+  name: z.string().min(1).max(64),
+  description: z.string().max(360),
+  createdAt: z.coerce.date(),
+  members: z.record(z.string(), z.any())
+})
+
 export const createWorkspaceSchema = z.object({
   name: z.string().min(1, 'The name should be at least 1 letters long.').max(36, 'The name cannot be longer than 36 letters.'),
   description: z.string().max(256, 'The description is too long.').optional()
@@ -31,10 +39,21 @@ export const createOrUpdateWorkspaceSchema = z.discriminatedUnion('mode', [
   z.object({ mode: z.literal('update'), data: updateWorkspaceSchema })
 ])
 
-export const workspaceSchema = z.object({
+export const projectSchema = z.object({
   id: idSchema,
   name: z.string().min(1).max(64),
   description: z.string().max(360),
   createdAt: z.coerce.date(),
   members: z.record(z.string(), z.any())
 })
+
+export const createProjectSchema = z.object({
+  workspaceId: idSchema,
+  name: z.string().min(1, 'The name should be at least 1 letters long.').max(36, 'The name cannot be longer than 36 letters.'),
+  description: z.string().max(256, 'The description is too long.').optional()
+})
+export const updateProjectSchema = createProjectSchema.merge(idObjectSchema)
+export const createOrUpdateProjectSchema = z.discriminatedUnion('mode', [
+  z.object({ mode: z.literal('create'), data: createProjectSchema }),
+  z.object({ mode: z.literal('update'), data: updateProjectSchema })
+])

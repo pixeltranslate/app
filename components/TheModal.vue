@@ -18,7 +18,7 @@ defineEmits(['close'])
     <div>
       <div class="flex items-center p-4 justify-between" :class="bg || 'bg-primary-light dark:bg-primary-dark'">
         <div class="flex flex-col">
-          <USkeleton v-if="isLoading" class="h-4 w-[200px]" :ui="{ background: '!bg-primary-light' }" />
+          <USkeleton v-if="isLoading" class="h-4 w-[200px]" :ui="{ background: '!bg-white/50' }" />
           <h1 v-else class="text-base font-semibold leading-6 text-white">
             {{ title }}
           </h1>

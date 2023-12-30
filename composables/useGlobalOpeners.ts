@@ -1,3 +1,6 @@
+import { z } from 'zod'
+import { idSchema, updateWorkspaceSchema, updateProjectSchema } from '~/server/schemas'
+
 const makeGlobalOpener = <T>() => {
   const data = ref<T>()
 
@@ -8,25 +11,27 @@ const makeGlobalOpener = <T>() => {
   }
 }
 
-interface CreateInterface<C> {
-  mode: 'create'
-  data?: C
-}
-interface UpdateInterface<U> {
-  mode: 'update'
-  data: U
-}
-type CreateOrUpdateInterface<C, U> = CreateInterface<C> | UpdateInterface<U>
+export const openCreateOrUpdateWorkspaceSchema = z.discriminatedUnion('mode', [
+  z.object({ mode: z.literal('create') }),
+  z.object({ mode: z.literal('update'), data: updateWorkspaceSchema })
+])
+type OpenCreateOrUpdateWorkspace = z.infer<typeof openCreateOrUpdateWorkspaceSchema>
 
-// Type definitions
-type CreateOrUpdateWorkspace = CreateOrUpdateInterface<{}, { id: string, name: string }>
+export const openCreateOrUpdateProjectSchema = z.discriminatedUnion('mode', [
+  z.object({ mode: z.literal('create'), data: z.object({ workspaceId: idSchema }) }),
+  z.object({ mode: z.literal('update'), data: updateProjectSchema })
+])
+type OpenCreateOrUpdateProject = z.infer<typeof openCreateOrUpdateProjectSchema>
 
 // Opener definition
 const openers = {
-  workspaceCreateOrEdit: makeGlobalOpener<CreateOrUpdateWorkspace>(),
-  workspaceDelete: makeGlobalOpener<{ id: string, name?: string }>()
+  workspaceCreateOrEdit: makeGlobalOpener<OpenCreateOrUpdateWorkspace>(),
+  workspaceDelete: makeGlobalOpener<{ id: string, name: string }>(),
+  projectCreateOrEdit: makeGlobalOpener<OpenCreateOrUpdateProject>(),
+  projectDelete: makeGlobalOpener<{ id: string, workspaceId: string, name: string }>()
 }
 
+export type GlobalOpeners = typeof openers
 export default () => {
   return openers
 }

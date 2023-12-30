@@ -5,11 +5,24 @@ import getInitialsFromString from '~/helpers/getInitialsFromString'
 const { workspaceId } = usePage()
 const { isExpanded, data } = useSidebar()
 const { username, avatar } = useUser()
-const { workspaceCreateOrEdit } = useGlobalOpeners()
+const { workspaceCreateOrEdit, projectCreateOrEdit } = useGlobalOpeners()
 
-const { workspaces: workspaceQuery } = useQuery()
+const { workspaces: workspaceQuery, projects: projectQuery } = useQuery()
 const { data: myWorkspaces, isLoading: areMyWorkspacesLoading } = workspaceQuery.all()
+const { data: projects, isLoading: areProjectsLoading } = projectQuery.all(workspaceId)
 const { data: selectedWorkspace, isLoading: isSelectedWorkspaceLoading } = workspaceQuery.byId(workspaceId)
+
+const myProjectsSidebar = computed(() => {
+  return projects.value?.map<SidebarItem>((p) => {
+    return {
+      label: p.name,
+      href: `/workspace/${workspaceId}/project/${p.id}`,
+      avatar: {
+        text: p.name
+      }
+    }
+  })
+})
 
 const myWorkspacesSidebar = computed(() => {
   return myWorkspaces.value?.map<SidebarItem>((w) => {
@@ -85,10 +98,10 @@ const myWorkspacesSidebar = computed(() => {
           />
         </div>
 
-        <div v-if="data.sections.includes('workspaces')">
+        <div v-if="data.sections.includes('projects')">
           <div class="my-3 px-2 flex items-center gap-1">
             <p class="text-sm dark:text-primary pl-2">
-              Workspaces
+              Projects
             </p>
             <UDivider
               :ui="{ wrapper: { base: 'my-2 px-2' }, border: { base : 'border-primary-light dark:border-primary-dark/40' } }"
@@ -96,8 +109,8 @@ const myWorkspacesSidebar = computed(() => {
           </div>
 
           <NavigationMenu
-            v-if="!areMyWorkspacesLoading"
-            :items="[...myWorkspacesSidebar, { label: 'Create new workspace', icon: 'i-heroicons-plus', click: () => workspaceCreateOrEdit.open({ mode: 'create' }) }]"
+            v-if="!areProjectsLoading"
+            :items="[...myProjectsSidebar, { label: 'Create new project', icon: 'i-heroicons-plus', click: () => projectCreateOrEdit.open({ mode: 'create', data: { workspaceId: selectedWorkspace?.id || '' } }) }]"
           />
           <div v-else class="flex flex-col gap-2">
             <div class="flex items-center space-x-2 bg-primary-light/50 dark:bg-primary-light/10 p-2 rounded mx-2 animate-pulse">
@@ -119,17 +132,21 @@ const myWorkspacesSidebar = computed(() => {
           </div>
         </div>
 
-        <div v-if="data.sections.includes('projects')">
+        <div v-if="data.sections.includes('workspaces')">
           <div class="my-3 px-2 flex items-center gap-1">
             <p class="text-sm dark:text-primary pl-2">
-              Projects
+              Workspaces
             </p>
             <UDivider
               :ui="{ wrapper: { base: 'my-2 px-2' }, border: { base : 'border-primary-light dark:border-primary-dark/40' } }"
             />
           </div>
 
-          <div class="flex flex-col gap-2">
+          <NavigationMenu
+            v-if="!areMyWorkspacesLoading"
+            :items="[...myWorkspacesSidebar, { label: 'Create new workspace', icon: 'i-heroicons-plus', click: () => workspaceCreateOrEdit.open({ mode: 'create' }) }]"
+          />
+          <div v-else class="flex flex-col gap-2">
             <div class="flex items-center space-x-2 bg-primary-light/50 dark:bg-primary-light/10 p-2 rounded mx-2 animate-pulse">
               <div>
                 <USkeleton class="h-7 w-7 flex-1" :ui="{ rounded: 'rounded-full', background: '!bg-primary-light' }" />
