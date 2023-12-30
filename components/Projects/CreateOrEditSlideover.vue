@@ -2,7 +2,7 @@
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import type { CreateOrUpdateProject, ProjectPlatforms } from '~/types'
 import { createOrUpdateProjectSchema } from '~/server/schemas'
-import { platformToIcon } from '~/helpers/platformToIcon'
+import { platformToIcon } from '~/composables/usePlatformIcon'
 
 const { $trpc } = useNuxtApp()
 const queryClient = useQueryClient()

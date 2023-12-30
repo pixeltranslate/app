@@ -32,6 +32,9 @@ dependencies:
   '@vueuse/router':
     specifier: ^10.7.0
     version: 10.7.0(vue-router@4.2.5)(vue@3.3.13)
+  i18n-iso-countries:
+    specifier: ^7.7.0
+    version: 7.7.0
   klona:
     specifier: ^2.0.6
     version: 2.0.6
@@ -3593,6 +3596,10 @@ packages:
   /devalue@4.3.2:
     resolution: {integrity: sha512-KqFl6pOgOW+Y6wJgu80rHpo2/3H07vr8ntR9rkkFIRETewbf5GaYYcakYfiKz89K+sLsuPkQIZaXDMjUObZwWg==}
 
+  /diacritics@1.3.0:
+    resolution: {integrity: sha512-wlwEkqcsaxvPJML+rDh/2iS824jbREk6DUMUKkEaSlxdYHeS43cClJtsWglvw2RfeXGm6ohKDqsXteJ5sP5enA==}
+    dev: false
+
   /didyoumean@1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
 
@@ -4792,6 +4799,13 @@ packages:
   /human-signals@5.0.0:
     resolution: {integrity: sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==}
     engines: {node: '>=16.17.0'}
+
+  /i18n-iso-countries@7.7.0:
+    resolution: {integrity: sha512-07zMatrSsR1Z+cnxW//7s14Xf4v5g6U6ORHPaH8+Ox4uPqV+y46Uq78veYV8H1DKTr76EfdjSeaTxHpnaYq+bw==}
+    engines: {node: '>= 12'}
+    dependencies:
+      diacritics: 1.3.0
+    dev: false
 
   /iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { BadgeSize } from '#ui/types'
 import type { ProjectPlatforms } from '~/types'
-import { platformToIcon } from '~/helpers/platformToIcon'
+import { platformToIcon } from '~/composables/usePlatformIcon'
 
 withDefaults(defineProps<{ platform: ProjectPlatforms, size?: BadgeSize }>(), {
   size: 'md'
