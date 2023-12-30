@@ -26,8 +26,9 @@ type OpenCreateOrUpdateProject = z.infer<typeof openCreateOrUpdateProjectSchema>
 // Opener definition
 const openers = {
   workspaceCreateOrEdit: makeGlobalOpener<OpenCreateOrUpdateWorkspace>(),
-  workspaceDelete: makeGlobalOpener<{ id: string, name?: string }>(),
-  projectCreateOrEdit: makeGlobalOpener<OpenCreateOrUpdateProject>()
+  workspaceDelete: makeGlobalOpener<{ id: string, name: string }>(),
+  projectCreateOrEdit: makeGlobalOpener<OpenCreateOrUpdateProject>(),
+  projectDelete: makeGlobalOpener<{ id: string, workspaceId: string, name: string }>()
 }
 
 export default () => {

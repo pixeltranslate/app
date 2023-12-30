@@ -2,7 +2,7 @@
 import type { DropdownItem } from '@nuxt/ui/dist/runtime/types'
 import type { ApiProjectGetAll } from '~/types'
 
-const { projectCreateOrEdit } = useGlobalOpeners()
+const { projectCreateOrEdit, projectDelete } = useGlobalOpeners()
 
 const props = defineProps<{ project: ApiProjectGetAll, workspaceId: string }>()
 const links = computed(() => {
@@ -21,7 +21,7 @@ const links = computed(() => {
           })
       }
     ],
-    [{ label: 'Delete' }]
+    [{ label: 'Delete', click: () => projectDelete.open({ workspaceId: props.workspaceId, id: props.project.id, name: props.project.name }) }]
   ] as DropdownItem[][]
 })
 </script>
