@@ -12,9 +12,10 @@ const isSubmitting = ref(false)
 
 const _delete = useMutation({
   mutationFn: $trpc.projectRouter.delete.mutate,
-  onError: () => toast.add({ title: 'We could not delete the workspace' }),
+  onError: () => toast.add({ title: 'We could not delete the project' }),
   onSuccess: (project) => {
     queryClient.invalidateQueries({ queryKey: ['projects', popupData.value?.workspaceId] })
+    queryClient.invalidateQueries({ queryKey: ['projects', popupData.value?.workspaceId, project.id] })
     isSubmitting.value = false
     toast.add({
       title: `${project.name} was deleted`,
