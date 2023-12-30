@@ -17,7 +17,6 @@ const homeLinks: SidebarItem[] = [
   { label: 'Dashboard', icon: 'i-pixelarticons-dashbaord', href: '/' },
   { label: 'Workspaces', icon: 'i-pixelarticons-group', href: '/' },
   { label: 'Documentation', icon: 'i-pixelarticons-book', href: '/' }
-
 ]
 const dynamicRouteLinks: Record<keyof RouteSchema, ((params: RouteSchema, openers: GlobalOpeners) => SidebarItem[])> = {
   workspace: () => [
