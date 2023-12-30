@@ -24,5 +24,5 @@ export type CreateOrUpdateWorkspace = z.infer<typeof createOrUpdateWorkspaceSche
 export type CreateOrUpdateProject = z.infer<typeof createOrUpdateProjectSchema>
 export type ProjectPlatforms = z.infer<typeof platformSchema>
 
-export type CollectionInfoSchema = z.infer<typeof collectionInfoSchema>
-export type CollectionSchema = z.infer<typeof collectionSchema>
+export type CollectionInfo = z.infer<typeof collectionInfoSchema>
+export type Collection = z.infer<typeof collectionSchema>

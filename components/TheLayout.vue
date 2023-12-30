@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-defineProps<{ title: string, isLoading?: boolean, error?: Error | null }>()
+defineProps<{ title: string, description?: string, isLoading?: boolean, error?: Error | null }>()
 </script>
 
 <template>
@@ -7,11 +7,16 @@ defineProps<{ title: string, isLoading?: boolean, error?: Error | null }>()
     <NavigationSidebar />
     <div class="w-full overflow-auto">
       <div class="p-8 overflow-y-auto">
-        <header class="flex items-center gap-2 justify-between">
-          <h1 class="text-xl font-semibold dark:text-zinc-200">
-            {{ title }}
-          </h1>
-          <slot v-if="!isLoading && !error" name="actions" />
+        <header>
+          <div class="flex items-center gap-2 justify-between">
+            <h1 class="text-xl font-semibold dark:text-zinc-200">
+              {{ title }}
+            </h1>
+            <slot v-if="!isLoading && !error" name="actions" />
+          </div>
+          <p v-if="description" class="mt-0.5 text-xs text-gray-600 dark:text-gray-400">
+            {{ description }}
+          </p>
         </header>
         <UDivider class="my-4" />
         <TheLoader v-if="isLoading" />
