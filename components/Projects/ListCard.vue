@@ -30,16 +30,9 @@ const links = computed(() => {
     <div class="flex items-center justify-between gap-x-2 bg-white dark:bg-foreground py-3 px-4">
       <div class="min-w-0">
         <div class="flex items-center gap-x-2">
+          <ProjectsPlatformChip :platform="project.platform" />
           <p>
             {{ project.name }}
-          </p>
-          <UBadge color="primary" variant="outline" size="xs">
-            Unity
-          </UBadge>
-        </div>
-        <div v-if="project.description" class="flex items-center gap-x-2 text-xs leading-5 text-gray-500 dark:text-gray-300">
-          <p class="whitespace-nowrap">
-            {{ project.description }}
           </p>
         </div>
       </div>
@@ -55,12 +48,23 @@ const links = computed(() => {
       </div>
     </div>
     <dl class="divide-y divide-gray-200 dark:divide-border px-4 py-1 text-xs leading-6 text-gray-500 dark:text-gray-300">
+      <p v-if="project.description" class="my-3 text-xs text-gray-500 dark:text-gray-300">
+        {{ project.description }}
+      </p>
       <div class="flex justify-between gap-x-4 py-1">
         <dt>
           Created
         </dt>
         <dd>
           {{ project.createdAt.toDateString() }}
+        </dd>
+      </div>
+      <div class="flex justify-between gap-x-4 py-1">
+        <dt>
+          Languages
+        </dt>
+        <dd>
+          English, German, Dutch
         </dd>
       </div>
     </dl>
