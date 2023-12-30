@@ -19,7 +19,7 @@ export default defineNuxtConfig({
     shim: false
   },
   ui: {
-    icons: ['pixelarticons']
+    icons: ['pixelarticons', 'bxl', 'file-icons']
   },
   auth: {
     session: {

@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
-import type { CreateOrUpdateProject } from '~/types'
+import type { CreateOrUpdateProject, ProjectPlatforms } from '~/types'
 import { createOrUpdateProjectSchema } from '~/server/schemas'
+import { platformToIcon } from '~/helpers/platformToIcon'
 
 const { $trpc } = useNuxtApp()
 const queryClient = useQueryClient()
@@ -32,7 +33,8 @@ const payload = computed((): CreateOrUpdateProject | undefined => {
     data: {
       workspaceId: popupData.value.data.workspaceId,
       name: '',
-      description: ''
+      description: '',
+      platform: 'unity'
     }
   }
 })
@@ -87,28 +89,36 @@ const submit = (payload?: CreateOrUpdateProject) => {
   }
 }
 
-const platforms = [{
-  id: 'unity',
-  label: 'Unity',
-  avatar: { src: '/platforms/unity.png' }
-}, {
-  id: 'unreal',
-  label: 'Unreal Engine 4',
-  avatar: { src: '/platforms/unreal.png' }
-}, {
-  id: 'java',
-  label: 'Java SDK',
-  avatar: { src: '/platforms/java.png' }
-}, {
-  id: 'node',
-  label: 'NodeJS',
-  avatar: { src: '/platforms/node.png' }
-}, {
-  id: 'multi',
-  label: 'Multi-platform',
-  icon: 'i-pixelarticons-command'
-}]
-const selected = ref(platforms[0])
+const platforms: Record<ProjectPlatforms, { id: ProjectPlatforms, label: string, disabled?: boolean, icon: string }> = {
+  unity: {
+    id: 'unity',
+    label: 'Unity',
+    icon: platformToIcon.unity
+  },
+  unreal: {
+    id: 'unreal',
+    label: 'Unreal Engine 4',
+    disabled: true,
+    icon: platformToIcon.unreal
+  },
+  java: {
+    id: 'java',
+    label: 'Java SDK',
+    disabled: true,
+    icon: platformToIcon.java
+  },
+  node: {
+    id: 'node',
+    label: 'NodeJS',
+    disabled: true,
+    icon: platformToIcon.node
+  },
+  multi: {
+    id: 'multi',
+    label: 'Multi-platform',
+    icon: platformToIcon.multi
+  }
+}
 </script>
 
 <template>
@@ -135,15 +145,19 @@ const selected = ref(platforms[0])
             name="type"
           >
             <USelectMenu
-              v-model="selected"
+              v-model="cloned.data.platform"
               searchable
-              size="md"
+              size="lg"
               searchable-placeholder="Search for a platform..."
-              :options="platforms"
+              value-attribute="id"
+              option-attribute="label"
+              :options="Object.values(platforms)"
             >
               <template #leading>
-                <UIcon v-if="selected.icon" :name="selected.icon" class="w-4 h-4 mx-0.5" />
-                <UAvatar v-else-if="selected.avatar" v-bind="selected.avatar" size="3xs" class="mx-0.5" />
+                <UIcon :name="platforms[cloned.data.platform].icon" class="w-5 h-5 mx-0.5" />
+              </template>
+              <template #label>
+                <span>{{ platforms[cloned.data.platform].label }}</span>
               </template>
             </USelectMenu>
           </UFormGroup>

@@ -31,6 +31,8 @@
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.1",
+    "@iconify-json/bxl": "^1.1.10",
+    "@iconify-json/file-icons": "^1.1.8",
     "@iconify-json/pixelarticons": "^1.1.10",
     "@nuxt/ui": "^2.11.1",
     "@tanstack/vue-query": "^5.14.6",

@@ -19,7 +19,7 @@ const { data: projects, isLoading: areProjectsLoading } = projectQuery.all(works
       />
     </template>
     <div v-if="projects && workspaceId && projects.length !== 0">
-      <ul role="list" class="space-y-4">
+      <ul role="list" class="grid grid-cols-1 gap-6 lg:grid-cols-2 2xl:grid-cols-3">
         <ProjectsListCard
           v-for="project in projects"
           :key="project.id"
