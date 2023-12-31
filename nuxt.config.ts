@@ -22,6 +22,11 @@ export default defineNuxtConfig({
     icons: ['pixelarticons', 'bxl', 'file-icons']
   },
   auth: {
+    provider: {
+      type: 'authjs',
+      defaultProvider: 'keycloak',
+      addDefaultCallbackUrl: true
+    },
     session: {
       enableRefreshOnWindowFocus: true,
       enableRefreshPeriodically: 10000

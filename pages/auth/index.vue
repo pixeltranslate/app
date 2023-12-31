@@ -2,7 +2,7 @@
 const { signIn } = useAuth()
 
 onMounted(() => {
-  signIn('keycloak')
+  signIn('keycloak', { callbackUrl: 'https://staging-app.pixeltranslate.app/' })
 })
 
 definePageMeta({
