@@ -1,7 +1,7 @@
 ---
 kind: pipeline
 type: kubernetes
-name: Testing
+name: Lint
 
 trigger:
   branch:
@@ -16,4 +16,3 @@ steps:
       - npm i -g @antfu/ni
       - nci
       - nr lint
-      
