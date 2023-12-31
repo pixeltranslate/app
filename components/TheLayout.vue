@@ -1,13 +1,15 @@
 <script lang="ts" setup>
-defineProps<{ title: string, description?: string, isLoading?: boolean, error?: Error | null }>()
+defineProps<{ title?: string, description?: string, isLoading?: boolean, error?: Error | null }>()
+
+const { status } = useAuth()
 </script>
 
 <template>
   <div class="flex h-full overflow-hidden">
-    <NavigationSidebar />
+    <NavigationSidebar v-if="status === 'authenticated'" />
     <div class="w-full overflow-auto">
       <div class="p-8 overflow-y-auto">
-        <header>
+        <header v-if="title">
           <div class="flex items-center gap-2 justify-between">
             <h1 class="text-xl font-semibold dark:text-zinc-200">
               {{ title }}
@@ -18,7 +20,7 @@ defineProps<{ title: string, description?: string, isLoading?: boolean, error?: 
             {{ description }}
           </p>
         </header>
-        <UDivider class="my-4" />
+        <UDivider v-if="title" class="my-4" />
         <TheLoader v-if="isLoading" />
         <TheContentPlaceholder
           v-else-if="error"

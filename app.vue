@@ -4,12 +4,12 @@ const { status } = useAuth()
 
 <template>
   <div class="App">
-    <NuxtLayout v-if="status === 'authenticated'">
-      <NuxtPage />
+    <NuxtLayout>
+      <NuxtPage v-if="status === 'authenticated'" />
+      <TheLoader v-else />
       <TheGlobalOpeners />
       <UNotifications />
     </NuxtLayout>
-    <TheLoader v-else />
   </div>
 </template>
 

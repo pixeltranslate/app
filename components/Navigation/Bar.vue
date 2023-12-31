@@ -4,10 +4,6 @@ const { signOut, signIn, status } = useAuth()
 const { toggle: toggleSidebar } = useSidebar()
 const colorMode = useColorMode()
 
-defineProps<{
-  hideSidebarToggle?: boolean
-}>()
-
 const isDark = computed({
   get () {
     return colorMode.value === 'dark'
@@ -37,7 +33,7 @@ const items = [
 <template>
   <div class="flex h-20 items-center justify-between pl-2 pr-8 border-b dark:border-border bg-white dark:bg-transparent">
     <div class="flex items-center gap-2">
-      <div v-if="!hideSidebarToggle" class="flex">
+      <div v-if="status === 'authenticated'" class="flex">
         <UButton @click="toggleSidebar">
           <Icon
             name="pixelarticons:menu"
