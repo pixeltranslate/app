@@ -44,7 +44,6 @@ export default NuxtAuthHandler({
       issuer: process.env.KEY_CLOAK_ISSUER
     })
   ],
-
   callbacks: {
     jwt ({ token, account }) {
       if (account) {

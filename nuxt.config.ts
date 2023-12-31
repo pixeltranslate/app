@@ -32,8 +32,8 @@ export default defineNuxtConfig({
       enableRefreshPeriodically: 10000
     },
     globalAppMiddleware: {
-      isEnabled: true,
-      allow404WithoutAuth: false
+      // We disable the default global app middleware, as we use our own custom implemtation
+      isEnabled: false
     }
   },
   googleFonts: {
