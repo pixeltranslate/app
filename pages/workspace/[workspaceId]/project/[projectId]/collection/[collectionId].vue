@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { Collection } from '~/types'
 
-const selectedLanguages = ref(['EN', 'DE', 'RU', 'BE', 'NL', 'HD', 'BO'])
+const selectedLanguages = ref(['EN', 'RU', 'BE', 'NL', 'HD', 'BO'])
+const options = ref(['EN', 'DE', 'RU', 'BE', 'NL', 'HD', 'BO'])
 const items = ref<Collection[]>([
   {
     id: 'Test',
@@ -31,6 +32,16 @@ const items = ref<Collection[]>([
   }
 ])
 
+const filteredItems = computed(() => {
+  return items.value.map((collection) => {
+    const filteredTranslations = Object.fromEntries(selectedLanguages.value.map(k => [k, collection.translations[k]]))
+    return {
+      ...collection,
+      translations: filteredTranslations
+    }
+  })
+})
+
 const addItem = () => {
   items.value.push({
     id: `row-${items.value.length + 1}`,
@@ -50,6 +61,9 @@ const addItem = () => {
 
 <template>
   <TheLayout title="Collection Test">
+    <template #actions>
+      <USelectMenu v-model="selectedLanguages" :options="options" multiple placeholder="Select Languages" />
+    </template>
     <UCard :ui="{ body: { padding: '!p-0' }, rounded: 'rounded' }">
       <div class="relative overflow-x-scroll h-[79vh]">
         <table class="text-sm text-left relative">
@@ -68,14 +82,14 @@ const addItem = () => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in items" :key="item.id">
+            <tr v-for="item in filteredItems" :key="item.id">
               <th scope="row">
-                <div class="min-w-[300px] border-b dark:border-border font-normal">
+                <div class="min-w-[300px] border-b border-r dark:border-border font-normal">
                   <UInput :value="item.name" variant="none" :ui="{ rounded: 'rounded-none' }" />
                 </div>
               </th>
               <td v-for="translation in item.translations" :key="translation" class="p-0">
-                <div class="min-w-[300px] border-l border-b dark:border-border">
+                <div class="min-w-[300px] border-r border-b dark:border-border">
                   <UInput :placeholder="translation" variant="none" :ui="{ rounded: 'rounded-none' }" />
                 </div>
               </td>
