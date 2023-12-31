@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staging-app
+  namespace: pixeltranslate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: staging-app
+  template:
+    metadata:
+      labels:
+        app: staging-app
+    spec:
+      containers:
+        - name: app
+          image: docker-private.averix.tech/pixeltranslate/app:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: '1G'
+              cpu: '0.3'
+          env:
+            - name: KEY_CLOAK_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: app
+                  key: keycloak-client-id
+            - name: KEY_CLOAK_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app
+                  key: keycloak-client-secret
+            - name: KEY_CLOAK_ISSUER
+              valueFrom:
+                secretKeyRef:
+                  name: app
+                  key: keycloak-issuer
+            - name: AUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app
+                  key: auth-secret
+            - name: AUTH_ORIGIN
+              valueFrom:
+                secretKeyRef:
+                  name: app
+                  key: auth-origin
+            - name: NEXTAUTH_URL
+              valueFrom:
+                secretKeyRef:
+                  name: app
+                  key: nextauth-url
+            - name: API_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: app
+                  key: api-base
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: staging-app
+  namespace: pixeltranslate
+spec:
+  selector:
+    app: staging-app
+  type: ClusterIP
+  ports:
+    - port: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: staging-app
+  namespace: pixeltranslate
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: "staging-app.pixeltranslate.com"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: staging-app
+                port:
+                  number: 3000
