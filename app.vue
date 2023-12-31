@@ -1,7 +1,12 @@
+<script lang="ts" setup>
+const { status } = useAuth()
+</script>
+
 <template>
   <div class="App">
     <NuxtLayout>
-      <NuxtPage />
+      <NuxtPage v-if="status === 'authenticated'" />
+      <TheLoader v-else />
       <TheGlobalOpeners />
       <UNotifications />
     </NuxtLayout>
