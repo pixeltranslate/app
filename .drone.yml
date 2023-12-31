@@ -16,3 +16,4 @@ steps:
       - npm i -g @antfu/ni
       - nci
       - nr lint
+      
