@@ -1,8 +1,8 @@
 import { z } from 'zod'
 
 export const routeSchema = z.object({
-  workspace: z.string().nullish(),
-  project: z.string().nullish()
+  workspaceId: z.string().optional(),
+  projectId: z.string().optional()
 })
 export type RouteSchema = z.infer<typeof routeSchema>
 
@@ -11,19 +11,19 @@ export default () => {
   const routeParams = routeSchema.parse(params)
   const { workspaces, projects } = useQuery()
 
-  const { data: workspace, isLoading: isWorkspaceLoading } = workspaces.byId(routeParams.workspace || undefined)
+  const { data: workspace, isLoading: isWorkspaceLoading } = workspaces.byId(routeParams.workspaceId || undefined)
   const { data: project, isLoading: isProjectLoading } = projects.byId({
-    workspaceId: routeParams.workspace || undefined,
-    projectId: routeParams.project || undefined
+    workspaceId: routeParams.workspaceId || undefined,
+    projectId: routeParams.projectId || undefined
   })
 
   return {
-    workspaceId: routeParams.workspace || undefined,
+    workspaceId: params.workspaceId,
     workspace: {
       data: workspace,
       isLoading: isWorkspaceLoading
     },
-    projectId: routeParams.project || undefined,
+    projectId: routeParams.projectId,
     project: {
       data: project,
       isLoading: isProjectLoading

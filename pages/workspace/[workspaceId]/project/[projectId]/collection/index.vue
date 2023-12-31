@@ -13,7 +13,21 @@ const columns = [{
 
 const collections: CollectionInfo[] = [
   { id: '27367463874398', name: 'User interface' },
-  { id: '273674dcfbhdf63874398', name: 'Menus' }
+  { id: '273674dcfbhdf63874398', name: 'Menus' },
+  { id: '47834735u34', name: 'Escape Menu' },
+  { id: '35iu53bhj35j35', name: 'Credits' },
+  { id: '53bhu35jbh35j35', name: 'NPCs' },
+  { id: '35hu53ugkj353', name: 'World' },
+  { id: '5u5jnk65bjk564', name: 'Buildings' },
+  { id: '43hj354bhj534bhukj453', name: 'New York city' },
+  { id: '45hjbk54hjbk45bhj54', name: 'Signs' },
+  { id: '453bh45hbj4435', name: 'Tutorial' },
+  { id: '435hu435hjb4j345', name: 'Quick action UI' },
+  { id: '45hu345bhkj435', name: 'Inventory' },
+  { id: '453u453j45jn345', name: 'Sounds' },
+  { id: '543uh435bhj345', name: 'Captions' },
+  { id: '453iu345bhu453nj453', name: 'Paris dialogue' },
+  { id: '453jhb345bhj45bjkh45', name: 'Quick action prompts' }
 ]
 
 const q = useRouteQuery<string>('q', undefined)
@@ -52,10 +66,15 @@ const items = (row: CollectionInfo) => [
       <UInput v-model="q" placeholder="Search for a collection..." class="w-full" :ui="{ rounded: 'rounded' }" />
     </div>
     <UCard :ui="{ body: { padding: '!p-2' } }">
-      <UTable :columns="columns" :rows="filteredRows" :sort="{ column: 'name', direction: 'asc' }">
+      <UTable
+        :columns="columns"
+        :rows="filteredRows"
+        :sort="{ column: 'name', direction: 'asc' }"
+        :ui="{ td: { padding: 'py-2' } }"
+      >
         <template #actions-data="{ row }">
           <UButtonGroup size="sm" orientation="horizontal">
-            <UButton label="View" />
+            <UButton label="View" :to="`./collection/${row.id}`" />
             <UDropdown :items="items(row)" :popper="{ placement: 'bottom-end' }">
               <UButton color="white" trailing-icon="i-pixelarticons-chevron-down" />
             </Udropdown>
