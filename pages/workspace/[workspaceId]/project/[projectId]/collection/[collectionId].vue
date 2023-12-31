@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Collection } from '~/types'
 
-const selectedLanguages = ref(['EN', 'RU', 'BE', 'NL', 'HD', 'BO'])
+const selectedLanguages = ref(['EN', 'DE', 'RU', 'BE', 'NL'])
 const options = ref(['EN', 'DE', 'RU', 'BE', 'NL', 'HD', 'BO'])
 const items = ref<Collection[]>([
   {
@@ -70,12 +70,12 @@ const addItem = () => {
           <thead class="sticky top-0 text-sm z-10 bg-primary dark:bg-primary-dark text-white">
             <tr>
               <th scope="col">
-                <div class="p-2">
-                  Name
+                <div class="p-2 border-r border-primary-light dark:border-primary-light/30">
+                  Key
                 </div>
               </th>
               <th v-for="lang in selectedLanguages" :key="lang" scope="col">
-                <div class="p-3 border-l border-primary-light dark:border-primary-light/30">
+                <div class="p-3 border-r border-primary-light dark:border-primary-light/30">
                   {{ lang }}
                 </div>
               </th>
