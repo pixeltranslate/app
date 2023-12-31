@@ -4,8 +4,6 @@ type: kubernetes
 name: Lint
 
 trigger:
-  branch:
-    - main
   event:
     - pull_request
 
@@ -16,3 +14,35 @@ steps:
       - npm i -g @antfu/ni
       - nci
       - nr lint
+---
+kind: pipeline
+type: kubernetes
+name: Staging deployment
+
+trigger:
+  event:
+    - tag
+
+steps:
+  - name: docker-push
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: NEXUS_DOCKER_USERNAME
+      password:
+        from_secret: NEXUS_DOCKER_PASSWORD
+      repo: docker-private.averix.tech/pixeltranslate/app
+      registry: docker-private.averix.tech
+      dockerfile: ./Dockerfile
+      tags:
+        - ${DRONE_TAG}
+        - latest
+  - name: apply-kubernetes-file
+    image: naorlivne/drone-kubernetes-apply
+    depends_on: [docker-push]
+    settings:
+      kubernetes_token:
+        from_secret: KUBERNETES_TOKEN
+      kubernetes_api_host:
+        from_secret: KUBERNETES_SERVER
+      kubernetes_yaml_file: kubernetes/staging.yaml
