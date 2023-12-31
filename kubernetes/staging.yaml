@@ -47,6 +47,11 @@ spec:
                 secretKeyRef:
                   name: app
                   key: auth-origin
+            - name: NEXTAUTH_URL
+              valueFrom:
+                secretKeyRef:
+                  name: app
+                  key: nextauth-url
             - name: API_BASE
               valueFrom:
                 secretKeyRef:
