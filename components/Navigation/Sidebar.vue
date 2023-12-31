@@ -2,18 +2,17 @@
 import type { SidebarItem } from './SidebarItem.vue'
 import getInitialsFromString from '~/helpers/getInitialsFromString'
 
-const { workspaceId } = usePage()
+const { workspaceId, workspace, project } = usePage()
 const { isExpanded, data } = useSidebar()
 const { username, avatar } = useUser()
 const { workspaceCreateOrEdit, projectCreateOrEdit } = useGlobalOpeners()
 
 const { workspaces: workspaceQuery, projects: projectQuery } = useQuery()
 const { data: myWorkspaces, isLoading: areMyWorkspacesLoading } = workspaceQuery.all()
-const { data: projects, isLoading: areProjectsLoading } = projectQuery.all(workspaceId)
-const { data: selectedWorkspace, isLoading: isSelectedWorkspaceLoading } = workspaceQuery.byId(workspaceId)
+const { data: myProjects, isLoading: areMyProjectsLoading } = projectQuery.all(workspaceId)
 
 const myProjectsSidebar = computed(() => {
-  return projects.value?.map<SidebarItem>((p) => {
+  return myProjects.value?.map<SidebarItem>((p) => {
     return {
       label: p.name,
       href: `/workspace/${workspaceId}/project/${p.id}`,
@@ -59,15 +58,15 @@ const myWorkspacesSidebar = computed(() => {
         </div>
 
         <div v-if="data.sections.includes('workspaceInfo')">
-          <div v-if="selectedWorkspace && !isSelectedWorkspaceLoading" class="flex rounded items-center py-1.5 mx-3 gap-3">
+          <div v-if="workspace.data.value" class="flex rounded items-center py-1.5 mx-3 gap-3">
             <UAvatar
-              :text="getInitialsFromString(selectedWorkspace.name)"
+              :text="getInitialsFromString(workspace.data.value.name)"
               size="md"
               :ui="{ background: 'dark:bg-primary-dark' }"
             />
             <div>
               <p class="dark:text-gray-200 capitalize">
-                {{ selectedWorkspace.name }}
+                {{ workspace.data.value.name }}
               </p>
               <div class="flex items-center gap-1 text-xs text-gray-100 dark:text-gray-400">
                 <p> Free </p>
@@ -75,10 +74,34 @@ const myWorkspacesSidebar = computed(() => {
                   -
                 </p>
                 <div>
-                  {{ Object.keys(selectedWorkspace.members).length }}
+                  {{ Object.keys(workspace.data.value.members).length }}
                   <Icon name="pixelarticons:users" />
                 </div>
               </div>
+            </div>
+          </div>
+          <div v-else class="flex rounded bg-primary-light/50 dark:bg-primary-light/10 items-center p-2 mx-2 gap-3">
+            <USkeleton class="h-10 w-10" :ui="{ rounded: 'rounded-full', background: '!bg-primary-light' }" />
+            <div>
+              <USkeleton class="h-4 w-[75px]" :ui="{ background: '!bg-primary-light' }" />
+              <USkeleton class="h-3 w-[125px] mt-1" :ui="{ background: '!bg-primary-light' }" />
+            </div>
+          </div>
+          <UDivider :ui="{ wrapper: { base: 'mt-3 px-2' }, border: { base : 'border-primary-light dark:border-primary-dark/40' } }" />
+        </div>
+
+        <div v-if="data.sections.includes('projectInfo')">
+          <div v-if="project.data.value" class="flex rounded items-center py-1.5 mx-3 gap-2">
+            <div>
+              <ProjectsPlatformChip :platform="project.data.value.platform" color="text-white" />
+            </div>
+            <div class="overflow-hidden leading-5 py-0.5">
+              <p class="text-xs">
+                Viewing project:
+              </p>
+              <p class="dark:text-gray-200 capitalize truncate">
+                {{ project.data.value.name }}
+              </p>
             </div>
           </div>
           <div v-else class="flex rounded bg-primary-light/50 dark:bg-primary-light/10 items-center p-2 mx-2 gap-3">
@@ -109,8 +132,8 @@ const myWorkspacesSidebar = computed(() => {
           </div>
 
           <NavigationMenu
-            v-if="!areProjectsLoading"
-            :items="[...myProjectsSidebar, { label: 'Create new project', icon: 'i-heroicons-plus', click: () => projectCreateOrEdit.open({ mode: 'create', data: { workspaceId: selectedWorkspace?.id || '' } }) }]"
+            v-if="!areMyProjectsLoading"
+            :items="[...myProjectsSidebar, { label: 'Create new project', icon: 'i-heroicons-plus', click: () => projectCreateOrEdit.open({ mode: 'create', data: { workspaceId: workspaceId || '' } }) }]"
           />
           <div v-else class="flex flex-col gap-2">
             <div class="flex items-center space-x-2 bg-primary-light/50 dark:bg-primary-light/10 p-2 rounded mx-2 animate-pulse">
