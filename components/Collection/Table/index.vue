@@ -1,63 +1,8 @@
 <script setup lang="ts">
-import type { Collection } from '~/types'
-
-const props = defineProps<{
-  selectedLanguages: string[]
-}>()
-
-const items = ref<Collection[]>([
-  {
-    id: 'game_name',
-    name: 'Game name',
-    translations: {
-      EN: 'Test',
-      DE: 'Test2',
-      RU: 'Test',
-      BE: 'Test',
-      NL: 'Test',
-      HD: 'Test',
-      BO: 'Test'
-    }
-  },
-  {
-    id: 'game_subtitle',
-    name: 'Game subtitle',
-    translations: {
-      EN: 'Test',
-      DE: 'Test2',
-      RU: 'Test',
-      BE: 'Test',
-      NL: 'Test',
-      HD: 'Test',
-      BO: 'Test'
-    }
-  }
-])
-
-const filteredItems = computed(() => {
-  return items.value.map((collection) => {
-    const filteredTranslations = Object.fromEntries(props.selectedLanguages.map(k => [k, collection.translations[k]]))
-    return {
-      ...collection,
-      translations: filteredTranslations
-    }
-  })
-})
+const { languageOptions, selectedLanguages, data, updateEntry } = useCollectionTable()
 
 const addItem = () => {
-  items.value.push({
-    id: `row-${items.value.length + 1}`,
-    name: `Row ${items.value.length + 1}`,
-    translations: {
-      EN: 'Test',
-      DE: 'Test2',
-      RU: 'Test',
-      BE: 'Test',
-      NL: 'Test',
-      HD: 'Test',
-      BO: 'Test'
-    }
-  })
+  alert('idot')
 }
 </script>
 
@@ -69,16 +14,20 @@ const addItem = () => {
           <tr class="bg-gray-50 dark:bg-foreground border-b dark:border-border">
             <th class="border-r p-2 dark:border-border" />
             <CollectionTableHeaderBox label="Key" width="min-w-[300px]" />
-            <CollectionTableHeaderBox
-              v-for="language in selectedLanguages"
+            <template
+              v-for="language in languageOptions"
               :key="language"
-              :label="language"
-            />
+            >
+              <CollectionTableHeaderBox
+                v-if="selectedLanguages.includes(language)"
+                :label="language"
+              />
+            </template>
           </tr>
         </thead>
-        <tbody v-if="items">
+        <tbody>
           <tr
-            v-for="item in items"
+            v-for="item in data"
             :key="item.id"
             class="bg-gray-100 dark:bg-transparent text-center border-b text-sm dark:border-border"
           >
@@ -94,17 +43,13 @@ const addItem = () => {
                 placeholder="Identifier"
               />
             </td>
-            <td
-              v-for="(translation, index) in item.translations"
-              :key="translation"
-              class="border-r w-full min-w-[400px] dark:border-border"
-            >
-              <UInput
-                v-model="item.translations[index]"
-                variant="none"
-                placeholder="Enter your value..."
+            <template v-for="(translation, index) in item.translations" :key="translation">
+              <CollectionTableBodyBox
+                v-if="selectedLanguages.includes(index)"
+                :default-value="translation"
+                @update="(value) => updateEntry(value, item.id, index)"
               />
-            </td>
+            </template>
           </tr>
           <tr>
             <td

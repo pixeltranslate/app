@@ -62,10 +62,15 @@ export const createOrUpdateProjectSchema = z.discriminatedUnion('mode', [
   z.object({ mode: z.literal('update'), data: updateProjectSchema })
 ])
 
-export const collectionInfoSchema = z.object({
+export const collectionSchema = z.object({
   id: idSchema,
-  name: z.string()
+  name: z.string(),
+  entries: z.number().optional()
 })
-export const collectionSchema = collectionInfoSchema.extend({
+
+export const collectionEntrySchema = z.object({
+  id: idSchema,
+  name: z.string(),
+  createdAt: z.coerce.date(),
   translations: z.record(z.string(), z.string())
 })

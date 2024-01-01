@@ -38,12 +38,18 @@ dependencies:
   klona:
     specifier: ^2.0.6
     version: 2.0.6
+  lodash:
+    specifier: ^4.17.21
+    version: 4.17.21
   next-auth:
     specifier: 4.22.1
     version: 4.22.1(next@13.5.6)(react-dom@18.2.0)(react@18.2.0)
   node-fetch:
     specifier: ^3.3.2
     version: 3.3.2
+  vue-debounce:
+    specifier: ^4.0.1
+    version: 4.0.1(vue@3.3.13)
 
 devDependencies:
   '@nuxtjs/eslint-config-typescript':
@@ -64,6 +70,9 @@ devDependencies:
   '@trpc/server':
     specifier: 10.40.0
     version: 10.40.0
+  '@types/lodash':
+    specifier: ^4.14.202
+    version: 4.14.202
   '@types/node':
     specifier: ^18.11.18
     version: 18.19.3
@@ -2140,6 +2149,10 @@ packages:
 
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+    dev: true
+
+  /@types/lodash@4.14.202:
+    resolution: {integrity: sha512-OvlIYQK9tNneDlS0VN54LLd5uiPCBOp7gS5Z0f1mjoJYBrtStzgmJBxONW3U6OZqdtNzZPmn9BS/7WI7BFFcFQ==}
     dev: true
 
   /@types/node@18.19.3:
@@ -8352,6 +8365,14 @@ packages:
     resolution: {integrity: sha512-oYATTQyh8XVkUWe2kaKxhxKVuuzK2Qcehe+yr3bGiaQAhK3ry2kYE4FWOfL+KO3hVFwCdLmzDQTzYhTi9C+R2A==}
     dependencies:
       ufo: 1.3.2
+
+  /vue-debounce@4.0.1(vue@3.3.13):
+    resolution: {integrity: sha512-f2HeuLA5b9WY+cKVAU+ydwi9UHxgCWZQt/6HP/5QogthFwm/e+WMP5jpUq2WhEvnHisPkPMomYDRXDxc2AiQDw==}
+    peerDependencies:
+      vue: '>= 2.0.0'
+    dependencies:
+      vue: 3.3.13(typescript@4.9.5)
+    dev: false
 
   /vue-demi@0.13.11(vue@3.3.13):
     resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
