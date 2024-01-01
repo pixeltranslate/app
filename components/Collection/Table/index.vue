@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { LOCALES, type LocaleCodes } from '~/helpers/localCodes'
+
 const { languageOptions, selectedLanguages, data, updateEntry } = useCollectionTable()
 </script>
 
@@ -16,7 +18,7 @@ const { languageOptions, selectedLanguages, data, updateEntry } = useCollectionT
             >
               <CollectionTableHeaderBox
                 v-if="selectedLanguages.includes(language)"
-                :label="language"
+                :label="LOCALES[language as LocaleCodes]"
               />
             </template>
           </tr>
