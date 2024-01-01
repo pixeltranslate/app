@@ -20,8 +20,10 @@ type: kubernetes
 name: Staging deployment
 
 trigger:
+  branch:
+    - main
   event:
-    - tag
+    - push
 
 steps:
   - name: docker-push
@@ -35,7 +37,7 @@ steps:
       registry: docker-private.averix.tech
       dockerfile: ./Dockerfile
       tags:
-        - ${DRONE_TAG}
+        - ${DRONE_COMMIT_SHA}
         - latest
   - name: apply-kubernetes-file
     image: naorlivne/drone-kubernetes-apply
