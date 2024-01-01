@@ -18,7 +18,7 @@ export default () => {
   })
 
   return {
-    workspaceId: params.workspaceId,
+    workspaceId: routeParams.workspaceId,
     workspace: {
       data: workspace,
       isLoading: isWorkspaceLoading

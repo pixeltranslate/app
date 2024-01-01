@@ -1,11 +1,6 @@
 export default defineNuxtRouteMiddleware((to) => {
   const { status, signIn, data, signOut } = useAuth()
 
-  // If user is authenticated we allow them to access the page
-  if (status.value === 'authenticated') {
-    return
-  }
-
   // See when the session is supposed to expire and if that point has passed, force logout the user
   if (data.value?.expires) {
     const date = new Date(data.value?.expires)
@@ -13,6 +8,11 @@ export default defineNuxtRouteMiddleware((to) => {
       signOut()
       return
     }
+  }
+
+  // If user is authenticated we allow them to access the page
+  if (status.value === 'authenticated') {
+    return
   }
 
   /**
