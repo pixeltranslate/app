@@ -12,14 +12,16 @@ const onType = (input: string) => {
 </script>
 
 <template>
-  <td class="border-r w-full min-w-[400px] dark:border-border">
-    <UInput
+  <td class="border-r w-full min-w-[400px] dark:border-border bg-gray-100 dark:bg-transparent">
+    <UTextarea
       ref="target"
       v-model="value"
       v-debounce:1s="onType"
       :debounce-events="['keydown']"
       variant="none"
+      resize
       placeholder="Enter your value..."
+      :ui="{ base: 'min-h-[100px]' }"
     />
   </td>
 </template>
