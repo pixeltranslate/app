@@ -24,7 +24,7 @@ const onType = (input: string) => {
       ref="target"
       v-model="value"
       v-debounce:1s="onType"
-      class="absolute w-full h-full top-0 left-[1px] py-1.5 px-2.5 bg-transparent border-r border-b dark:border-border outline-none resize-none"
+      class="absolute w-full h-full top-0 left-[-1px] py-1.5 px-2.5 bg-transparent border-l border-b dark:border-border outline-none resize-none"
       variant="none"
       placeholder="Enter your translation..."
       :debounce-events="['keydown']"
