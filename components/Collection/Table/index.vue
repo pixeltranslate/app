@@ -1,9 +1,5 @@
 <script setup lang="ts">
 const { languageOptions, selectedLanguages, data, updateEntry } = useCollectionTable()
-
-const addItem = () => {
-  alert('idot')
-}
 </script>
 
 <template>
@@ -70,7 +66,6 @@ const addItem = () => {
             <td
               colspan="100%"
               class="relative cursor-pointer"
-              @click="addItem()"
             >
               <div class="sticky left-0 flex items-center text-gray-500 p-2 text-sm gap-2 w-[250px]">
                 <Icon name="pixelarticons:plus" />
