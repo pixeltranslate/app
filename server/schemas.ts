@@ -9,6 +9,7 @@ export const idSchema = z.string().min(36)
 export const idObjectSchema = z.object({ id: idSchema })
 export const workspaceRolesSchema = z.enum(['admin'])
 
+/* Users */
 export const profileSchema = z.object({
   id: z.string(),
   workspaces: z.array(z.string()),
@@ -21,14 +22,27 @@ export const profileSchema = z.object({
   })
 })
 
+/* Workspaces and Projects */
+export const platformSchema = z.enum(['unity', 'unreal', 'java', 'node', 'multi'])
+export const projectSchema = z.object({
+  id: idSchema,
+  name: z.string().min(1).max(64),
+  description: z.string().max(360),
+  createdAt: z.coerce.date(),
+  members: z.record(z.string(), z.any()),
+  platform: platformSchema
+})
+
 export const workspaceSchema = z.object({
   id: idSchema,
   name: z.string().min(1).max(64),
   description: z.string().max(360),
   createdAt: z.coerce.date(),
-  members: z.record(z.string(), z.any())
+  members: z.record(z.string(), z.any()),
+  projects: z.array(projectSchema)
 })
 
+/* Workspace and Project Create or Update */
 export const createWorkspaceSchema = z.object({
   name: z.string().min(1, 'The name should be at least 1 letters long.').max(36, 'The name cannot be longer than 36 letters.'),
   description: z.string().max(256, 'The description is too long.').optional()
@@ -38,17 +52,6 @@ export const createOrUpdateWorkspaceSchema = z.discriminatedUnion('mode', [
   z.object({ mode: z.literal('create'), data: createWorkspaceSchema }),
   z.object({ mode: z.literal('update'), data: updateWorkspaceSchema })
 ])
-
-export const platformSchema = z.enum(['unity', 'unreal', 'java', 'node', 'multi'])
-
-export const projectSchema = z.object({
-  id: idSchema,
-  name: z.string().min(1).max(64),
-  description: z.string().max(360),
-  createdAt: z.coerce.date(),
-  members: z.record(z.string(), z.any()),
-  platform: platformSchema
-})
 
 export const createProjectSchema = z.object({
   workspaceId: idSchema,
@@ -62,6 +65,7 @@ export const createOrUpdateProjectSchema = z.discriminatedUnion('mode', [
   z.object({ mode: z.literal('update'), data: updateProjectSchema })
 ])
 
+/* Collections */
 export const collectionSchema = z.object({
   id: idSchema,
   name: z.string(),
