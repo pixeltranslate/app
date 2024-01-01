@@ -48,3 +48,4 @@ steps:
       kubernetes_api_host:
         from_secret: KUBERNETES_SERVER
       kubernetes_yaml_file: kubernetes/staging.yaml
+      my_image_tag: ${DRONE_COMMIT_SHA}
