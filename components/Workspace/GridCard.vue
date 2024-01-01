@@ -23,7 +23,7 @@ const link = computed(() => {
       <UTooltip
         :text="workspace.name"
         :ui="{ wrapper: 'text-sm font-medium leading-6 flex-1 truncate' }"
-        :popper="{ arrow: true, placement: 'bottom-start', offsetDistance: 5 }"
+        :popper="{ placement: 'bottom-start', offsetDistance: 5 }"
       >
         <p class="overflow-hidden truncate">
           {{ workspace.name }}
