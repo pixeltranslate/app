@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: docker-private.averix.tech/pixeltranslate/app:latest
+          image: docker-private.averix.tech/pixeltranslate/app:$PLUGIN_MY_IMAGE_TAG
           imagePullPolicy: Always
           resources:
             limits:
