@@ -1,4 +1,3 @@
-import { merge } from 'lodash'
 import type { CollectionEntry } from '~/types'
 
 type CollectionEntries = Record<string, CollectionEntry>
@@ -13,8 +12,6 @@ const INITIAL_MOCK_ITEMS: CollectionEntries = {
   '39JCIOIDO786GYG989': { id: '39JCIOIDO786GYG989', name: 'End', translations: { EN: 'end', DE: 'Beenden' }, createdAt: new Date() }
 }
 
-const mergeObjects = (rhs: CollectionEntries, lhs: CollectionEntries) => merge(lhs, rhs)
-
 const selectedLanguages = ref(['EN', 'DE'])
 const data = ref(INITIAL_MOCK_ITEMS)
 
@@ -24,7 +21,7 @@ const updateEntry = (value: string, entryId: string, languageId: string) => {
 
 watch(selectedLanguages, () => {
   // GET NEW COLLECTION ENTRIES VIA URL HERE
-  data.value = mergeObjects(data.value, FULL_MOCK_ITEMS)
+  data.value = useMerge(FULL_MOCK_ITEMS, data.value)
 })
 
 export default () => {

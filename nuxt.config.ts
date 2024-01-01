@@ -13,7 +13,8 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@vueuse/nuxt',
     '@nuxtjs/google-fonts',
-    '@formkit/auto-animate/nuxt'
+    '@formkit/auto-animate/nuxt',
+    'nuxt-lodash'
   ],
   typescript: {
     shim: false
