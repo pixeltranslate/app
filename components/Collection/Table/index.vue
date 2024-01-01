@@ -63,12 +63,12 @@ const addItem = () => {
 
 <template>
   <UCard :ui="{ body: { padding: '!p-0' }, rounded: 'rounded-sm'}">
-    <div class="overflow-x-auto min-h-[78vh]">
+    <div class="overflow-auto h-[78vh]">
       <table class="border dark:border-border">
         <thead>
           <tr class="bg-gray-50 dark:bg-foreground border-b dark:border-border">
             <th class="border-r p-2 dark:border-border" />
-            <CollectionTableHeaderBox label="Key" min-width="min-w-[250px]" />
+            <CollectionTableHeaderBox label="Key" width="min-w-[300px]" />
             <CollectionTableHeaderBox
               v-for="language in selectedLanguages"
               :key="language"
@@ -76,9 +76,9 @@ const addItem = () => {
             />
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="items">
           <tr
-            v-for="item in filteredItems"
+            v-for="item in items"
             :key="item.id"
             class="bg-gray-100 dark:bg-transparent text-center border-b text-sm dark:border-border"
           >
@@ -87,17 +87,29 @@ const addItem = () => {
                 <Icon name="pixelarticons:minus" size="15" />
               </UButton>
             </td>
-            <CollectionTableBodyBox :placeholder="item.name" min-width="min-w-[250px]" />
-            <CollectionTableBodyBox
-              v-for="translation in item.translations"
+            <td class="border-r w-full min-w-[300px] dark:border-border">
+              <UInput
+                v-model="item.name"
+                variant="none"
+                placeholder="Identifier"
+              />
+            </td>
+            <td
+              v-for="(translation, index) in item.translations"
               :key="translation"
-              :placeholder="translation"
-            />
+              class="border-r w-full min-w-[400px] dark:border-border"
+            >
+              <UInput
+                v-model="item.translations[index]"
+                variant="none"
+                placeholder="Enter your value..."
+              />
+            </td>
           </tr>
           <tr>
             <td
               colspan="100%"
-              class="relative"
+              class="relative cursor-pointer"
               @click="addItem()"
             >
               <div class="sticky left-0 flex items-center text-gray-500 p-2 text-sm gap-2 w-[250px]">
