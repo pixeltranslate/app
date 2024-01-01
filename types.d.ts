@@ -17,8 +17,8 @@ declare module "next-auth" {
 }
 
 export type Profile = z.infer<typeof profileSchema>
-export type ApiWorkspaceGetAll = z.infer<typeof workspaceSchema>
-export type ApiProjectGetAll = z.infer<typeof projectSchema>
+export type Workspace = z.infer<typeof workspaceSchema>
+export type Project = z.infer<typeof projectSchema>
 
 export type CreateOrUpdateWorkspace = z.infer<typeof createOrUpdateWorkspaceSchema>
 export type CreateOrUpdateProject = z.infer<typeof createOrUpdateProjectSchema>
