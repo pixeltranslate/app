@@ -31,7 +31,7 @@ const homeLinks: SidebarItem[] = [
   { label: 'Documentation', icon: 'i-pixelarticons-book', href: '/' }
 ]
 const dynamicRouteLinks: Record<keyof RouteSchema, ((page: UsePage, openers: GlobalOpeners) => SidebarItem[])> = {
-  workspace: (page, openers) => [
+  workspaceId: (page, openers) => [
     { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: generateBackLink(page) },
     {
       label: 'Edit',
@@ -48,7 +48,7 @@ const dynamicRouteLinks: Record<keyof RouteSchema, ((page: UsePage, openers: Glo
     },
     { label: 'Members', icon: 'i-pixelarticons-users' }
   ],
-  project: page => [
+  projectId: page => [
     { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: generateBackLink(page) },
     { label: 'Dashboard', icon: 'i-pixelarticons-dashbaord', href: generateDynamicLink(page, '/') },
     { label: 'Languages', icon: 'i-pixelarticons-flag', href: generateDynamicLink(page, '/languages') },
@@ -58,20 +58,20 @@ const dynamicRouteLinks: Record<keyof RouteSchema, ((page: UsePage, openers: Glo
 
 const homeSections: SidebarSections[] = ['userInfo', 'workspaces']
 const dynamicSections: Record<keyof RouteSchema, SidebarSections[]> = {
-  workspace: ['workspaceInfo', 'projects', 'workspaces'],
-  project: ['projectInfo', 'projects']
+  workspaceId: ['workspaceInfo', 'projects', 'workspaces'],
+  projectId: ['projectInfo', 'projects']
 }
 
 const getSidebarInfo = (page: UsePage, openers: GlobalOpeners) => {
   if (page.projectId) {
     return {
-      sections: dynamicSections.project,
-      links: dynamicRouteLinks.project(page, openers)
+      sections: dynamicSections.projectId,
+      links: dynamicRouteLinks.projectId(page, openers)
     }
   } else if (page.workspaceId) {
     return {
-      sections: dynamicSections.workspace,
-      links: dynamicRouteLinks.workspace(page, openers)
+      sections: dynamicSections.workspaceId,
+      links: dynamicRouteLinks.workspaceId(page, openers)
     }
   }
   return {
