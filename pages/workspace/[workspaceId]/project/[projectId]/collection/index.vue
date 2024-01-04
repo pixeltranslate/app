@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouteQuery } from '@vueuse/router'
-import type { CollectionInfo } from '~/types'
+import type { Collection } from '~/types'
 
 const columns = [{
   key: 'name',
@@ -11,7 +11,7 @@ const columns = [{
   key: 'actions'
 }]
 
-const collections: CollectionInfo[] = [
+const collections: Collection[] = [
   { id: '27367463874398', name: 'User interface' },
   { id: '273674dcfbhdf63874398', name: 'Menus' },
   { id: '47834735u34', name: 'Escape Menu' },
@@ -31,7 +31,7 @@ const collections: CollectionInfo[] = [
 ]
 
 const q = useRouteQuery<string>('q', undefined)
-const filteredRows = computed<CollectionInfo[]>(() => {
+const filteredRows = computed<Collection[]>(() => {
   if (!q.value) {
     return collections
   }
@@ -43,7 +43,7 @@ const filteredRows = computed<CollectionInfo[]>(() => {
   })
 })
 
-const items = (row: CollectionInfo) => [
+const items = (row: Collection) => [
   [{
     label: `Edit ${row.name}`,
     icon: 'i-heroicons-pencil-square-20-solid'

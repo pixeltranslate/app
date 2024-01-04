@@ -28,7 +28,8 @@ const openers = {
   workspaceCreateOrEdit: makeGlobalOpener<OpenCreateOrUpdateWorkspace>(),
   workspaceDelete: makeGlobalOpener<{ id: string, name: string }>(),
   projectCreateOrEdit: makeGlobalOpener<OpenCreateOrUpdateProject>(),
-  projectDelete: makeGlobalOpener<{ id: string, workspaceId: string, name: string }>()
+  projectDelete: makeGlobalOpener<{ id: string, workspaceId: string, name: string }>(),
+  languageCreateOrEdit: makeGlobalOpener<{ test: string }>()
 }
 
 export type GlobalOpeners = typeof openers
