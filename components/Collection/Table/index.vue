@@ -3,12 +3,17 @@ import type { CollectionEntry } from '~/types'
 import { LOCALES, type LocaleCodes } from '~/helpers/localCodes'
 
 const props = defineProps<{
-  entries: CollectionEntry[]
+  entries: Record<string, CollectionEntry>
 }>()
 const { languageOptions, selectedLanguages, setData, dataWithoutDeleted, updateEntry, addEntry, deleteEntry } = useCollectionTable()
 
 // Send initial data to the collections table composable
-setData(props.entries)
+setData(Object.values(props.entries))
+
+// Update the entries when they are repulled from the database
+watch(props, () => {
+  setData(Object.values(props.entries))
+})
 </script>
 
 <template>
