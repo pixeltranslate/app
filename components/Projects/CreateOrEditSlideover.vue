@@ -162,6 +162,10 @@ const platforms: Record<ProjectPlatforms, { id: ProjectPlatforms, label: string,
             </USelectMenu>
           </UFormGroup>
 
+          <UFormGroup label="Languages:">
+            <LanguageSelector />
+          </UFormGroup>
+
           <div class="flex items-center gap-2 justify-end">
             <UButton type="submit" color="primary" class="mt-3" size="md" :loading="isSubmitting">
               {{ cloned.mode === 'create' ? 'Create' : 'Save' }} project

@@ -35,7 +35,6 @@ const openers = {
   workspaceDelete: makeGlobalOpener<{ id: string, name: string }>(),
   projectCreateOrEdit: makeGlobalOpener<OpenCreateOrUpdateProject>(),
   projectDelete: makeGlobalOpener<{ id: string, workspaceId: string, name: string }>(),
-  languageCreateOrEdit: makeGlobalOpener<{ test: string }>(),
   collectionCreateOrEdit: makeGlobalOpener<OpenCreateOrUpdateCollection>(),
   collectionDelete: makeGlobalOpener<{ workspaceId: string, projectId: string, id: string, name: string }>()
 }

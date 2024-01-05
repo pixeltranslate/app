@@ -4,7 +4,6 @@
     <WorkspaceDeleteModal />
     <ProjectsCreateOrEditSlideover />
     <ProjectsDeleteModal />
-    <LanguageCreateOrEditSlideover />
     <CollectionCreateOrEditSlideover />
     <CollectionDeleteModal />
   </div>
