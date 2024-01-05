@@ -5,7 +5,27 @@ const { selectedLanguages, languageOptions } = useCollectionTable()
 <template>
   <TheLayout title="Collection Test">
     <template #actions>
-      <USelectMenu v-model="selectedLanguages" :options="languageOptions" multiple placeholder="Select Languages" />
+      <div class="flex items-center gap-2">
+        <UButton
+          label="Save changes"
+          icon="i-heroicons-cloud-arrow-up"
+          color="primary"
+        />
+        <USelectMenu
+          v-model="selectedLanguages"
+          :options="languageOptions"
+          multiple
+          size="md"
+          placeholder="Select Languages"
+        >
+          <template #label>
+            <span v-if="selectedLanguages.length">
+              {{ selectedLanguages.length }} languages selected
+            </span>
+            <span v-else>Select languages to edit</span>
+          </template>
+        </USelectMenu>
+      </div>
     </template>
     <ClientOnly>
       <CollectionTable :selected-languages="selectedLanguages" />

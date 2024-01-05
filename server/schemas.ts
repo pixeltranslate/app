@@ -78,6 +78,7 @@ export const collectionEntrySchema = z.object({
   id: idSchema,
   name: z.string(),
   createdAt: z.coerce.date(),
+  deleted: z.boolean().nullish(),
   translations: z.record(z.string(), z.string())
 })
 
