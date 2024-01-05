@@ -1,13 +1,16 @@
 <script lang="ts" setup>
 import { LOCALES, type LocaleCodes } from '~/helpers/localCodes'
 
-const selected = ref<Record<Partial<LocaleCodes>, boolean>>({})
+const selected = ref<LocaleCodes[]>(['af'])
 
 const update = (locale: LocaleCodes, value: boolean) => {
   if (value) {
-    selected.value[locale] = true
+    if (!selected.value.includes(locale)) {
+      selected.value.push(locale)
+    }
   } else {
-    delete selected.value[locale]
+    const itemIndex = selected.value.indexOf(locale)
+    selected.value.splice(itemIndex, 1)
   }
 }
 </script>
@@ -22,7 +25,7 @@ const update = (locale: LocaleCodes, value: boolean) => {
       >
         <UCheckbox
           :label="locale"
-          :model-value="false"
+          :checked="selected.includes(key as LocaleCodes)"
           :ui="{ inner: 'w-full' }"
           @update:model-value="(v) => update(key, v)"
         />
@@ -31,7 +34,7 @@ const update = (locale: LocaleCodes, value: boolean) => {
 
     <div class="p-2 overflow-y-auto">
       <div
-        v-for="locale in Object.keys(selected)"
+        v-for="locale in selected"
         :key="locale"
         class="hover:bg-gray-200 dark:hover:bg-gray-700 rounded px-2 py-1.5"
       >
