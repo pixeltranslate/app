@@ -1,11 +1,11 @@
 <script setup lang=ts>
 import type { DropdownItem } from '#ui/types'
 import getInitialsFromString from '~/helpers/getInitialsFromString'
-import type { ApiWorkspaceGetAll } from '~/types'
+import type { Workspace } from '~/types'
 
 const { workspaceCreateOrEdit, workspaceDelete } = useGlobalOpeners()
 
-const props = defineProps<{ workspace: ApiWorkspaceGetAll}>()
+const props = defineProps<{ workspace: Workspace}>()
 const link = computed(() => {
   return [
     [

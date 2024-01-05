@@ -9,19 +9,17 @@ const { projectCreateOrEdit, projectDelete } = useGlobalOpeners()
 const props = defineProps<{ project: Project, workspaceId: string }>()
 const links = computed(() => {
   return [
-    [
-      {
-        label: 'Edit',
-        click: () => projectCreateOrEdit.open(
-          {
-            mode: 'update',
-            data: {
-              workspaceId: props.workspaceId,
-              ...props.project
-            }
-          })
-      }
-    ],
+    [{
+      label: 'Edit',
+      click: () => projectCreateOrEdit.open(
+        {
+          mode: 'update',
+          data: {
+            workspaceId: props.workspaceId,
+            ...props.project
+          }
+        })
+    }],
     [{ label: 'Delete', click: () => projectDelete.open({ workspaceId: props.workspaceId, id: props.project.id, name: props.project.name }) }]
   ] as DropdownItem[][]
 })
