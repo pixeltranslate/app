@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { CollectionGetAll } from '~/types'
 
-const { collectionCreateOrEdit } = useGlobalOpeners()
+const { collectionCreateOrEdit, collectionDelete } = useGlobalOpeners()
 const { workspaceId, projectId } = usePage()
 const { collections: collectionQuery } = useQuery()
 const { data, isLoading } = collectionQuery.all({
@@ -25,7 +25,8 @@ const items = (row: CollectionGetAll) => [
     })
   }], [{
     label: 'Delete',
-    icon: 'i-heroicons-trash-20-solid'
+    icon: 'i-heroicons-trash-20-solid',
+    click: () => collectionDelete.open({ workspaceId: workspaceId ?? '', projectId: projectId ?? '', id: row.id, name: row.name })
   }]
 ]
 </script>
