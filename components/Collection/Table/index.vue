@@ -13,8 +13,13 @@ setData(props.entries)
 
 <template>
   <UCard :ui="{ body: { padding: '!p-0' }, rounded: 'rounded-sm'}">
-    <div class="overflow-auto h-[78vh]">
-      <table class="border dark:border-border">
+    <div
+      v-if="dataWithoutDeleted.length > 0"
+      class="overflow-auto h-[78vh]"
+    >
+      <table
+        class="border dark:border-border"
+      >
         <thead>
           <tr class="bg-gray-50 dark:bg-foreground border-b dark:border-border">
             <th class="border-r p-2 dark:border-border" />
@@ -84,5 +89,18 @@ setData(props.entries)
         </tbody>
       </table>
     </div>
+
+    <TheContentPlaceholder
+      v-else
+      label="The translations are not translating yet."
+      description="You should add your first key to begin translating!"
+      icon="heroicons:language"
+    >
+      <UButton
+        label="Add your first key"
+        icon="i-heroicons-plus"
+        @click="addEntry('The first key')"
+      />
+    </TheContentPlaceholder>
   </UCard>
 </template>
