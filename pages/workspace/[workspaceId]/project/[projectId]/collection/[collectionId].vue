@@ -75,7 +75,7 @@ const save = () => {
       <CollectionTable
         v-if="!isLoading && collectionData"
         :selected-languages="selectedLanguages"
-        :entries="Object.values(collectionData.entries)"
+        :entries="collectionData.entries"
       />
       <TheLoader v-else />
     </ClientOnly>
