@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { DropdownItem } from '@nuxt/ui/dist/runtime/types'
+import type { LocaleCodes } from '~/helpers/localCodes'
+import { LOCALES } from '~/helpers/localCodes'
 import type { Project } from '~/types'
 
 const { projectCreateOrEdit, projectDelete } = useGlobalOpeners()
@@ -53,7 +55,7 @@ const links = computed(() => {
       </p>
       <div class="flex justify-between gap-x-4 py-1">
         <dt>
-          Created
+          Created:
         </dt>
         <dd>
           {{ project.createdAt.toDateString() }}
@@ -61,10 +63,10 @@ const links = computed(() => {
       </div>
       <div class="flex justify-between gap-x-4 py-1">
         <dt>
-          Languages
+          Languages:
         </dt>
-        <dd>
-          {{ project.languages.join(', ') }}
+        <dd class="overflow-hidden truncate">
+          {{ project.languages.map(lang => LOCALES[lang as LocaleCodes]).join(', ') }}
         </dd>
       </div>
     </dl>
