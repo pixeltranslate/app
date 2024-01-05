@@ -18,7 +18,7 @@ const link = computed(() => {
 
 <template>
   <li class="overflow-hidden rounded-lg border border-gray-200 dark:border-border">
-    <div class="flex items-center gap-x-4 border-b border-gray-900/5 dark:border-border bg-gray-50 dark:bg-foreground p-6">
+    <div class="flex items-center gap-x-4 border-b border-gray-900/5 dark:border-border bg-gray-50 dark:bg-foreground py-5 px-4">
       <UAvatar size="md" :text="getInitialsFromString(workspace.name)" :ui="{ background: '!bg-secondary' }" />
       <UTooltip
         :text="workspace.name"
@@ -40,7 +40,7 @@ const link = computed(() => {
         </UButtonGroup>
       </div>
     </div>
-    <dl class="-my-3 divide-y divide-gray-200 dark:divide-border px-6 py-6 text-sm leading-6">
+    <dl class="-my-3 divide-y divide-gray-200 dark:divide-border px-4 py-6 text-sm leading-6">
       <div class="flex justify-between gap-x-4 pb-1.5">
         <dt class="text-gray-500 dark:text-gray-300">
           Created

@@ -2,12 +2,16 @@
 const { projects: projectQuery } = useQuery()
 const { projectCreateOrEdit } = useGlobalOpeners()
 
-const { workspaceId } = usePage()
+const { workspaceId, workspace } = usePage()
 const { data: projects, isLoading: areProjectsLoading } = projectQuery.all(workspaceId)
 </script>
 
 <template>
-  <TheLayout title="Projects:" :is-loading="areProjectsLoading || !workspaceId">
+  <TheLayout
+    :title="workspace.data.value?.name"
+    :description="workspace.data.value?.description"
+    :is-loading="areProjectsLoading || !workspaceId"
+  >
     <template #actions>
       <UButton
         icon="i-heroicons-plus"
