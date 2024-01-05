@@ -5,7 +5,7 @@ import { z } from 'zod'
   export type Example = z.infer<typeof example>
 */
 
-export const idSchema = z.string().min(36)
+export const idSchema = z.string()
 export const idObjectSchema = z.object({ id: idSchema })
 export const workspaceRolesSchema = z.enum(['admin'])
 
