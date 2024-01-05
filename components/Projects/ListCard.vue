@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { DropdownItem } from '@nuxt/ui/dist/runtime/types'
-import type { ApiProjectGetAll } from '~/types'
+import type { Project } from '~/types'
 
 const { projectCreateOrEdit, projectDelete } = useGlobalOpeners()
 
-const props = defineProps<{ project: ApiProjectGetAll, workspaceId: string }>()
+const props = defineProps<{ project: Project, workspaceId: string }>()
 const links = computed(() => {
   return [
     [
@@ -64,7 +64,7 @@ const links = computed(() => {
           Languages
         </dt>
         <dd>
-          English, German, Dutch
+          {{ project.languages.join(', ') }}
         </dd>
       </div>
     </dl>
