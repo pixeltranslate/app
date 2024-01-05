@@ -41,7 +41,10 @@ const save = () => {
 </script>
 
 <template>
-  <TheLayout title="Collection Test">
+  <TheLayout
+    :title="!isLoading ? `Collection table: ${collectionData?.name}` : undefined"
+    :is-loading="isLoading"
+  >
     <template #actions>
       <div class="flex items-center gap-2">
         <UButton
