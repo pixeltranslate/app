@@ -72,10 +72,10 @@ setData(props.entries)
           <tr>
             <td
               colspan="100%"
-              class="relative cursor-pointer"
+              class="relative cursor-pointer group hover:bg-gray-100/50 dark:hover:bg-gray-800/50"
               @click="addEntry('New entry')"
             >
-              <div class="sticky left-0 flex items-center text-gray-500 p-2 text-sm gap-2 w-[250px]">
+              <div class="sticky left-0 flex items-center text-gray-500 p-2 text-sm gap-2 w-[250px] group-hover:text-gray-700 dark:group-hover:text-gray-300">
                 <Icon name="pixelarticons:plus" />
                 Add new key
               </div>
