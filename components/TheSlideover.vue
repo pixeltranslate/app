@@ -41,7 +41,7 @@ defineEmits(['close'])
         />
       </div>
     </div>
-    <div class="px-5 py-8">
+    <div class="px-5 py-8 overflow-y-auto">
       <slot />
     </div>
   </USlideover>

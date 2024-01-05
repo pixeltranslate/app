@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import type { CreateOrUpdateProject, ProjectPlatforms } from '~/types'
 import { createOrUpdateProjectSchema } from '~/server/schemas'
 import { platformToIcon } from '~/composables/usePlatformIcon'
+import type { LocaleCodes } from '~/helpers/localCodes'
 
 const { $trpc } = useNuxtApp()
 const queryClient = useQueryClient()
@@ -34,7 +35,8 @@ const payload = computed((): CreateOrUpdateProject | undefined => {
       workspaceId: popupData.value.data.workspaceId,
       name: '',
       description: '',
-      platform: 'unity'
+      platform: 'unity',
+      languages: ['en']
     }
   }
 })
@@ -141,7 +143,7 @@ const platforms: Record<ProjectPlatforms, { id: ProjectPlatforms, label: string,
           </UFormGroup>
 
           <UFormGroup
-            label="Platform"
+            label="Platform:"
             name="type"
           >
             <USelectMenu
@@ -160,6 +162,10 @@ const platforms: Record<ProjectPlatforms, { id: ProjectPlatforms, label: string,
                 <span>{{ platforms[cloned.data.platform].label }}</span>
               </template>
             </USelectMenu>
+          </UFormGroup>
+
+          <UFormGroup label="Languages:">
+            <LanguageSelector v-model="cloned.data.languages" />
           </UFormGroup>
 
           <div class="flex items-center gap-2 justify-end">
