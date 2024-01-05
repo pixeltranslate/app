@@ -13,7 +13,7 @@ const width = computed(() => {
 
 const onType = (input: string) => {
   if (input === value.value) {
-    value.value = emit('update', input)
+    emit('update', input)
   }
 }
 </script>

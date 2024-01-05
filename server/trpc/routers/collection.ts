@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { createRouter, publicProcedure } from '../trpc'
-import { idSchema, collectionGetAllSchema, createCollectionSchema, updateCollectionSchema, idObjectSchema } from '~/server/schemas'
-import type { CollectionGetAll } from '~/types'
+import { idSchema, collectionGetAllSchema, createCollectionSchema, updateCollectionSchema, idObjectSchema, collectionSchema, collectionEntrySchema } from '~/server/schemas'
+import type { CollectionGetAll, Collection } from '~/types'
 
 const inputWorkspaceProjectIdSchema = z.object({
   workspaceId: idSchema.nullish(),
@@ -19,6 +19,16 @@ export const router = createRouter({
       schema: z.array(collectionGetAllSchema)
     })
   }),
+  byId: publicProcedure.input(inputWorkspaceProjectIdSchema.merge(z.object({ id: z.string().nullish() }))).query(({ ctx, input }) => {
+    const { workspaceId, projectId, id } = input
+    if (!workspaceId || !projectId || !id) {
+      return undefined
+    }
+    return ctx.fetch<Collection>({
+      url: `/workspaces/${workspaceId}/projects/${projectId}/collections/${id}`,
+      schema: collectionSchema
+    })
+  }),
   create: publicProcedure.input(createCollectionSchema).mutation(({ input, ctx }) => {
     return ctx.fetch<CollectionGetAll>({
       url: `/workspaces/${input.workspaceId}/projects/${input.projectId}/collections`,
@@ -32,6 +42,18 @@ export const router = createRouter({
       url: `/workspaces/${workspaceId}/projects/${projectId}/collections/${id}`,
       method: 'PATCH',
       body: input
+    })
+  }),
+  updateEntries: publicProcedure.input(inputWorkspaceProjectIdSchema.merge(z.object({ id: z.string().nullish(), data: z.array(collectionEntrySchema) }))).mutation(({ input, ctx }) => {
+    const { workspaceId, projectId, id, data } = input
+    if (!workspaceId || !projectId || !id) {
+      return undefined
+    }
+    return ctx.fetch<Collection>({
+      url: `/workspaces/${workspaceId}/projects/${projectId}/collections/${id}/commit_entries`,
+      method: 'POST',
+      body: data,
+      schema: collectionSchema
     })
   }),
   delete: publicProcedure.input(inputWorkspaceProjectIdSchema.merge(idObjectSchema)).mutation(({ input, ctx }) => {

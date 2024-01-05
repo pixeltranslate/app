@@ -1,7 +1,14 @@
 <script setup lang="ts">
+import type { CollectionEntry } from '~/types'
 import { LOCALES, type LocaleCodes } from '~/helpers/localCodes'
 
-const { languageOptions, selectedLanguages, data, updateEntry } = useCollectionTable()
+const props = defineProps<{
+  entries: CollectionEntry[]
+}>()
+const { languageOptions, selectedLanguages, setData, dataWithoutDeleted, updateEntry, addEntry, deleteEntry } = useCollectionTable()
+
+// Send initial data to the collections table composable
+setData(props.entries)
 </script>
 
 <template>
@@ -25,19 +32,14 @@ const { languageOptions, selectedLanguages, data, updateEntry } = useCollectionT
         </thead>
         <tbody>
           <tr
-            v-for="item in data"
+            v-for="item in dataWithoutDeleted"
             :key="item.id"
             class="bg-gray-100 dark:bg-transparent text-center border-b text-sm dark:border-border"
           >
             <td class="p-2 border-r dark:border-border">
               <div class="flex flex-col gap-2">
-                <UTooltip text="Show info" :popper="{ arrow: true, placement: 'top' }">
-                  <UButton square color="primary" variant="soft">
-                    <Icon name="entypo:popup" size="15" />
-                  </UButton>
-                </UTooltip>
                 <UTooltip text="Delete entry" :popper="{ arrow: true }">
-                  <UButton square color="red" variant="soft">
+                  <UButton square color="red" variant="soft" @click="deleteEntry(item.id)">
                     <Icon name="material-symbols:delete-outline" size="15" />
                   </UButton>
                 </UTooltip>
@@ -55,12 +57,15 @@ const { languageOptions, selectedLanguages, data, updateEntry } = useCollectionT
                 :ui="{ base: 'min-h-[100px]' }"
               />
             </td>
-            <template v-for="(translation, index) in item.translations" :key="translation">
+            <template
+              v-for="language in languageOptions"
+              :key="language"
+            >
               <CollectionTableBodyBox
-                v-if="selectedLanguages.includes(index)"
+                v-if="selectedLanguages.includes(language)"
                 :row-id="item.id"
-                :default-value="translation"
-                @update="(value) => updateEntry(value, item.id, index)"
+                :default-value="item.translations[language]"
+                @update="(value) => updateEntry(value, item.id, language)"
               />
             </template>
           </tr>
@@ -68,6 +73,7 @@ const { languageOptions, selectedLanguages, data, updateEntry } = useCollectionT
             <td
               colspan="100%"
               class="relative cursor-pointer"
+              @click="addEntry('New entry')"
             >
               <div class="sticky left-0 flex items-center text-gray-500 p-2 text-sm gap-2 w-[250px]">
                 <Icon name="pixelarticons:plus" />

@@ -2,7 +2,8 @@ import { z } from 'zod'
 
 export const routeSchema = z.object({
   workspaceId: z.string().optional(),
-  projectId: z.string().optional()
+  projectId: z.string().optional(),
+  collectionId: z.string().optional()
 })
 export type RouteSchema = z.infer<typeof routeSchema>
 
@@ -27,6 +28,7 @@ export default () => {
     project: {
       data: project,
       isLoading: isProjectLoading
-    }
+    },
+    collectionId: routeParams.collectionId
   }
 }
