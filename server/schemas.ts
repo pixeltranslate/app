@@ -59,7 +59,7 @@ export const createProjectSchema = z.object({
   name: z.string().min(1, 'The name should be at least 1 letters long.').max(36, 'The name cannot be longer than 36 letters.'),
   description: z.string().max(256, 'The description is too long.').optional(),
   platform: platformSchema,
-  languages: z.array(z.string())
+  languages: z.array(z.string()).min(1)
 })
 export const updateProjectSchema = createProjectSchema.merge(idObjectSchema)
 export const createOrUpdateProjectSchema = z.discriminatedUnion('mode', [
