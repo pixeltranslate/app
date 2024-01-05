@@ -5,7 +5,7 @@ import { z } from 'zod'
   export type Example = z.infer<typeof example>
 */
 
-export const idSchema = z.string().min(36)
+export const idSchema = z.string()
 export const idObjectSchema = z.object({ id: idSchema })
 export const workspaceRolesSchema = z.enum(['admin'])
 
@@ -66,7 +66,7 @@ export const createOrUpdateProjectSchema = z.discriminatedUnion('mode', [
 ])
 
 /* Collections */
-export const collectionSchema = z.object({
+export const collectionGetAllSchema = z.object({
   id: idSchema,
   name: z.string(),
   entries: z.number().optional()
@@ -78,3 +78,20 @@ export const collectionEntrySchema = z.object({
   createdAt: z.coerce.date(),
   translations: z.record(z.string(), z.string())
 })
+
+export const collectionSchema = z.object({
+  id: idSchema,
+  name: z.string(),
+  entries: z.record(idSchema, collectionEntrySchema)
+})
+
+export const createCollectionSchema = z.object({
+  workspaceId: idSchema,
+  projectId: idSchema,
+  name: z.string()
+})
+export const updateCollectionSchema = createCollectionSchema.merge(idObjectSchema)
+export const createOrUpdateCollectionSchema = z.discriminatedUnion('mode', [
+  z.object({ mode: z.literal('create'), data: createCollectionSchema }),
+  z.object({ mode: z.literal('update'), data: updateCollectionSchema })
+])

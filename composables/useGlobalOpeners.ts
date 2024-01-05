@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { idSchema, updateWorkspaceSchema, updateProjectSchema } from '~/server/schemas'
+import { idSchema, updateWorkspaceSchema, updateProjectSchema, updateCollectionSchema } from '~/server/schemas'
 
 const makeGlobalOpener = <T>() => {
   const data = ref<T>()
@@ -23,12 +23,21 @@ export const openCreateOrUpdateProjectSchema = z.discriminatedUnion('mode', [
 ])
 type OpenCreateOrUpdateProject = z.infer<typeof openCreateOrUpdateProjectSchema>
 
+export const openCreateOrUpdateCollectionSchema = z.discriminatedUnion('mode', [
+  z.object({ mode: z.literal('create'), data: z.object({ workspaceId: idSchema, projectId: idSchema }) }),
+  z.object({ mode: z.literal('update'), data: updateCollectionSchema })
+])
+type OpenCreateOrUpdateCollection = z.infer<typeof openCreateOrUpdateCollectionSchema>
+
 // Opener definition
 const openers = {
   workspaceCreateOrEdit: makeGlobalOpener<OpenCreateOrUpdateWorkspace>(),
   workspaceDelete: makeGlobalOpener<{ id: string, name: string }>(),
   projectCreateOrEdit: makeGlobalOpener<OpenCreateOrUpdateProject>(),
-  projectDelete: makeGlobalOpener<{ id: string, workspaceId: string, name: string }>()
+  projectDelete: makeGlobalOpener<{ id: string, workspaceId: string, name: string }>(),
+  languageCreateOrEdit: makeGlobalOpener<{ test: string }>(),
+  collectionCreateOrEdit: makeGlobalOpener<OpenCreateOrUpdateCollection>(),
+  collectionDelete: makeGlobalOpener<{ workspaceId: string, projectId: string, id: string, name: string }>()
 }
 
 export type GlobalOpeners = typeof openers

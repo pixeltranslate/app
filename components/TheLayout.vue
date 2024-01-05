@@ -7,8 +7,8 @@ const { status } = useAuth()
 <template>
   <div class="flex h-full overflow-hidden">
     <NavigationSidebar v-if="status === 'authenticated'" />
-    <div class="w-full overflow-auto">
-      <div class="p-8 overflow-y-auto">
+    <div class="w-full h-full overflow-auto">
+      <div class="p-8">
         <header v-if="title">
           <div class="flex items-center gap-2 justify-between">
             <h1 class="text-xl font-semibold dark:text-zinc-200">
