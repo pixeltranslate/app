@@ -6,6 +6,9 @@ const { languageOptions, selectedLanguages, data, updateEntry } = useCollectionT
 
 <template>
   <UCard :ui="{ body: { padding: '!p-0' }, rounded: 'rounded-sm'}">
+    <pre>
+      {{ data }}
+    </pre>
     <div class="overflow-auto h-[78vh]">
       <table class="border dark:border-border">
         <thead>
@@ -55,12 +58,15 @@ const { languageOptions, selectedLanguages, data, updateEntry } = useCollectionT
                 :ui="{ base: 'min-h-[100px]' }"
               />
             </td>
-            <template v-for="(translation, index) in item.translations" :key="translation">
+            <template
+              v-for="language in languageOptions"
+              :key="language"
+            >
               <CollectionTableBodyBox
-                v-if="selectedLanguages.includes(index)"
+                v-if="selectedLanguages.includes(language)"
                 :row-id="item.id"
-                :default-value="translation"
-                @update="(value) => updateEntry(value, item.id, index)"
+                :default-value="item.translations[language]"
+                @update="(value) => updateEntry(value, item.id, language)"
               />
             </template>
           </tr>
