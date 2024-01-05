@@ -33,9 +33,10 @@ const homeLinks: SidebarItem[] = [
 const dynamicRouteLinks: Record<keyof RouteSchema, ((page: UsePage, openers: GlobalOpeners) => SidebarItem[])> = {
   workspaceId: (page, openers) => [
     { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: generateBackLink(page) },
+    { label: 'Projects', icon: 'i-pixelarticons-chart', href: generateDynamicLink(page, '/') },
     {
-      label: 'Edit',
-      icon: 'i-pixelarticons-edit',
+      label: 'Settings',
+      icon: 'i-pixelarticons-sliders',
       click: () => {
         if (!page.workspace.data.value) {
           return
@@ -45,20 +46,37 @@ const dynamicRouteLinks: Record<keyof RouteSchema, ((page: UsePage, openers: Glo
           data: page.workspace.data.value
         })
       }
-    },
-    { label: 'Members', icon: 'i-pixelarticons-users' }
+    }
   ],
-  projectId: page => [
+  projectId: (page, openers) => [
     { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: generateBackLink(page) },
     { label: 'Dashboard', icon: 'i-pixelarticons-dashbaord', href: generateDynamicLink(page, '/') },
-    { label: 'Collections', icon: 'i-pixelarticons-group', href: generateDynamicLink(page, '/collection') }
-  ]
+    { label: 'Collections', icon: 'i-pixelarticons-group', href: generateDynamicLink(page, '/collection') },
+    {
+      label: 'Settings',
+      icon: 'i-pixelarticons-sliders',
+      click: () => {
+        if (!page.project.data.value || !page.workspaceId) {
+          return
+        }
+        openers.projectCreateOrEdit.open({
+          mode: 'update',
+          data: {
+            ...page.project.data.value,
+            workspaceId: page.workspaceId
+          }
+        })
+      }
+    }
+  ],
+  collectionId: () => []
 }
 
 const homeSections: SidebarSections[] = ['userInfo', 'workspaces']
 const dynamicSections: Record<keyof RouteSchema, SidebarSections[]> = {
-  workspaceId: ['workspaceInfo', 'projects', 'workspaces'],
-  projectId: ['projectInfo', 'projects']
+  workspaceId: ['workspaceInfo', 'projects'],
+  projectId: ['projectInfo'],
+  collectionId: []
 }
 
 const getSidebarInfo = (page: UsePage, openers: GlobalOpeners) => {
