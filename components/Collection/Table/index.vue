@@ -1,7 +1,14 @@
 <script setup lang="ts">
+import type { CollectionEntry } from '~/types'
 import { LOCALES, type LocaleCodes } from '~/helpers/localCodes'
 
-const { languageOptions, selectedLanguages, dataWithoutDeleted, updateEntry, addEntry, deleteEntry } = useCollectionTable()
+const props = defineProps<{
+  entries: CollectionEntry[]
+}>()
+const { languageOptions, selectedLanguages, setData, dataWithoutDeleted, updateEntry, addEntry, deleteEntry } = useCollectionTable()
+
+// Send initial data to the collections table composable
+setData(props.entries)
 </script>
 
 <template>

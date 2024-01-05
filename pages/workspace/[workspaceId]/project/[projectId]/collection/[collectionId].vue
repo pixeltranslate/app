@@ -1,5 +1,43 @@
 <script setup lang="ts">
-const { selectedLanguages, languageOptions } = useCollectionTable()
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
+
+const { $trpc } = useNuxtApp()
+const toast = useToast()
+const queryClient = useQueryClient()
+const { workspaceId, projectId, collectionId } = usePage()
+const { selectedLanguages, languageOptions, data } = useCollectionTable()
+
+const { collections } = useQuery()
+const { data: collectionData, isLoading } = collections.byId({ workspaceId, projectId, id: collectionId })
+const isSubmitting = ref(false)
+
+const _save = useMutation({
+  mutationFn: $trpc.collectionRouter.updateEntries.mutate,
+  onError: () => {
+    isSubmitting.value = false
+    toast.add({
+      title: 'The collection could not be updated'
+    })
+  },
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['collections', workspaceId, projectId, collectionId] })
+    isSubmitting.value = false
+    toast.add({
+      title: 'Updated the translations in collection'
+    })
+  }
+})
+
+const save = () => {
+  isSubmitting.value = true
+  _save.mutate({
+    workspaceId,
+    projectId,
+    id: collectionId,
+    data: data.value
+  })
+}
+
 </script>
 
 <template>
@@ -10,10 +48,13 @@ const { selectedLanguages, languageOptions } = useCollectionTable()
           label="Save changes"
           icon="i-heroicons-cloud-arrow-up"
           color="primary"
+          :loading="isSubmitting"
+          @click="save"
         />
         <USelectMenu
           v-model="selectedLanguages"
           :options="languageOptions"
+          :disabled="isSubmitting"
           multiple
           size="md"
           placeholder="Select Languages"
@@ -28,7 +69,12 @@ const { selectedLanguages, languageOptions } = useCollectionTable()
       </div>
     </template>
     <ClientOnly>
-      <CollectionTable :selected-languages="selectedLanguages" />
+      <CollectionTable
+        v-if="!isLoading && collectionData"
+        :selected-languages="selectedLanguages"
+        :entries="Object.values(collectionData.entries)"
+      />
+      <TheLoader v-else />
     </ClientOnly>
   </TheLayout>
 </template>
