@@ -45,8 +45,8 @@ const items = (row: CollectionGetAll) => [
     <TheLoader v-if="isLoading && !data" />
     <TheContentPlaceholder v-else-if="data.length === 0 && workspaceId && projectId">
       <UButton
+        color="light"
         label="Create your first collection"
-        color="dark"
         @click="collectionCreateOrEdit.open({ mode: 'create', data: { workspaceId, projectId } })"
       />
     </TheContentPlaceholder>
@@ -74,24 +74,5 @@ const items = (row: CollectionGetAll) => [
         </div>
       </div>
     </div>
-    <!--
-    <UCard :ui="{ body: { padding: '!p-2' } }">
-      <UTable
-        :columns="columns"
-        :rows="data"
-        :loading="isLoading"
-        :ui="{ td: { padding: 'py-2' } }"
-      >
-        <template #actions-data="{ row }">
-          <UButtonGroup size="sm" orientation="horizontal">
-            <UButton label="View" :to="`./collection/${row.id}`" />
-            <UDropdown :items="items(row)" :popper="{ placement: 'bottom-end' }">
-              <UButton color="white" trailing-icon="i-pixelarticons-chevron-down" />
-            </Udropdown>
-          </UButtonGroup>
-        </template>
-      </UTable>
-    </UCard>
-    -->
   </TheLayout>
 </template>
