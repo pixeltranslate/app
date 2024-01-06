@@ -9,12 +9,12 @@ const { status } = useAuth()
     <NavigationSidebar v-if="status === 'authenticated'" />
     <div class="w-full h-full overflow-auto">
       <div class="p-8">
-        <header v-if="title">
+        <header v-if="title && !isLoading && !error">
           <div class="flex items-center gap-2 justify-between">
             <h1 class="text-xl font-semibold dark:text-zinc-200">
               {{ title }}
             </h1>
-            <slot v-if="!isLoading && !error" name="actions" />
+            <slot name="actions" />
           </div>
           <p v-if="description" class="mt-0.5 text-xs text-gray-600 dark:text-gray-400">
             {{ description }}

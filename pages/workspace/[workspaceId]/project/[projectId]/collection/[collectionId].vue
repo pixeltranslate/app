@@ -4,12 +4,18 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query'
 const { $trpc } = useNuxtApp()
 const toast = useToast()
 const queryClient = useQueryClient()
-const { workspaceId, projectId, collectionId } = usePage()
+const { project, workspaceId, projectId, collectionId } = usePage()
 const { selectedLanguages, languageOptions, data } = useCollectionTable()
 
 const { collections } = useQuery()
 const { data: collectionData, isLoading } = collections.byId({ workspaceId, projectId, id: collectionId })
 const isSubmitting = ref(false)
+
+watch(project.data, () => {
+  if (selectedLanguages.value.length === 0 && project.data.value) {
+    selectedLanguages.value = project.data.value.languages.slice(0, 2)
+  }
+})
 
 const _save = useMutation({
   mutationFn: $trpc.collectionRouter.updateEntries.mutate,
@@ -37,7 +43,6 @@ const save = () => {
     data: data.value
   })
 }
-
 </script>
 
 <template>

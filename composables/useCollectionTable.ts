@@ -1,9 +1,9 @@
 import type { CollectionEntry } from '~/types'
 
-const selectedLanguages = ref<string[]>([])
-
 const data = ref<CollectionEntry[]>([])
 const dataWithoutDeleted = computed(() => data.value.filter(i => !i.deleted))
+
+const selectedLanguages = ref<string[]>([])
 
 const setData = (payload: CollectionEntry[]) => {
   data.value = useMightyClone(payload).cloned.value
@@ -32,10 +32,6 @@ const deleteEntry = (key: string) => {
 
 export default () => {
   const { project } = usePage()
-
-  if (project.data.value) {
-    selectedLanguages.value = project.data.value?.languages.splice(0, 2)
-  }
 
   const languageOptions = computed(() => {
     return project.data.value?.languages
