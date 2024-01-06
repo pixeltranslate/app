@@ -52,7 +52,7 @@ const actions = [
       />
     </template>
 
-    <div>
+    <div class="flex flex-col gap-3">
       <div class="divide-y divide-gray-200 dark:divide-border overflow-hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-px sm:divide-y-0">
         <UButton
           v-for="action in actions"
@@ -81,6 +81,21 @@ const actions = [
             </span>
           </div>
         </UButton>
+      </div>
+
+      <div class="grid xl:grid-cols-6 gap-3">
+        <div class="xl:col-span-4">
+          <TheContentPlaceholder
+            label="No integrations added yet"
+            description="Integrations allow you to sync your translations in your code editors."
+          />
+        </div>
+        <div class="xl:col-span-2">
+          <TheContentPlaceholder
+            label="No project members yet."
+            description="Add you first teammate soon!"
+          />
+        </div>
       </div>
     </div>
   </TheLayout>
