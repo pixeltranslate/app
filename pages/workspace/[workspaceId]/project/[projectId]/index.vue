@@ -18,7 +18,7 @@ const actions = [
     iconBackground: 'bg-purple-50 dark:bg-purple-700'
   },
   {
-    title: 'Add a team members',
+    title: 'Add a team member',
     href: '#',
     icon: 'octicon:people-24',
     iconForeground: 'text-sky-700 dark:text-sky-50',
