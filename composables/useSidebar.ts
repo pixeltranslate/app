@@ -25,15 +25,29 @@ const generateDynamicLink = (page: UsePage, url: string) => {
   return `/workspace/${page.workspaceId}${url}`
 }
 
-const homeLinks: SidebarItem[] = [
-  { label: 'Dashboard', icon: 'i-pixelarticons-dashbaord', href: '/' },
-  { label: 'Workspaces', icon: 'i-pixelarticons-group', href: '/' },
-  { label: 'Documentation', icon: 'i-pixelarticons-book', href: '/' }
-]
+const isActive = (page: UsePage, identifier: string, method: 'exact' | 'includes') => {
+  if (method === 'exact') {
+    return page.path.replaceAll('/', '') === identifier.replaceAll('/', '')
+  }
+  return page.path.includes(identifier)
+}
+
+const homeLinks = (page: UsePage): SidebarItem[] => {
+  return [
+    { label: 'Dashboard', icon: 'i-pixelarticons-dashbaord', href: '/', active: isActive(page, '', 'exact') },
+    { label: 'Workspaces', icon: 'i-pixelarticons-group', href: '/workspaces', active: isActive(page, '/workspaces', 'exact') }
+  ]
+}
+
 const dynamicRouteLinks: Record<keyof RouteSchema, ((page: UsePage, openers: GlobalOpeners) => SidebarItem[])> = {
   workspaceId: (page, openers) => [
     { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: generateBackLink(page) },
-    { label: 'Projects', icon: 'i-pixelarticons-chart', href: generateDynamicLink(page, '/') },
+    {
+      label: 'Projects',
+      icon: 'i-pixelarticons-chart',
+      href: generateDynamicLink(page, '/'),
+      active: isActive(page, generateDynamicLink(page, ''), 'includes')
+    },
     {
       label: 'Settings',
       icon: 'i-pixelarticons-sliders',
@@ -50,8 +64,8 @@ const dynamicRouteLinks: Record<keyof RouteSchema, ((page: UsePage, openers: Glo
   ],
   projectId: (page, openers) => [
     { label: 'Back to workspace', icon: 'i-pixelarticons-chevron-left', href: generateBackLink(page) },
-    { label: 'Dashboard', icon: 'i-pixelarticons-dashbaord', href: generateDynamicLink(page, '/') },
-    { label: 'Collections', icon: 'i-pixelarticons-group', href: generateDynamicLink(page, '/collection') },
+    { label: 'Dashboard', icon: 'i-pixelarticons-dashbaord', href: generateDynamicLink(page, '/'), active: isActive(page, generateDynamicLink(page, ''), 'exact') },
+    { label: 'Collections', icon: 'i-pixelarticons-group', href: generateDynamicLink(page, '/collection'), active: isActive(page, generateDynamicLink(page, '/collection'), 'exact') },
     {
       label: 'Settings',
       icon: 'i-pixelarticons-sliders',
@@ -93,7 +107,7 @@ const getSidebarInfo = (page: UsePage, openers: GlobalOpeners) => {
   }
   return {
     sections: homeSections,
-    links: homeLinks
+    links: homeLinks(page)
   }
 }
 

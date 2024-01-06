@@ -9,10 +9,20 @@ export default defineAppConfig({
         },
         secondary: {
           solid: 'text-white bg-secondary'
+        },
+        red: {
+          solid: 'text-white bg-red-500 hover:bg-red-400'
         }
       },
       default: {
         color: 'white'
+      }
+    },
+    alert: {
+      color: {
+        red: {
+          soft: 'bg-red-100 dark:bg-red-400 dark:bg-opacity-10 text-red-500 dark:text-red-400'
+        }
       }
     },
     card: {
