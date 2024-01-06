@@ -28,7 +28,6 @@ const generateDynamicLink = (page: UsePage, url: string) => {
 const homeLinks: SidebarItem[] = [
   { label: 'Dashboard', icon: 'i-pixelarticons-dashbaord', href: '/' },
   { label: 'Workspaces', icon: 'i-pixelarticons-group', href: '/workspaces' },
-  { label: 'Documentation', icon: 'i-pixelarticons-book', href: '/' },
   { label: 'Integrations', icon: 'i-pixelarticons-card-plus', href: '/' }
 
 ]

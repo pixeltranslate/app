@@ -25,7 +25,7 @@ const items = [
   }, {
     label: 'API Keys',
     icon: 'i-pixelarticons-lock-open',
-    href: '/integrations'
+    href: '/tokens'
   }], [{
     label: 'Logout',
     icon: 'i-pixelarticons-logout',

@@ -70,7 +70,7 @@ const actions = [
       </div>
 
       <h1 class="text-lg mt-4 text-gray-700 dark:text-gray-300">
-        Your recent projects:
+        Recently updated:
       </h1>
       <div class="flex flex-col">
         <ProjectsRecentListCard

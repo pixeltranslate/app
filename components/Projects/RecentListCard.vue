@@ -14,6 +14,9 @@ defineProps<{
       <h1 class="text-md text-gray-700 dark:text-gray-200">
         <span class="text-gray-500 dark:text-gray-400">Workspace / </span>{{ title }}
       </h1>
+      <p class="text-xs text-gray-500">
+        Last updated 30 minutes ago
+      </p>
     </div>
     <UAvatarGroup size="xs" :max="3">
       <UAvatar
