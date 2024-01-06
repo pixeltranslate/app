@@ -21,19 +21,19 @@ defineProps<{
     <UAvatarGroup size="xs" :max="3">
       <UAvatar
         src="https://github.com/zoey-kaiser.png"
-        alt="benjamincanac"
+        alt="zoey-kaiser"
       />
       <UAvatar
         src="https://github.com/reapermaga.png"
-        alt="Atinux"
+        alt="reapermaga"
       />
       <UAvatar
         src="https://github.com/levenour.png"
-        alt="smarroufin"
+        alt="levenour"
       />
       <UAvatar
         src="https://github.com/levenour.png"
-        alt="smarroufin"
+        alt="levenour"
       />
     </UAvatarGroup>
     <UButton
