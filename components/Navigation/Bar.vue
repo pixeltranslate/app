@@ -23,6 +23,10 @@ const items = [
     href: 'https://auth.averix.tech/auth/realms/pixeltranslate-dev/account/',
     target: '_blank'
   }, {
+    label: 'API Keys',
+    icon: 'i-pixelarticons-lock-open',
+    href: '/integrations'
+  }], [{
     label: 'Logout',
     icon: 'i-pixelarticons-logout',
     click: signOut
