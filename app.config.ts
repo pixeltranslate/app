@@ -9,6 +9,9 @@ export default defineAppConfig({
         },
         secondary: {
           solid: 'text-white bg-secondary'
+        },
+        dark: {
+          solid: 'text-white bg-primary-light'
         }
       },
       default: {
