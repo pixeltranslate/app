@@ -3,28 +3,28 @@ const { data } = useAuth()
 
 const actions = [
   {
-    title: 'Add your first collection',
+    title: 'Create a new workspace',
     href: '',
     icon: 'octicon:file-directory-symlink-16',
     iconForeground: 'text-teal-700 dark:text-teal-50',
     iconBackground: 'bg-teal-50 dark:bg-teal-700'
   },
   {
-    title: 'Setup your Unity project',
+    title: 'Find the correct integration',
     href: '#',
     icon: 'bxl:unity',
     iconForeground: 'text-purple-700 dark:text-purple-50',
     iconBackground: 'bg-purple-50 dark:bg-purple-700'
   },
   {
-    title: 'Add a team member',
+    title: 'Connection with team members',
     href: '#',
     icon: 'octicon:people-24',
     iconForeground: 'text-sky-700 dark:text-sky-50',
     iconBackground: 'bg-sky-50 dark:bg-sky-700'
   },
   {
-    title: 'Add another language',
+    title: 'Read our docs on how to translate correctly!',
     href: '#',
     icon: 'mdi:language',
     iconForeground: 'text-yellow-700 dark:text-yellow-50',
@@ -48,7 +48,7 @@ const actions = [
           variant="ghost"
           class="w-full"
         >
-          <div class="group relative bg-white dark:bg-foreground p-5 hover:ring-2 hover:ring-inset hover:ring-secondary/50 text-left">
+          <div class="group relative bg-white dark:bg-foreground p-5 hover:ring-2 hover:ring-inset hover:ring-primary/50 text-left">
             <div>
               <span :class="[action.iconBackground, action.iconForeground, 'inline-flex rounded-lg p-3 ring-0']">
                 <Icon :name="action.icon" size="20px" />
