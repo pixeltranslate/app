@@ -27,8 +27,7 @@ const generateDynamicLink = (page: UsePage, url: string) => {
 
 const homeLinks: SidebarItem[] = [
   { label: 'Dashboard', icon: 'i-pixelarticons-dashbaord', href: '/' },
-  { label: 'Workspaces', icon: 'i-pixelarticons-group', href: '/workspaces' },
-  { label: 'Integrations', icon: 'i-pixelarticons-card-plus', href: '/' }
+  { label: 'Workspaces', icon: 'i-pixelarticons-group', href: '/workspaces' }
 
 ]
 const dynamicRouteLinks: Record<keyof RouteSchema, ((page: UsePage, openers: GlobalOpeners) => SidebarItem[])> = {

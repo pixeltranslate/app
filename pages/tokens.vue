@@ -1,44 +1,29 @@
 <template>
-  <TheLayout
-    title="Personal Access tokens"
-  >
-    <template #actions>
-      <UButton icon="i-heroicons-key" size="lg">
-        New personal access token
-      </UButton>
-    </template>
-
+  <TheLayout>
     <UAlert
       icon="i-heroicons-exclamation-circle"
       color="red"
-      variant="outline"
+      variant="soft"
       title="Heads up!"
       description="Do not share your personal access token with anyone. No one at Pixeltranslate will ever ask you to share a personal access token."
     />
 
-    <div class="mt-4 grid grid-cols-4 gap-2">
-      <div class="flex flex-col gap-0">
-        <div class="flex items-center gap-2 bg-foreground p-4 rounded-t">
-          <div class="border-border border rounded w-10 h-10 flex items-center justify-center">
-            <Icon name="heroicons:key" size="22px" />
-          </div>
-          <div>
-            <h1>
-              Unity integration
-            </h1>
-            <p class="text-xs text-gray-400">
-              Created 06.01.2024
-            </p>
-          </div>
-        </div>
-        <UButton
-          color="red"
-          variant="solid"
-          :ui="{ rounded: 'rounded-b rounded-t-none !px-4 !py-2.5' }"
-        >
-          Revoke access
-        </UButton>
-      </div>
+    <div class="my-5 flex items-end gap-2 justify-between">
+      <h1 class="text-lg">
+        Your Personal access tokens:
+      </h1>
+      <UButton icon="i-heroicons-key" size="lg">
+        New token
+      </UButton>
+    </div>
+
+    <div class="flex flex-col">
+      <AccountAccessTokenRow />
+      <AccountAccessTokenRow />
+      <AccountAccessTokenRow />
+      <AccountAccessTokenRow />
+      <AccountAccessTokenRow />
+      <AccountAccessTokenRow />
     </div>
 
     <TheModal
