@@ -1,11 +1,11 @@
 <script setup lang="ts">
-const { project, workspaceId } = usePage()
+const { project, workspaceId, projectId } = usePage()
 const { projectCreateOrEdit } = useGlobalOpeners()
 
 const actions = [
   {
     title: 'Add your first collection',
-    href: './collection',
+    href: `/workspace/${workspaceId}/project/${projectId}/collection`,
     icon: 'octicon:file-directory-symlink-16',
     iconForeground: 'text-teal-700 dark:text-teal-50',
     iconBackground: 'bg-teal-50 dark:bg-teal-700'
@@ -53,13 +53,14 @@ const actions = [
     </template>
 
     <div>
-      <div class="divide-y divide-gray-200 dark:divide-border overflow-hidden sm:grid sm:grid-cols-4 sm:gap-px sm:divide-y-0">
+      <div class="divide-y divide-gray-200 dark:divide-border overflow-hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-px sm:divide-y-0">
         <UButton
           v-for="action in actions"
           :key="action.title"
           :padded="false"
           :to="action.href"
           variant="ghost"
+          class="w-full"
         >
           <div class="group relative bg-white dark:bg-foreground p-5 hover:ring-2 hover:ring-inset hover:ring-secondary/50 text-left">
             <div>

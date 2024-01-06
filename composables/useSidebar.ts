@@ -49,7 +49,7 @@ const dynamicRouteLinks: Record<keyof RouteSchema, ((page: UsePage, openers: Glo
     }
   ],
   projectId: (page, openers) => [
-    { label: 'Back', icon: 'i-pixelarticons-chevron-left', href: generateBackLink(page) },
+    { label: 'Back to workspace', icon: 'i-pixelarticons-chevron-left', href: generateBackLink(page) },
     { label: 'Dashboard', icon: 'i-pixelarticons-dashbaord', href: generateDynamicLink(page, '/') },
     { label: 'Collections', icon: 'i-pixelarticons-group', href: generateDynamicLink(page, '/collection') },
     {
