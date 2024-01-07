@@ -1,8 +1,10 @@
 <script lang='ts' setup>
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
+import { useClipboard } from '@vueuse/core'
 
 const { $trpc } = useNuxtApp()
 const queryClient = useQueryClient()
+const { copy, isSupported } = useClipboard()
 const { profile: profileQuery } = useQuery()
 const { data: tokens } = profileQuery.tokens()
 
@@ -65,14 +67,19 @@ const create = useMutation({
           Generate new token
         </UButton>
       </div>
+      <TheLoader v-else min-height="h-[150px]" />
     </TheModal>
 
     <TheModal
       :is-open="tokenDisplayModal.isOpen"
       title="Your new personal access token"
+      hide-close-icon
     >
       <UFormGroup label="Token:">
-        <UTextarea disabled :model-value="tokenDisplayModal.data.value?.secretId" />
+        <UTextarea
+          disabled
+          :model-value="tokenDisplayModal.data.value?.secretId"
+        />
       </UFormGroup>
 
       <p class="mt-2 text-xs text-gray-300">
@@ -80,7 +87,14 @@ const create = useMutation({
       </p>
 
       <div class="grid grid-cols-2 gap-2">
-        <UButton block class="mt-3" color="primary" icon="i-heroicons-clipboard-document-list-solid">
+        <UButton
+          v-if="isSupported"
+          block
+          class="mt-3"
+          color="primary"
+          icon="i-heroicons-clipboard-document-list-solid"
+          @click="copy(tokenDisplayModal.data.value?.secretId || '')"
+        >
           Copy access code
         </UButton>
         <UButton
