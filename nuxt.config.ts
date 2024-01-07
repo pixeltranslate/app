@@ -25,7 +25,7 @@ export default defineNuxtConfig({
   auth: {
     provider: {
       type: 'authjs',
-      defaultProvider: 'keycloak',
+      defaultProvider: 'fusionauth',
       addDefaultCallbackUrl: true
     },
     session: {

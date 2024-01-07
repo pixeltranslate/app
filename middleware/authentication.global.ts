@@ -1,15 +1,12 @@
 export default defineNuxtRouteMiddleware((to) => {
-  const { status, signIn, data, signOut } = useAuth()
+  const { status, data, signIn, signOut } = useAuth()
 
-  // See when the session is supposed to expire and if that point has passed, force logout the user
-  if (data.value?.expires) {
-    const date = new Date(data.value?.expires)
-    if (new Date() >= date) {
-      signOut()
-      return
-    }
+  if (data.value?.error && data.value.error === 'RefreshAccessTokenExpired') {
+    signOut()
+    return
   }
 
+  // See when the session is supposed to expire and if that point has passed, force logout the user
   // If user is authenticated we allow them to access the page
   if (status.value === 'authenticated') {
     return
@@ -26,9 +23,9 @@ export default defineNuxtRouteMiddleware((to) => {
   const matchedRoute = to.matched.length > 0
   if (!matchedRoute) {
     // Hands control back to `vue-router`, which will direct to the `404` page
-    return
+
   }
 
-  // User is not signed in, so redirect them to our keyclock instance to take over
-  signIn('keycloak')
+  // User is not signed in, so redirect them to our fushionauth instance to take over
+  signIn('fusionauth')
 })

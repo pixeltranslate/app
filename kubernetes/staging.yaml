@@ -22,21 +22,26 @@ spec:
               memory: '1G'
               cpu: '0.3'
           env:
-            - name: KEY_CLOAK_CLIENT_ID
+            - name: AUTH_CLIENT_ID
               valueFrom:
                 secretKeyRef:
                   name: app
-                  key: keycloak-client-id
-            - name: KEY_CLOAK_CLIENT_SECRET
+                  key: auth-client-id
+            - name: AUTH_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: app
-                  key: keycloak-client-secret
-            - name: KEY_CLOAK_ISSUER
+                  key: auth-client-secret
+            - name: AUTH_ISSUER
               valueFrom:
                 secretKeyRef:
                   name: app
-                  key: keycloak-issuer
+                  key: auth-issuer
+            - name: AUTH_TENANT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: app
+                  key: auth-tenant-id
             - name: AUTH_SECRET
               valueFrom:
                 secretKeyRef:

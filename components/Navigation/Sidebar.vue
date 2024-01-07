@@ -49,7 +49,7 @@ const myWorkspacesSidebar = computed(() => {
               :ui="{ background: 'dark:bg-primary-dark' }"
             />
             <div>
-              <p class="text-gray-200 capitalize">
+              <p class="text-gray-200">
                 {{ username }}
               </p>
             </div>
