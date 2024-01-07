@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import type { BadgeSize } from '#ui/types'
 import type { ProjectPlatforms } from '~/types'
 import { platformToIcon } from '~/composables/usePlatformIcon'
 
-withDefaults(defineProps<{ platform: ProjectPlatforms, size?: BadgeSize, color?: string }>(), {
-  size: 'md',
+withDefaults(defineProps<{ platform: ProjectPlatforms, size?: string, color?: string }>(), {
+  size: 'w-6 h-6',
   color: undefined
 })
 
@@ -42,7 +41,7 @@ const platforms: Record<ProjectPlatforms, PlatformData> = {
 </script>
 
 <template>
-  <div class="w-9 h-9 dark:border-white/20 border flex items-center justify-center rounded">
-    <UIcon :name="platforms[platform].icon" class="w-6 h-6" :class="color ?? (platforms[platform].color || 'text-gray-600 dark:text-gray-200')" />
+  <div class="p-1.5 dark:border-white/20 border flex items-center justify-center rounded">
+    <UIcon :name="platforms[platform].icon" :class="`${size} ${color ?? (platforms[platform].color || 'text-gray-600 dark:text-gray-200')}`" />
   </div>
 </template>

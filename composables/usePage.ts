@@ -8,7 +8,7 @@ export const routeSchema = z.object({
 export type RouteSchema = z.infer<typeof routeSchema>
 
 export default () => {
-  const { params } = useRoute()
+  const { params, path } = useRoute()
   const routeParams = routeSchema.parse(params)
   const { workspaces, projects } = useQuery()
 
@@ -29,6 +29,7 @@ export default () => {
       data: project,
       isLoading: isProjectLoading
     },
-    collectionId: routeParams.collectionId
+    collectionId: routeParams.collectionId,
+    path
   }
 }

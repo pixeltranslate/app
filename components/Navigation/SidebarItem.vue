@@ -8,6 +8,7 @@ export interface SidebarItem {
   href?: string
   click?: () => void,
   avatar?: Avatar
+  active?: boolean
   children?: Omit<SidebarItem, 'children'>[]
 }
 const props = defineProps<SidebarItem>()
@@ -23,8 +24,8 @@ const toggle = () => {
 <template>
   <NuxtLink :event="href ? 'click' : ''" :to="href" @click="click">
     <div
-      class="flex items-center justify-between hover:bg-primary-dark/40 p-2 mx-2 rounded cursor-pointer"
-      :class="isExpanded && 'bg-primary-dark/20'"
+      class="flex items-center justify-between hover:bg-blue-400 dark:hover:bg-primary-dark/40 p-2 mx-2 rounded cursor-pointer"
+      :class="[(isExpanded && 'bg-primary-dark/20'), active && 'bg-blue-400 dark:bg-primary-dark/40']"
       @click="toggle"
     >
       <div class="flex items-center gap-2 truncate">
