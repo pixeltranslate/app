@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { username, avatar } = useUser()
-const { signOut, signIn, status } = useAuth()
+const { status, signIn, signOut } = useAuth()
 const { toggle: toggleSidebar } = useSidebar()
 const colorMode = useColorMode()
 
@@ -17,11 +17,6 @@ const items = [
   [{
     label: 'Profile',
     avatar: avatar.value
-  }], [{
-    label: 'Settings',
-    icon: 'i-pixelarticons-sliders',
-    href: 'https://auth.averix.tech/auth/realms/pixeltranslate-dev/account/',
-    target: '_blank'
   }, {
     label: 'API Keys',
     icon: 'i-pixelarticons-lock-open',
@@ -75,7 +70,7 @@ const items = [
           />
         </div>
       </UDropdown>
-      <UButton v-else size="lg" @click="signIn('keycloak')">
+      <UButton v-else size="lg" @click="signIn('fusionauth')">
         Sign in
       </UButton>
     </div>
