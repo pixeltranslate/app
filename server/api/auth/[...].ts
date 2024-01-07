@@ -72,11 +72,7 @@ export default NuxtAuthHandler({
     session ({ session, token }) {
       return {
         ...session,
-        error: token.error ?? undefined,
-        user: {
-          ...session.user,
-          image: token.picture || undefined
-        }
+        error: token.error ?? undefined
       }
     }
   }
