@@ -15,6 +15,7 @@ export default defineNuxtRouteMiddleware((to) => {
       return navigateTo(url, { external: true })
     }
     console.warn('WARN: Could not redirect to external logout page. Missing environment variables.')
+    return navigateTo('/')
   }
 
   if (data.value?.error && data.value.error === 'RefreshAccessTokenExpired') {
