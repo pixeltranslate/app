@@ -21,7 +21,7 @@ withDefaults(defineProps<{
       <h1 class="font-bold text-zinc-500 dark:text-zinc-100 text-lg">
         {{ label }}
       </h1>
-      <p class="text-sm text-zinc-400">
+      <p class="text-sm text-zinc-400 text-center">
         {{ description }}
       </p>
       <div class="flex items-center gap-2 mt-4">

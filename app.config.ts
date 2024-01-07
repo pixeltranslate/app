@@ -10,6 +10,12 @@ export default defineAppConfig({
         secondary: {
           solid: 'text-white bg-secondary'
         },
+        light: {
+          solid: 'text-white bg-primary-light'
+        },
+        dark: {
+          solid: 'text-white bg-primary-dark'
+        },
         red: {
           solid: 'text-white bg-red-500 hover:bg-red-400'
         }
