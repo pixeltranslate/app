@@ -2,7 +2,7 @@
 import type { Token } from '~/types'
 
 defineProps<{ token: Token }>()
-defineEmits<{(e: 'revoke', id: string): void}>()
+defineEmits<{(e: 'revoke', payload: { id: string }): void}>()
 </script>
 
 <template>
@@ -30,7 +30,7 @@ defineEmits<{(e: 'revoke', id: string): void}>()
       color="red"
       icon="i-heroicons-shield-exclamation-solid"
       label="Revoke access"
-      @click="$emit('revoke', token.id)"
+      @click="$emit('revoke', { id: token.id })"
     />
   </div>
 </template>

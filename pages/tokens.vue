@@ -12,9 +12,11 @@ const { data: tokens } = profileQuery.tokens()
 
 const tokenCreationModal = useModal<{ name: string }>()
 const tokenDisplayModal = useModal<{ secretId: string }>()
+const tokenRevokeConfirmModal = useModal<{ id: string }>()
 
 const create = useMutation({
   mutationFn: $trpc.profileRouter.createToken.mutate,
+  onError: () => toast.add({ title: 'There was an issue creating your token' }),
   onSuccess: (res) => {
     queryClient.invalidateQueries({ queryKey: ['profiles', 'tokens'] })
     toast.add({ title: 'You created a new personal access token.' })
@@ -25,8 +27,10 @@ const create = useMutation({
 
 const revoke = useMutation({
   mutationFn: $trpc.profileRouter.deleteToken.mutate,
+  onError: () => toast.add({ title: 'There was an issue deleting your token' }),
   onSuccess: (res) => {
     queryClient.invalidateQueries({ queryKey: ['profiles', 'tokens'] })
+    tokenRevokeConfirmModal.close()
     toast.add({ title: `You remove the personal access token: ${res.name}` })
   }
 })
@@ -56,7 +60,7 @@ const revoke = useMutation({
         v-for="token in tokens"
         :key="token.id"
         :token="token"
-        @revoke="revoke.mutate"
+        @revoke="p => tokenRevokeConfirmModal.open(p)"
       />
     </div>
 
@@ -117,6 +121,28 @@ const revoke = useMutation({
           Close and hide token
         </UButton>
       </div>
+    </TheModal>
+
+    <TheModal
+      title="Are you sure you want to revoke access?"
+      :is-open="tokenRevokeConfirmModal.isOpen"
+      bg="bg-red-600 dark:bg-red-800"
+      @close="tokenRevokeConfirmModal.close()"
+    >
+      <div v-if="tokenRevokeConfirmModal.data.value" class="flex flex-col gap-4">
+        <p class="text-sm">
+          Any integration using this token, will require a new access token to continue to work.
+        </p>
+        <UButton
+          color="red"
+          variant="outline"
+          label="I understand, revoke access"
+          block
+          type="submit"
+          @click="revoke.mutate(tokenRevokeConfirmModal.data.value)"
+        />
+      </div>
+      <TheLoader v-else min-height="h-[150px]" />
     </TheModal>
   </TheLayout>
 </template>
