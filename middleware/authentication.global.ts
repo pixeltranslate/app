@@ -6,9 +6,9 @@ export default defineNuxtRouteMiddleware((to) => {
 
   // Redirect to external signout page to clear all futhur sessions
   if (to.name === 'auth-signout' && status.value === 'authenticated') {
-    const AUTH_CLIENT_ID = runtimeConfig.public.AUTH_CLIENT_ID
-    const AUTH_TENANT_ID = runtimeConfig.public.AUTH_TENANT_ID
-    const AUTH_ISSUER = runtimeConfig.public.AUTH_ISSUER
+    const AUTH_CLIENT_ID = runtimeConfig.public.auth_client_id
+    const AUTH_TENANT_ID = runtimeConfig.public.auth_tenant_id
+    const AUTH_ISSUER = runtimeConfig.public.auth_issuer
 
     if (AUTH_CLIENT_ID && AUTH_TENANT_ID && AUTH_ISSUER) {
       const url = `${AUTH_ISSUER}/logout?client_id=${AUTH_CLIENT_ID}&tenantId=${AUTH_TENANT_ID}`

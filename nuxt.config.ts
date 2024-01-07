@@ -18,9 +18,9 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      AUTH_CLIENT_ID: process.env.AUTH_CLIENT_ID,
-      AUTH_TENANT_ID: process.env.AUTH_TENANT_ID,
-      AUTH_ISSUER: process.env.AUTH_ISSUER
+      auth_client_id: '',
+      auth_tenant_id: '',
+      auth_issuer: ''
     }
   },
   typescript: {

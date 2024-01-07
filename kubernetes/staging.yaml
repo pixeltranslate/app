@@ -22,7 +22,7 @@ spec:
               memory: '1G'
               cpu: '0.3'
           env:
-            - name: AUTH_CLIENT_ID
+            - name: NUXT_PUBLIC_AUTH_CLIENT_ID
               valueFrom:
                 secretKeyRef:
                   name: app
@@ -32,12 +32,12 @@ spec:
                 secretKeyRef:
                   name: app
                   key: auth-client-secret
-            - name: AUTH_ISSUER
+            - name: NUXT_PUBLIC_AUTH_ISSUER
               valueFrom:
                 secretKeyRef:
                   name: app
                   key: auth-issuer
-            - name: AUTH_TENANT_ID
+            - name: NUXT_PUBLIC_AUTH_TENANT_ID
               valueFrom:
                 secretKeyRef:
                   name: app
