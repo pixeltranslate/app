@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import type { Token } from '~/types'
 
-defineProps<{
-  token: Token
-}>()
+defineProps<{ token: Token }>()
+defineEmits<{(e: 'revoke', id: string): void}>()
 </script>
 
 <template>
@@ -31,6 +30,7 @@ defineProps<{
       color="red"
       icon="i-heroicons-shield-exclamation-solid"
       label="Revoke access"
+      @click="$emit('revoke', token.id)"
     />
   </div>
 </template>

@@ -5,6 +5,8 @@ import { useClipboard } from '@vueuse/core'
 const { $trpc } = useNuxtApp()
 const queryClient = useQueryClient()
 const { copy, isSupported } = useClipboard()
+const toast = useToast()
+
 const { profile: profileQuery } = useQuery()
 const { data: tokens } = profileQuery.tokens()
 
@@ -15,8 +17,17 @@ const create = useMutation({
   mutationFn: $trpc.profileRouter.createToken.mutate,
   onSuccess: (res) => {
     queryClient.invalidateQueries({ queryKey: ['profiles', 'tokens'] })
+    toast.add({ title: 'You created a new personal access token.' })
     tokenCreationModal.close()
     tokenDisplayModal.open(res)
+  }
+})
+
+const revoke = useMutation({
+  mutationFn: $trpc.profileRouter.deleteToken.mutate,
+  onSuccess: (res) => {
+    queryClient.invalidateQueries({ queryKey: ['profiles', 'tokens'] })
+    toast.add({ title: `You remove the personal access token: ${res.name}` })
   }
 })
 </script>
@@ -45,6 +56,7 @@ const create = useMutation({
         v-for="token in tokens"
         :key="token.id"
         :token="token"
+        @revoke="revoke.mutate"
       />
     </div>
 

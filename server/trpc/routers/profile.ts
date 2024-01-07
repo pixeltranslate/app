@@ -22,5 +22,15 @@ export const router = createRouter({
       body: input,
       schema: secretIdSchema
     })
+  }),
+  deleteToken: publicProcedure.input(z.string()).mutation(({ input, ctx }) => {
+    return ctx.fetch<Token>({
+      url: '/profile/tokens',
+      method: 'DELETE',
+      schema: tokenSchema,
+      body: {
+        id: input
+      }
+    })
   })
 })
