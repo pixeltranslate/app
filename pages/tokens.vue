@@ -1,3 +1,24 @@
+<script lang='ts' setup>
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
+
+const { $trpc } = useNuxtApp()
+const queryClient = useQueryClient()
+const { profile: profileQuery } = useQuery()
+const { data: tokens } = profileQuery.tokens()
+
+const tokenCreationModal = useModal<{ name: string }>()
+const tokenDisplayModal = useModal<{ secretId: string }>()
+
+const create = useMutation({
+  mutationFn: $trpc.profileRouter.createToken.mutate,
+  onSuccess: (res) => {
+    queryClient.invalidateQueries({ queryKey: ['profiles', 'tokens'] })
+    tokenCreationModal.close()
+    tokenDisplayModal.open(res)
+  }
+})
+</script>
+
 <template>
   <TheLayout>
     <UAlert
@@ -12,38 +33,46 @@
       <h1 class="text-lg">
         Your Personal access tokens:
       </h1>
-      <UButton icon="i-heroicons-key" size="lg">
+      <UButton icon="i-heroicons-key" size="lg" @click="tokenCreationModal.open({ name: '' })">
         New token
       </UButton>
     </div>
 
     <div class="flex flex-col">
-      <AccountAccessTokenRow />
-      <AccountAccessTokenRow />
-      <AccountAccessTokenRow />
-      <AccountAccessTokenRow />
-      <AccountAccessTokenRow />
-      <AccountAccessTokenRow />
+      <AccountAccessTokenRow
+        v-for="token in tokens"
+        :key="token.id"
+        :token="token"
+      />
     </div>
 
     <TheModal
-      :is-open="false"
+      :is-open="tokenCreationModal.isOpen"
       title="Create new personal access token"
+      @close="tokenCreationModal.close()"
     >
-      <UFormGroup label="Name:">
-        <UInput />
-      </UFormGroup>
-      <UButton block class="mt-3" color="primary" variant="outline">
-        Generate new token
-      </UButton>
+      <div v-if="tokenCreationModal.data.value">
+        <UFormGroup label="Name:">
+          <UInput v-model="tokenCreationModal.data.value.name" />
+        </UFormGroup>
+        <UButton
+          block
+          class="mt-3"
+          color="primary"
+          variant="outline"
+          @click="create.mutate(tokenCreationModal.data.value)"
+        >
+          Generate new token
+        </UButton>
+      </div>
     </TheModal>
 
     <TheModal
-      :is-open="false"
+      :is-open="tokenDisplayModal.isOpen"
       title="Your new personal access token"
     >
       <UFormGroup label="Token:">
-        <UTextarea disabled model-value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY3Mjc2NjAyOCwiZXhwIjoxNjc0NDk0MDI4fQ.kCak9sLJr74frSRVQp0_27BY4iBCgQSmoT3vQVWKzJg" />
+        <UTextarea disabled :model-value="tokenDisplayModal.data.value?.secretId" />
       </UFormGroup>
 
       <p class="mt-2 text-xs text-gray-300">
@@ -54,7 +83,11 @@
         <UButton block class="mt-3" color="primary" icon="i-heroicons-clipboard-document-list-solid">
           Copy access code
         </UButton>
-        <UButton block class="mt-3">
+        <UButton
+          block
+          class="mt-3"
+          @click="tokenDisplayModal.close()"
+        >
           Close and hide token
         </UButton>
       </div>

@@ -1,3 +1,11 @@
+<script lang="ts" setup>
+import type { Token } from '~/types'
+
+defineProps<{
+  token: Token
+}>()
+</script>
+
 <template>
   <div class="flex items-center gap-3 hover:bg-gray-200/40 dark:hover:bg-foreground/30 px-3 py-4 border-t dark:border-border">
     <div class="grow flex flex-col gap-1">
@@ -6,12 +14,12 @@
           Active
         </UBadge>
         <h1 class="text-gray-700 dark:text-gray-200">
-          Unity integration
+          {{ token.name }}
         </h1>
       </div>
       <div class="flex items-center text-xs text-gray-500 gap-1">
         <p class="text-xs text-gray-500">
-          Created: 06.01.24
+          Created: {{ token.createdAt.toDateString() }}
         </p>
         <p> • </p>
         <p class="text-xs text-gray-500">
