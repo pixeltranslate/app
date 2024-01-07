@@ -5,7 +5,7 @@ import { NuxtAuthHandler } from '#auth'
 
 async function refreshAccessToken (token: JWT) {
   try {
-    const url = `${process.env.AUTH_ISSUER}/token`
+    const url = `${process.env.NUXT_PUBLIC_AUTH_ISSUER}/token`
     const req = await fetch(url, {
       method: 'POST',
       headers: {
@@ -13,7 +13,7 @@ async function refreshAccessToken (token: JWT) {
       },
       body:
         'grant_type=refresh_token' +
-        `&client_id=${process.env.AUTH_CLIENT_ID}` +
+        `&client_id=${process.env.NUXT_PUBLIC_AUTH_CLIENT_ID}` +
         `&client_secret=${process.env.AUTH_CLIENT_SECRET}` +
         `&refresh_token=${token.refreshToken}`
     })
@@ -47,10 +47,10 @@ export default NuxtAuthHandler({
   providers: [
     // @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
     FusionAuthProvider.default({
-      issuer: process.env.AUTH_ISSUER,
-      clientId: process.env.AUTH_CLIENT_ID,
+      issuer: process.env.NUXT_PUBLIC_AUTH_ISSUER,
+      clientId: process.env.NUXT_PUBLIC_AUTH_CLIENT_ID,
       clientSecret: process.env.AUTH_CLIENT_SECRET,
-      tenantId: process.env.AUTH_TENANT_ID
+      tenantId: process.env.NUXT_PUBLIC_AUTH_TENANT_ID
     })
   ],
   callbacks: {
