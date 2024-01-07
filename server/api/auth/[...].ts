@@ -54,11 +54,16 @@ export default NuxtAuthHandler({
     })
   ],
   callbacks: {
-    jwt ({ token, account }) {
+    jwt ({ token, account, profile }) {
       if (account) {
         token.accessToken = account.access_token
         token.accessTokenExpires = account.expires_at
         token.refreshToken = account.refresh_token
+      }
+      if (profile) {
+        // @ts-expect-error
+        token.name = profile.fullName
+        token.image = profile.image
       }
 
       // If the access token has not expired we return it
@@ -72,6 +77,11 @@ export default NuxtAuthHandler({
     session ({ session, token }) {
       return {
         ...session,
+        user: {
+          ...session.user,
+          name: token.name,
+          image: (token.image ?? undefined) as string | undefined
+        },
         error: token.error ?? undefined
       }
     }
