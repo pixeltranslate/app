@@ -98,3 +98,9 @@ export const createOrUpdateCollectionSchema = z.discriminatedUnion('mode', [
   z.object({ mode: z.literal('create'), data: createCollectionSchema }),
   z.object({ mode: z.literal('update'), data: updateCollectionSchema })
 ])
+
+export const tokenSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  createdAt: z.coerce.date()
+})

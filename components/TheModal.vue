@@ -2,6 +2,7 @@
 defineProps<{
   isOpen: boolean | Ref<boolean>,
   title?: string
+  hideCloseIcon?: boolean
   isLoading?: boolean
   bg?: string
 }>()
@@ -24,6 +25,7 @@ defineEmits(['close'])
           </h1>
         </div>
         <UButton
+          v-if="!hideCloseIcon"
           color="white"
           variant="ghost"
           icon="i-heroicons-x-mark-20-solid"
