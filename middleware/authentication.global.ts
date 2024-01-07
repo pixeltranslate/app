@@ -5,7 +5,7 @@ export default defineNuxtRouteMiddleware((to) => {
   const { status, data, signIn, signOut } = useAuth()
 
   // Redirect to external signout page to clear all futhur sessions
-  if (to.name === 'auth-signout' && status.value === 'authenticated') {
+  if (to.name === 'auth-signout' && status.value === 'unauthenticated') {
     const AUTH_CLIENT_ID = runtimeConfig.public.auth_client_id
     const AUTH_TENANT_ID = runtimeConfig.public.auth_tenant_id
     const AUTH_ISSUER = runtimeConfig.public.auth_issuer
@@ -44,5 +44,5 @@ export default defineNuxtRouteMiddleware((to) => {
   }
 
   // User is not signed in, so redirect them to our fushionauth instance to take over
-  signIn('fusionauth')
+  signIn('fusionauth', { callbackUrl: '/' })
 })

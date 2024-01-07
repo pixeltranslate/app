@@ -70,7 +70,7 @@ const items = [
           />
         </div>
       </UDropdown>
-      <UButton v-else size="lg" @click="signIn('fusionauth')">
+      <UButton v-else size="lg" @click="signIn('fusionauth', { callbackUrl: '/' })">
         Sign in
       </UButton>
     </div>
