@@ -1,7 +1,21 @@
 import { useAuth } from '#imports'
 
 export default defineNuxtRouteMiddleware((to) => {
+  const runtimeConfig = useRuntimeConfig()
   const { status, data, signIn, signOut } = useAuth()
+
+  // Redirect to external signout page to clear all futhur sessions
+  if (to.name === 'auth-signout' && status.value === 'authenticated') {
+    const AUTH_CLIENT_ID = runtimeConfig.public.AUTH_CLIENT_ID
+    const AUTH_TENANT_ID = runtimeConfig.public.AUTH_TENANT_ID
+    const AUTH_ISSUER = runtimeConfig.public.AUTH_ISSUER
+
+    if (AUTH_CLIENT_ID && AUTH_TENANT_ID && AUTH_ISSUER) {
+      const url = `${AUTH_ISSUER}/logout?client_id=${AUTH_CLIENT_ID}&tenantId=${AUTH_TENANT_ID}`
+      return navigateTo(url, { external: true })
+    }
+    console.warn('WARN: Could not redirect to external logout page. Missing environment variables.')
+  }
 
   if (data.value?.error && data.value.error === 'RefreshAccessTokenExpired') {
     signOut()

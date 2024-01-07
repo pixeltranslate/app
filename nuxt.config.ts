@@ -16,6 +16,13 @@ export default defineNuxtConfig({
     '@formkit/auto-animate/nuxt',
     'nuxt-lodash'
   ],
+  runtimeConfig: {
+    public: {
+      AUTH_CLIENT_ID: process.env.AUTH_CLIENT_ID,
+      AUTH_TENANT_ID: process.env.AUTH_TENANT_ID,
+      AUTH_ISSUER: process.env.AUTH_ISSUER
+    }
+  },
   typescript: {
     shim: false
   },

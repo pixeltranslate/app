@@ -24,7 +24,7 @@ const items = [
   }], [{
     label: 'Logout',
     icon: 'i-pixelarticons-logout',
-    click: signOut
+    click: () => signOut({ callbackUrl: '/auth/signout' })
   }]
 ]
 </script>
