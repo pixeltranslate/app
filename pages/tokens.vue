@@ -8,7 +8,7 @@ const { copy, isSupported } = useClipboard()
 const toast = useToast()
 
 const { profile: profileQuery } = useQuery()
-const { data: tokens } = profileQuery.tokens()
+const { data: tokens, isLoading: areTokensLoading } = profileQuery.tokens()
 
 const tokenCreationModal = useModal<{ name: string }>()
 const tokenDisplayModal = useModal<{ secretId: string }>()
@@ -37,7 +37,7 @@ const revoke = useMutation({
 </script>
 
 <template>
-  <TheLayout>
+  <TheLayout :is-loading="areTokensLoading">
     <UAlert
       icon="i-heroicons-exclamation-circle"
       color="red"
@@ -55,7 +55,10 @@ const revoke = useMutation({
       </UButton>
     </div>
 
-    <div class="flex flex-col">
+    <div
+      v-if="tokens && tokens.length > 0"
+      class="flex flex-col"
+    >
       <AccountAccessTokenRow
         v-for="token in tokens"
         :key="token.id"
@@ -63,6 +66,17 @@ const revoke = useMutation({
         @revoke="p => tokenRevokeConfirmModal.open(p)"
       />
     </div>
+    <TheContentPlaceholder
+      v-else
+      label="You do not have any personal access tokens."
+      description="Personal access tokens can be used to authenticate your account in our integrations."
+      icon="i-heroicons-key"
+    >
+      <UButton
+        label="Create a personal access token"
+        @click="tokenCreationModal.open({ name: '' })"
+      />
+    </TheContentPlaceholder>
 
     <TheModal
       :is-open="tokenCreationModal.isOpen"
