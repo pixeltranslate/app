@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { CollectionGetAll } from '~/types'
-import useSidebar from '~/composables/useSidebar'
 
 const { collectionCreateOrEdit, collectionDelete } = useGlobalOpeners()
 const { workspaceId, projectId } = usePage()
@@ -9,7 +8,6 @@ const { data, isLoading } = collectionQuery.all({
   workspaceId,
   projectId
 })
-const { isExpanded } = useSidebar()
 
 const items = (row: CollectionGetAll) => [
   [{
@@ -43,14 +41,18 @@ const items = (row: CollectionGetAll) => [
       />
     </template>
     <TheLoader v-if="isLoading && !data" />
-    <TheContentPlaceholder v-else-if="data.length === 0 && workspaceId && projectId">
+    <TheContentPlaceholder
+      v-else-if="data.length === 0 && workspaceId && projectId"
+      label="No collections were added."
+      description="You should add your first collection here by clicking on the button below!"
+    >
       <UButton
         color="light"
         label="Create your first collection"
         @click="collectionCreateOrEdit.open({ mode: 'create', data: { workspaceId, projectId } })"
       />
     </TheContentPlaceholder>
-    <div v-else class="grid sm:grid-cols-1 md:grid-cols-2 gap-2" :class="isExpanded ? 'lg:grid-cols-3' : 'lg:grid-cols-4'">
+    <div v-else class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-2">
       <div v-for="value in data" :key="value.id" class="grid grid-cols-2 items-center px-3 py-2 bg-gray-200 dark:bg-foreground rounded-md shadow-sm border-border border-opacity-20 dark:border-border border-[1px]">
         <div>
           <div class="flex items-center gap-1 text-lg">
