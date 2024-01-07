@@ -40,7 +40,7 @@ export default defineNuxtRouteMiddleware((to) => {
   const matchedRoute = to.matched.length > 0
   if (!matchedRoute) {
     // Hands control back to `vue-router`, which will direct to the `404` page
-
+    return
   }
 
   // User is not signed in, so redirect them to our fushionauth instance to take over
