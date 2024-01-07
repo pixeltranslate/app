@@ -1,3 +1,4 @@
+import { useAuth } from '#imports'
 import getInitialsFromString from '~/helpers/getInitialsFromString'
 
 export default () => {

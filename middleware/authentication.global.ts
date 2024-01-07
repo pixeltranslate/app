@@ -1,3 +1,5 @@
+import { useAuth } from '#imports'
+
 export default defineNuxtRouteMiddleware((to) => {
   const { status, data, signIn, signOut } = useAuth()
 
