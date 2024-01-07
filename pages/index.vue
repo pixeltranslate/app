@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { data } = useAuth()
+const { username } = useUser()
 
 const actions = [
   {
@@ -35,7 +35,7 @@ const actions = [
 
 <template>
   <TheLayout
-    :title="`Hello ${data?.user.name}!`"
+    :title="`Hello ${username}!`"
     description="Welcome to your PixelTranslate dashboard!"
   >
     <div class="flex flex-col gap-3">
