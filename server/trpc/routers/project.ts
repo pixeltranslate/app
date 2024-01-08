@@ -16,7 +16,6 @@ export const router = createRouter({
     return ctx.fetch<Project[]>({ url: `/workspaces/${input}/projects`, schema: z.array(projectSchema) })
   }),
   recent: publicProcedure.query(({ ctx }) => {
-    return [] as RecentProject[]
     return ctx.fetch<RecentProject[]>({ url: '/workspaces/recent', schema: z.array(recentProjectSchema) })
   }),
   byId: publicProcedure.input(inputWorkspaceProjectIdSchema.nullish()).query(({ input, ctx }) => {
