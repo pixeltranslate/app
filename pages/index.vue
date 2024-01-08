@@ -52,8 +52,6 @@ const actions = [
           v-for="project in recentProjects"
           :key="project.id"
           :project="project"
-          title="Frostbite"
-          platform="unity"
         />
       </div>
       <TheContentPlaceholder v-else description="When you start working, your recent projects will show up here!" />
