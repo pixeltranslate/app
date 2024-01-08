@@ -34,6 +34,15 @@ export const projectSchema = z.object({
   platform: platformSchema
 })
 
+export const recentProjectSchema = z.object({
+  id: idSchema,
+  name: z.string().min(1).max(64),
+  updatedAt: z.coerce.date(),
+  platform: platformSchema,
+  workspaceId: z.string(),
+  workspaceName: z.string()
+})
+
 export const workspaceSchema = z.object({
   id: idSchema,
   name: z.string().min(1).max(64),

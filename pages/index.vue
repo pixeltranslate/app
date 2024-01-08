@@ -1,6 +1,9 @@
 <script setup lang="ts">
 const { username } = useUser()
 const { workspaceCreateOrEdit } = useGlobalOpeners()
+const { projects } = useQuery()
+
+const { data: recentProjects, isLoading: areRecentProjectsLoading } = projects.recent()
 
 const actions = [
   {
@@ -43,36 +46,17 @@ const actions = [
       <h1 class="text-lg mt-4 text-gray-700 dark:text-gray-300">
         Recently updated:
       </h1>
-      <div class="flex flex-col">
+      <TheLoader v-if="areRecentProjectsLoading && !recentProjects" />
+      <div v-else-if="recentProjects && recentProjects.length > 0" class="flex flex-col">
         <ProjectsRecentListCard
+          v-for="project in recentProjects"
+          :key="project.id"
+          :project="project"
           title="Frostbite"
           platform="unity"
         />
-        <ProjectsRecentListCard
-          title="MyAnimeApp"
-          platform="node"
-        />
-        <ProjectsRecentListCard
-          title="PixelTranslate"
-          platform="node"
-        />
-        <ProjectsRecentListCard
-          title="Primarin"
-          platform="java"
-        />
-        <ProjectsRecentListCard
-          title="Primarin website"
-          platform="node"
-        />
-        <ProjectsRecentListCard
-          title="Backrooms: Survive the complex"
-          platform="unity"
-        />
-        <ProjectsRecentListCard
-          title="Test Unreal project"
-          platform="unreal"
-        />
       </div>
+      <TheContentPlaceholder v-else description="When you start working, your recent projects will show up here!" />
     </div>
   </TheLayout>
 </template>

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { createRouter, publicProcedure } from '../trpc'
-import { createProjectSchema, updateProjectSchema, idSchema, projectSchema } from '~/server/schemas'
-import type { Project } from '~/types'
+import { createProjectSchema, updateProjectSchema, idSchema, projectSchema, recentProjectSchema } from '~/server/schemas'
+import type { Project, RecentProject } from '~/types'
 
 const inputWorkspaceProjectIdSchema = z.object({
   workspaceId: idSchema.nullish(),
@@ -14,6 +14,10 @@ export const router = createRouter({
       return []
     }
     return ctx.fetch<Project[]>({ url: `/workspaces/${input}/projects`, schema: z.array(projectSchema) })
+  }),
+  recent: publicProcedure.query(({ ctx }) => {
+    return [] as RecentProject[]
+    return ctx.fetch<RecentProject[]>({ url: '/workspaces/recent', schema: z.array(recentProjectSchema) })
   }),
   byId: publicProcedure.input(inputWorkspaceProjectIdSchema.nullish()).query(({ input, ctx }) => {
     if (!input || !input.projectId || !input.workspaceId) {
