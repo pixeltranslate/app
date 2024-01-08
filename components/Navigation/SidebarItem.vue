@@ -13,16 +13,29 @@ export interface SidebarItem {
 }
 const props = defineProps<SidebarItem>()
 
+const { toggle: toggleSidebar } = useSidebar()
+const isMobileScreen = useIsMobileScreen()
+
 const isExpanded = ref(false)
 const toggle = () => {
   if (props.children) {
     isExpanded.value = !isExpanded.value
   }
 }
+
+const linkClick = () => {
+  if (props.click) {
+    props.click()
+    return
+  }
+  if (isMobileScreen) {
+    toggleSidebar()
+  }
+}
 </script>
 
 <template>
-  <NuxtLink :event="href ? 'click' : ''" :to="href" @click="click">
+  <NuxtLink :event="href ? 'click' : ''" :to="href" @click="linkClick">
     <div
       class="flex items-center justify-between hover:bg-blue-400 dark:hover:bg-primary-dark/40 p-2 mx-2 rounded cursor-pointer"
       :class="[(isExpanded && 'bg-primary-dark/20'), active && 'bg-blue-400 dark:bg-primary-dark/40']"

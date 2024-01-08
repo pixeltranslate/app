@@ -30,7 +30,7 @@ const items = [
 </script>
 
 <template>
-  <div class="flex h-20 items-center justify-between pl-2 pr-8 border-b dark:border-border bg-white dark:bg-transparent">
+  <div class="flex h-20 items-center justify-between pl-2 pr-2 sm:pr-8 border-b dark:border-border bg-white dark:bg-transparent">
     <div class="flex items-center gap-2">
       <div v-if="status === 'authenticated'" class="flex">
         <UButton @click="toggleSidebar">
@@ -42,7 +42,7 @@ const items = [
         </UButton>
       </div>
       <div class="text-center flex items-center ml-1">
-        <h1 class="text-3xl" style="font-family: 'Pixelify Sans';">
+        <h1 class="text-2xl sm:text-3xl" style="font-family: 'Pixelify Sans';">
           Pixel<span class="text-secondary">Translate</span>
         </h1>
       </div>
@@ -60,7 +60,7 @@ const items = [
       </ClientOnly>
       <UDropdown v-if="status === 'authenticated'" :items="items" :popper="{ placement: 'bottom-start' }">
         <div class="flex items-center gap-2 text-sm">
-          <span>{{ username }}</span>
+          <span class="hidden sm:block">{{ username }}</span>
           <UAvatar
             icon="i-heroicons-photo"
             size="sm"
