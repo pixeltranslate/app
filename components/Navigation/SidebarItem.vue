@@ -28,7 +28,7 @@ const linkClick = () => {
     props.click()
     return
   }
-  if (isMobileScreen) {
+  if (isMobileScreen.value) {
     toggleSidebar()
   }
 }
