@@ -17,7 +17,7 @@ const link = computed(() => `/workspace/${props.project.workspaceId}/project/${p
           <span class="text-gray-500 dark:text-gray-400">{{ project.workspaceName }} / </span>{{ project.name }}
         </h1>
         <p class="text-xs text-gray-500">
-          Last updated {{ project.updatedAt.toDateString() }}
+          Last updated {{ project.updatedAt?.toDateString() }}
         </p>
       </div>
     </div>
