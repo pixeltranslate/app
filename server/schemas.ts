@@ -29,9 +29,19 @@ export const projectSchema = z.object({
   name: z.string().min(1).max(64),
   description: z.string().max(360),
   createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date().nullish(),
   members: z.record(z.string(), z.any()),
   languages: z.array(z.string()),
   platform: platformSchema
+})
+
+export const recentProjectSchema = z.object({
+  id: idSchema,
+  name: z.string().min(1).max(64),
+  updatedAt: z.coerce.date().nullish(),
+  platform: platformSchema,
+  workspaceId: z.string(),
+  workspaceName: z.string()
 })
 
 export const workspaceSchema = z.object({

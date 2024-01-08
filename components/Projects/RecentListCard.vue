@@ -1,44 +1,25 @@
 <script setup lang="ts">
-import type { ProjectPlatforms } from '~/types'
+import type { RecentProject } from '~/types'
 
-defineProps<{
-    title: string
-    platform: ProjectPlatforms
+const props = defineProps<{
+  project: RecentProject
 }>()
+
+const link = computed(() => `/workspace/${props.project.workspaceId}/project/${props.project.id}`)
 </script>
 
 <template>
-  <div class="flex items-center gap-3 hover:bg-gray-200/40 dark:hover:bg-foreground/30 px-3 py-4 border-t dark:border-border cursor-pointer">
-    <ProjectsPlatformChip :platform="platform" size="h-7 w-7" />
-    <div class="grow">
-      <h1 class="text-md text-gray-700 dark:text-gray-200">
-        <span class="text-gray-500 dark:text-gray-400">Workspace / </span>{{ title }}
-      </h1>
-      <p class="text-xs text-gray-500">
-        Last updated 30 minutes ago
-      </p>
+  <NuxtLink :to="link">
+    <div class="flex items-center gap-3 hover:bg-gray-200/40 dark:hover:bg-foreground/30 px-3 py-4 border-t dark:border-border cursor-pointer">
+      <ProjectsPlatformChip :platform="project.platform" size="h-7 w-7" />
+      <div class="grow">
+        <h1 class="text-md text-gray-700 dark:text-gray-200">
+          <span class="text-gray-500 dark:text-gray-400">{{ project.workspaceName }} / </span>{{ project.name }}
+        </h1>
+        <p class="text-xs text-gray-500">
+          Last updated {{ project.updatedAt?.toDateString() }}
+        </p>
+      </div>
     </div>
-    <UAvatarGroup size="xs" :max="3">
-      <UAvatar
-        src="https://github.com/zoey-kaiser.png"
-        alt="zoey-kaiser"
-      />
-      <UAvatar
-        src="https://github.com/reapermaga.png"
-        alt="reapermaga"
-      />
-      <UAvatar
-        src="https://github.com/levenour.png"
-        alt="levenour"
-      />
-      <UAvatar
-        src="https://github.com/levenour.png"
-        alt="levenour"
-      />
-    </UAvatarGroup>
-    <UButton
-      icon="i-heroicons-ellipsis-horizontal"
-      square
-    />
-  </div>
+  </NuxtLink>
 </template>
