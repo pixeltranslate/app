@@ -1,6 +1,10 @@
 import { useAuth } from '#imports'
 
 export default defineNuxtRouteMiddleware((to) => {
+  if (process.server) {
+    return
+  }
+
   const runtimeConfig = useRuntimeConfig()
   const { status, data, signIn, signOut } = useAuth()
 
