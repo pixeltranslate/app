@@ -46,7 +46,13 @@ const dynamicRouteLinks: Record<keyof RouteSchema, ((page: UsePage, openers: Glo
       label: 'Projects',
       icon: 'i-pixelarticons-chart',
       href: generateDynamicLink(page, '/'),
-      active: isActive(page, generateDynamicLink(page, ''), 'includes')
+      active: isActive(page, generateDynamicLink(page, ''), 'exact')
+    },
+    {
+      label: 'Members',
+      icon: 'i-pixelarticons-human',
+      href: generateDynamicLink(page, '/members'),
+      active: isActive(page, generateDynamicLink(page, '/members'), 'exact')
     },
     {
       label: 'Settings',
