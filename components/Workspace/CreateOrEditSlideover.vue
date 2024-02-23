@@ -43,12 +43,12 @@ const create = useMutation({
       title: 'The workspace could not be created'
     })
   },
-  onSuccess: (workspace) => {
+  onSuccess: async (workspace) => {
+    await queryClient.invalidateQueries({ queryKey: ['workspaces'] })
     isSubmitting.value = false
     toast.add({
       title: `Created new workspace: ${workspace.name}`
     })
-    queryClient.invalidateQueries({ queryKey: ['workspaces'] })
     closePopup()
   }
 })
@@ -61,13 +61,13 @@ const update = useMutation({
       title: 'The workspace could not be updated'
     })
   },
-  onSuccess: (workspace) => {
+  onSuccess: async (workspace) => {
+    await queryClient.invalidateQueries({ queryKey: ['workspaces'] })
+    await queryClient.invalidateQueries({ queryKey: ['workspaces', workspace.id] })
     isSubmitting.value = false
     toast.add({
       title: `Updated workspace: ${workspace.name}`
     })
-    queryClient.invalidateQueries({ queryKey: ['workspaces'] })
-    queryClient.invalidateQueries({ queryKey: ['workspaces', workspace.id] })
     closePopup()
   }
 })

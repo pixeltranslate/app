@@ -46,8 +46,8 @@ const create = useMutation({
       title: 'The collection could not be created'
     })
   },
-  onSuccess: (collection) => {
-    queryClient.invalidateQueries({ queryKey: ['collections', payload.value?.data.workspaceId, payload.value?.data.projectId] })
+  onSuccess: async (collection) => {
+    await queryClient.invalidateQueries({ queryKey: ['collections', payload.value?.data.workspaceId, payload.value?.data.projectId] })
     isSubmitting.value = false
     toast.add({
       title: `Created new  collection: ${collection.name}`
@@ -64,8 +64,8 @@ const update = useMutation({
       title: 'The collection could not be updated'
     })
   },
-  onSuccess: (collection) => {
-    queryClient.invalidateQueries({ queryKey: ['collections', payload.value?.data.workspaceId, payload.value?.data.projectId] })
+  onSuccess: async (collection) => {
+    await queryClient.invalidateQueries({ queryKey: ['collections', payload.value?.data.workspaceId, payload.value?.data.projectId] })
     isSubmitting.value = false
     toast.add({
       title: `Updated collection: ${collection.name}`
