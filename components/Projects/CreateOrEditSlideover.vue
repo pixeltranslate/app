@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import type { CreateOrUpdateProject, ProjectPlatforms } from '~/types'
 import { createOrUpdateProjectSchema } from '~/server/schemas'
 import { platformToIcon } from '~/composables/usePlatformIcon'
-import type { LocaleCodes } from '~/helpers/localCodes'
 
 const { $trpc } = useNuxtApp()
 const queryClient = useQueryClient()
@@ -50,8 +49,8 @@ const create = useMutation({
       title: 'The project could not be created'
     })
   },
-  onSuccess: (project) => {
-    queryClient.invalidateQueries({ queryKey: ['projects', popupData.value?.data.workspaceId] })
+  onSuccess: async (project) => {
+    await queryClient.invalidateQueries({ queryKey: ['projects', popupData.value?.data.workspaceId] })
     isSubmitting.value = false
     toast.add({
       title: `Created new project: ${project.name}`
@@ -68,9 +67,9 @@ const update = useMutation({
       title: 'The project could not be updated'
     })
   },
-  onSuccess: (project) => {
-    queryClient.invalidateQueries({ queryKey: ['projects', popupData.value?.data.workspaceId] })
-    queryClient.invalidateQueries({ queryKey: ['projects', popupData.value?.data.workspaceId, project.id] })
+  onSuccess: async (project) => {
+    await queryClient.invalidateQueries({ queryKey: ['projects', popupData.value?.data.workspaceId] })
+    await queryClient.invalidateQueries({ queryKey: ['projects', popupData.value?.data.workspaceId, project.id] })
     isSubmitting.value = false
     toast.add({
       title: `Updated project: ${project.name}`
