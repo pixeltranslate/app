@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -18,7 +19,6 @@
     "@iconify-json/bxl": "^1.1.10",
     "@iconify-json/file-icons": "^1.1.8",
     "@iconify-json/pixelarticons": "^1.1.10",
-    "@nuxt/ui": "^2.15.0",
     "@tanstack/vue-query": "^5.28.9",
     "@trpc/client": "^10.45.2",
     "@trpc/server": "^10.45.2",
@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.11.5",
+    "@nuxt/ui": "^2.15.0",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/tailwindcss": "^6.11.4",
     "@sidebase/nuxt-auth": "^0.7.0",

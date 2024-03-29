@@ -274,8 +274,8 @@ const message = ref<string>(getRandomText())
 let interval: ReturnType<typeof setInterval>
 onMounted(() => {
   interval = setInterval(() => {
-  message.value = getRandomText()
-}, 4000)
+    message.value = getRandomText()
+  }, 4000)
 })
 
 onUnmounted(() => {
