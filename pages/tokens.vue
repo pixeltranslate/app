@@ -10,9 +10,9 @@ const toast = useToast()
 const { profile: profileQuery } = useQuery()
 const { data: tokens, isLoading: areTokensLoading } = profileQuery.tokens()
 
-const tokenCreationModal = useModal<{ name: string }>()
-const tokenDisplayModal = useModal<{ secretId: string }>()
-const tokenRevokeConfirmModal = useModal<{ id: string }>()
+const tokenCreationModal = useOpener<{ name: string }>()
+const tokenDisplayModal = useOpener<{ secretId: string }>()
+const tokenRevokeConfirmModal = useOpener<{ id: string }>()
 
 const create = useMutation({
   mutationFn: $trpc.profileRouter.createToken.mutate,

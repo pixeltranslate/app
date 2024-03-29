@@ -7,6 +7,8 @@ export default defineNuxtPlugin((nuxt) => {
 
   const errorNotification = (error: Error) => {
     const { status } = useAuth()
+
+    /*
     const toast = useToast()
 
     if (status.value !== 'authenticated') {
@@ -19,6 +21,7 @@ export default defineNuxtPlugin((nuxt) => {
     toast.add({
       title: 'There was an issue, please check the server console'
     })
+    */
     console.error(error)
   }
 
