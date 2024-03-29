@@ -1,7 +1,7 @@
 {
   // Use `eslint` for vue, ts and js
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": true
   },
   "[vue]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
@@ -24,9 +24,6 @@
   "tailwindCSS.experimental.configFile": ".nuxt/tailwind.config.cjs",
   "files.associations": {
     "*.css": "tailwindcss"
-  },
-  "editor.quickSuggestions": {
-    "strings": true
   },
   // Auto-complete `.value` attribute when volar is installed
   "volar.autoCompleteRefs": true,
