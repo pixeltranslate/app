@@ -270,9 +270,13 @@ const LOADING_MESSAGES = [
 
 const getRandomText = () => LOADING_MESSAGES[Math.floor(Math.random() * LOADING_MESSAGES.length)]
 const message = ref<string>(getRandomText())
-const interval = setInterval(() => {
-  message.value = getRandomText()
-}, 4000)
+
+let interval: ReturnType<typeof setInterval>
+onMounted(() => {
+  interval = setInterval(() => {
+    message.value = getRandomText()
+  }, 4000)
+})
 
 onUnmounted(() => {
   clearInterval(interval)

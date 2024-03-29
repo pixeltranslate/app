@@ -1,8 +1,6 @@
 {
-  // Use `eslint` for vue, ts and js
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
+  // We use eslint for formatting, in our setup it also formats vue-templates. Having both vue and eslint formatting enabled (sadly) leads to massive performance problems while saving files. E.g., see https://github.com/vuejs/language-tools/issues/3326
+  "vue.codeActions.enabled": false,
   "[vue]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
@@ -15,19 +13,48 @@
   "[typescript]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  // Enable the ESlint flat config support
+  "eslint.experimental.useFlatConfig": true,
+
+  // Disable the default formatter, use eslint instead
+  "prettier.enable": false,
+  "editor.formatOnSave": false,
+
+  // Auto fix
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  },
+
+  // Silent the stylistic rules in you IDE, but still auto fix them
+  "eslint.rules.customizations": [
+    { "rule": "style/*", "severity": "off" },
+    { "rule": "format/*", "severity": "off" },
+    { "rule": "*-indent", "severity": "off" },
+    { "rule": "*-spacing", "severity": "off" },
+    { "rule": "*-spaces", "severity": "off" },
+    { "rule": "*-order", "severity": "off" },
+    { "rule": "*-dangle", "severity": "off" },
+    { "rule": "*-newline", "severity": "off" },
+    { "rule": "*quotes", "severity": "off" },
+    { "rule": "*semi", "severity": "off" }
+  ],
+
+  // Enable eslint for all supported languages
   "eslint.validate": [
     "javascript",
     "typescript",
     "vue"
   ],
-  // Tailwind Support, see https://tailwindcss.nuxt.dev/tailwind/editor-support
-  "tailwindCSS.experimental.configFile": ".nuxt/tailwind.config.cjs",
-  "files.associations": {
-    "*.css": "tailwindcss"
-  },
-  "editor.quickSuggestions": {
-    "strings": true
-  },
-  // Auto-complete `.value` attribute when volar is installed
-  "volar.autoCompleteRefs": true,
+
+  // Settings for the i18n-ally extension to properly find our translations
+  "i18n-ally.localesPaths": [
+    "locales"
+  ],
+  "i18n-ally.displayLanguage": "de",
+  "i18n-ally.sourceLanguage": "de",
+  "i18n-ally.keystyle": "flat"
 }
